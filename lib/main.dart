@@ -4,7 +4,13 @@ import 'package:chatbox/utils/theme/apptheme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  WidgetsBinding.instance.deferFirstFrame();
+
   runApp(ChatBox());
+
+ WidgetsBinding.instance.allowFirstFrame();
 }
 
 class ChatBox extends StatelessWidget {

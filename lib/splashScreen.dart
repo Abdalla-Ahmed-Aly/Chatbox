@@ -25,7 +25,7 @@ class _SplashscreenState extends State<Splashscreen> with TickerProviderStateMix
     super.initState();
 
     _positionController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
     _positionAnimation = Tween<Offset>(
@@ -62,15 +62,19 @@ class _SplashscreenState extends State<Splashscreen> with TickerProviderStateMix
       CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
     );
 
-    _positionController.forward().whenComplete(() {
-      _bounceController.forward().whenComplete(() {
-        _image2Controller.forward().whenComplete(() {
-          Future.delayed(Duration(milliseconds: 400), () {
-            Navigator.of(context).pushReplacementNamed(Onboardingscreen.routeName);
-          });
-        });
-      });
-    });
+    startAnimationSequence();
+  }
+
+  Future<void> startAnimationSequence() async {
+    await _positionController.forward();
+    await _bounceController.forward();
+    await _image2Controller.forward();
+
+    await Future.delayed(Duration(milliseconds: 400));
+
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed(Onboardingscreen.routeName);
+    }
   }
 
   @override
@@ -86,7 +90,11 @@ class _SplashscreenState extends State<Splashscreen> with TickerProviderStateMix
     return Scaffold(
       backgroundColor: Colors.white,
       body: AnimatedBuilder(
-        animation: Listenable.merge([_positionController, _bounceController, _image2Controller]),
+        animation: Listenable.merge([
+          _positionController,
+          _bounceController,
+          _image2Controller
+        ]),
         builder: (context, child) {
           return Center(
             child: Column(
