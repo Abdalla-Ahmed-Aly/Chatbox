@@ -1,4 +1,4 @@
-import 'package:chatbox/splashScreen.dart';
+import 'package:chatbox/featrures/home/presentation/screens/homescreen.dart';
 import 'package:chatbox/utils/theme/apptheme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,13 +7,16 @@ void main() {
 }
 
 class ChatBox extends StatelessWidget {
+  const ChatBox({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darktheme,
-      routes: {Splashscreen.routeName: (_) => Splashscreen()},
-      initialRoute: Splashscreen.routeName,
+      home: HomeScreen(),
+      // routes: {Splashscreen.routeName: (_) => Splashscreen()},
+      // initialRoute: Splashscreen.routeName,
     );
   }
 }
