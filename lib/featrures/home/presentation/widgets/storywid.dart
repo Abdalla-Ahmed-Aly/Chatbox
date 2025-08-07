@@ -1,4 +1,5 @@
-import 'package:chatbox/featrures/home/presentation/widgets/storyitem.dart';
+import 'package:chatbox/featrures/home/presentation/widgets/StoryNewitem.dart';
+
 import 'package:flutter/material.dart';
 
 class StoryDisplay extends StatelessWidget {
@@ -16,7 +17,10 @@ class StoryDisplay extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: StoryItem(name: 'Ghareeb', path: 'assets/image/model1.png'),
+            child: StoryNewItem(
+              username: 'Ghareeb',
+              image: 'assets/image/model1.png',
+            ),
           );
         },
       ),

@@ -2,6 +2,7 @@ import 'package:chatbox/featrures/home/presentation/widgets/scrollablefrienditem
 import 'package:chatbox/featrures/home/presentation/widgets/storywid.dart';
 import 'package:chatbox/utils/theme/apptheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MessageTab extends StatelessWidget {
   const MessageTab({super.key});
@@ -11,6 +12,31 @@ class MessageTab extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Column(
       children: [
+        SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(15),
+                child: SvgPicture.asset('assets/svg/Group 370.svg'),
+                onTap: () {},
+              ),
+              Text('Home', style: Theme.of(context).textTheme.headlineMedium),
+              InkWell(
+                onTap: () {
+                  print('Tapped Profile');
+                },
+                borderRadius: BorderRadius.circular(15),
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundImage: AssetImage('assets/image/Ellipse 307.png'),
+                ),
+              ),
+            ],
+          ),
+        ),
         SizedBox(height: 40),
         Padding(padding: EdgeInsets.only(left: 16.0), child: StoryDisplay()),
         SizedBox(height: 20),

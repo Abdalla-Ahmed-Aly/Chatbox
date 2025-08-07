@@ -118,7 +118,7 @@ class _CustomSlidableMessageItemState extends State<CustomSlidableMessageItem>
             ),
           ),
         ),
-        // Delete Button
+
         Container(
           width: 60,
           height: double.infinity,
@@ -149,89 +149,92 @@ class _CustomSlidableMessageItemState extends State<CustomSlidableMessageItem>
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onPanStart: _onPanStart,
-      onPanUpdate: _onPanUpdate,
-      onPanEnd: _onPanEnd,
-      onTap: () {
-        if (_currentOffset > 0) {
-          // If swiped, close it
-          setState(() {
-            _currentOffset = 0;
-          });
-        } else {
-          // If closed, handle tap
-          widget.onTap?.call();
-        }
-      },
-      child: SizedBox(
-        height: 80,
-        child: Stack(
-          children: [
-            // Action buttons (background)
-            Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              width: _maxSlideDistance,
-              child: _buildActionButtons(),
-            ),
-            // Message content (foreground)
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              transform: Matrix4.translationValues(-_currentOffset, 0, 0),
-              child: SizedBox(
-                height: size.height * 0.1,
-                child: Material(
-                  color: _currentOffset > 0
-                      ? Color(0xffF1F6FA)
-                      : AppTheme.primary,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/image/model1.png'),
-                    ),
-                    title: Text(
-                      'Abdelrahman Ghareeb',
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(color: AppTheme.black),
-                    ),
-                    subtitle: Text(
-                      'Hello',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: AppTheme.gray),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '2 min ago',
+    return Material(
+      color: _currentOffset > 0 ? Color(0xffF1F6FA) : AppTheme.primary,
+      child: GestureDetector(
+        onPanStart: _onPanStart,
+        onPanUpdate: _onPanUpdate,
+        onPanEnd: _onPanEnd,
+        child: InkWell(
+          onTap: () {
+            if (_currentOffset > 0) {
+              setState(() {
+                _currentOffset = 0;
+              });
+            } else {
+              widget.onTap?.call();
+            }
+          },
+          child: SizedBox(
+            height: size.height * 0.1,
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: _maxSlideDistance,
+                  child: _buildActionButtons(),
+                ),
+
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  transform: Matrix4.translationValues(-_currentOffset, 0, 0),
+                  child: Material(
+                    color: _currentOffset > 0
+                        ? Color(0xffF1F6FA)
+                        : AppTheme.primary,
+                    child: SizedBox(
+                      height: size.height * 0.1,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 25,
+                          backgroundImage: AssetImage(
+                            'assets/image/model1.png',
+                          ),
+                        ),
+                        title: Text(
+                          'Abdelrahman Ghareeb',
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(color: AppTheme.black),
+                        ),
+                        subtitle: Text(
+                          'Hello',
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(color: AppTheme.gray),
                         ),
-                        SizedBox(height: 5),
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundColor: AppTheme.red,
-                          child: Text(
-                            '1',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: AppTheme.primary,
-                                  fontSize: 10,
-                                ),
-                          ),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '2 min ago',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: AppTheme.gray),
+                            ),
+                            SizedBox(height: 5),
+                            CircleAvatar(
+                              radius: 10,
+                              backgroundColor: AppTheme.red,
+                              child: Text(
+                                '1',
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: AppTheme.primary,
+                                      fontSize: 10,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

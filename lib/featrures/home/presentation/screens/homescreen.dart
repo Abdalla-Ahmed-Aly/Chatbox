@@ -32,34 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.black,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    child: SvgPicture.asset('assets/svg/Group 370.svg'),
-                    onTap: () {},
-                  ),
-                  Text(
-                    _tabLabels[_selectedIndex],
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  CircleAvatar(
-                    radius: 22,
-                    backgroundImage: AssetImage('assets/image/Ellipse 307.png'),
-                  ),
-                ],
-              ),
-            ),
-            _pages[_selectedIndex],
-          ],
-        ),
-      ),
+      body: SafeArea(child: _pages[_selectedIndex]),
 
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
