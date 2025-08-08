@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
+class CustomTextFormField extends StatefulWidget {
+  const CustomTextFormField({
+    super.key,
+    required this.textInputType,
+    required this.hintText,
+    this.controller,
+    this.prefixIconPath,
+    this.validator,
+    this.isPassword = false,
+    this.onChanged,
+    this.maxLines = 1,
+    this.color,
+  });
+
+  final TextEditingController? controller;
+  final String hintText;
+  final TextInputType textInputType;
+  final String? prefixIconPath;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final bool isPassword;
+  final int maxLines;
+  final Color? color;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool isObscure = widget.isPassword;
+
+  @override
+  Widget build(BuildContext context) {
+TextTheme textStyle = Theme.of(context).textTheme;
+    return TextFormField(
+      style: textStyle.bodyMedium,
+      cursorColor: AppTheme.green,
+      validator: widget.validator,
+      controller: widget.controller,
+      onChanged: widget.onChanged,
+      obscureText: isObscure,
+      obscuringCharacter: "*",
+      keyboardType:widget.textInputType,
+      maxLines: widget.maxLines,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      decoration: InputDecoration(
+        label:Text(widget.hintText) ,
+        // filled: true,
+        // fillColor: ColorManger.white,
+        suffixIcon: widget.isPassword
+            ? IconButton(
+          onPressed: () {
+            setState(() {
+              isObscure = !isObscure;
+            });
+          },
+          icon: Icon(
+            isObscure
+                ? Icons.visibility
+                : Icons.visibility_off,
+            color: AppTheme.black,
+          ),
+        )
+            : null,
+        suffixIconColor: AppTheme.black,
+
+      ),
+    );
+  }
+}

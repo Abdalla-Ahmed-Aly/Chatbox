@@ -5,39 +5,51 @@ class AppTheme {
   static Color red = Color(0xffF04A4C);
   static Color black = Color(0xff1E1E1E);
   static Color gray = Color(0xff797C7B);
-  static Color lightgreen = Color(0xff20A090);
-  static Color whitegreen = Color(0xffF2F7FB);
+  static Color lightGreen = Color(0xff20A090);
+  static Color green = Color(0xff24786D);
+  static Color whiteGreen = Color(0xffF2F7FB);
 
-  static ThemeData darktheme = ThemeData(
+  static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: primary,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primary,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: lightgreen,
+      selectedItemColor: lightGreen,
       unselectedItemColor: gray,
     ),
-    // inputDecorationTheme: InputDecorationTheme(
-    //   enabledBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(12),
-    //     borderSide: BorderSide(color: AppTheme.black),
-    //   ),
-    //   focusedBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(15),
-    //     borderSide: BorderSide(color: AppTheme.primary),
-    //   ),
-    //   errorBorder: OutlineInputBorder(
-    //       borderSide: BorderSide(
-    //         width: 1,
-    //         color: red,
-    //       ),
-    //       borderRadius: BorderRadius.circular(16)),
-    //   focusedErrorBorder: OutlineInputBorder(
-    //       borderSide: BorderSide(
-    //         width: 1,
-    //         color: red,
-    //       ),
-    //       borderRadius: BorderRadius.circular(16)),
-    // ),
+    inputDecorationTheme: InputDecorationTheme(
+     contentPadding:  EdgeInsetsDirectional.symmetric(vertical: 18,horizontal:25),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: AppTheme.green,
+                width: 1,
+              ),
+            ),
+            enabledBorder:  UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: AppTheme.green,
+                width: 1,
+              ),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: AppTheme.green,
+                width: 1,
+              ),
+            ),
+            errorBorder: UnderlineInputBorder(
+
+                borderSide: BorderSide(
+                  color: AppTheme.red,
+                )
+            ),
+            focusedErrorBorder: UnderlineInputBorder(
+
+                borderSide:  BorderSide(
+                  color: AppTheme.red,
+                )
+            ),
+    ),
     textTheme: TextTheme(
       displayLarge: TextStyle(
         color: primary,
@@ -90,7 +102,7 @@ class AppTheme {
       titleSmall: TextStyle(
         color: primary,
         fontSize: 16,
-        fontFamily: 'myFonst',
+        fontFamily: 'myFonts',
         fontWeight: FontWeight.w400, // regular font
       ),
       bodyLarge: TextStyle(
@@ -100,7 +112,7 @@ class AppTheme {
         fontWeight: FontWeight.w300, // light font
       ),
       bodyMedium: TextStyle(
-        color: primary,
+        color: green,
         fontSize: 14,
         fontWeight: FontWeight.w500, // medium font
       ),
