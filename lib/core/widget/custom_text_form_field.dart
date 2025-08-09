@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
@@ -33,7 +35,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-TextTheme textStyle = Theme.of(context).textTheme;
+    TextTheme textStyle = Theme.of(context).textTheme;
     return TextFormField(
       style: textStyle.bodyMedium,
       cursorColor: AppTheme.green,
@@ -42,32 +44,31 @@ TextTheme textStyle = Theme.of(context).textTheme;
       onChanged: widget.onChanged,
       obscureText: isObscure,
       obscuringCharacter: "*",
-      keyboardType:widget.textInputType,
+      keyboardType: widget.textInputType,
       maxLines: widget.maxLines,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: InputDecoration(
-        label:Text(widget.label) ,
+        label: Text(widget.label),
         labelStyle: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
         // filled: true,
         // fillColor: ColorManger.white,
         suffixIcon: widget.isPassword
             ? IconButton(
-          onPressed: () {
-            setState(() {
-              isObscure = !isObscure;
-            });
-          },
-          icon: Icon(
-            isObscure
-                ? Icons.visibility
-                : Icons.visibility_off,
-            color: AppTheme.black,
-          ),
-        )
+                onPressed: () {
+                  setState(() {
+                    isObscure = !isObscure;
+                  });
+                },
+                icon: Icon(
+                  isObscure
+                      ? CupertinoIcons.eye_fill
+                      : CupertinoIcons.eye_slash,
+                  color: AppTheme.black,
+                ),
+              )
             : null,
         suffixIconColor: AppTheme.black,
-
       ),
     );
   }
