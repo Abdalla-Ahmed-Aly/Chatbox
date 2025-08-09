@@ -37,7 +37,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
     return TextFormField(
-      style: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
+      style: textStyle.bodyMedium!.copyWith(color: AppTheme.black),
       cursorColor: AppTheme.green,
       validator: widget.validator,
       controller: widget.controller,
@@ -51,8 +51,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         label: Text(widget.label),
         labelStyle: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
-        // filled: true,
-        // fillColor: ColorManger.white,
         suffixIcon: widget.isPassword
             ? IconButton(
                 onPressed: () {
@@ -63,7 +61,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 icon: Icon(
                   isObscure
                       ? CupertinoIcons.eye_fill
-                      : CupertinoIcons.eye_slash,
+                      : CupertinoIcons.eye_slash_fill,
                   color: AppTheme.black,
                 ),
               )
