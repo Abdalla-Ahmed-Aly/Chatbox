@@ -7,8 +7,6 @@ import '../../../../core/widget/custom_button_Icon.dart';
 import '../../../../core/widget/custom_button.dart';
 import '../../../auth/presentation/screens/register_screen.dart';
 
-
-
 class OnboardingScreen extends StatelessWidget {
   static const String routeName = '/onboarding';
 
@@ -24,30 +22,24 @@ class OnboardingScreen extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              left: -200,
-              top: 50,
-              right: -100,
-              child: Transform.rotate(
-                angle: 134.23 * math.pi / 180,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(300),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 100, sigmaY: 50),
-                    child: Container(
-                      width: 300.31,
-                      height: 400.52,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color(0xFF0A1832).withOpacity(0.5),
-                            const Color(0xFF43116A).withOpacity(0.9),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(300),
-                      ),
+              left: 80,     
+              top: -130,     
+              child: Opacity(
+                opacity: 0.4,
+                child: Container(
+                  width: 380,  
+                  height: 600,
+                  transform: Matrix4.identity()..rotateZ(math.pi / 10),
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.64, 0.50),
+                      end: Alignment(-0.07, 0.35),
+                      colors: const [
+                        Color(0xFF42106A),
+                        Color(0xFF0A1731),
+                      ],
                     ),
+                    shape: const OvalBorder(),
                   ),
                 ),
               ),

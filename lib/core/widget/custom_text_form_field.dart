@@ -35,7 +35,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
 TextTheme textStyle = Theme.of(context).textTheme;
     return TextFormField(
-      style: textStyle.bodyMedium,
+      style: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
       cursorColor: AppTheme.green,
       validator: widget.validator,
       controller: widget.controller,
