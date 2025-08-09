@@ -20,7 +20,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 36),
             CustomTextFormField(textInputType: TextInputType.emailAddress, hintText: "Email"),
             const SizedBox(height: 30),
-            CustomButton(text: "Continue",onPressed: (){},buttonColor: AppTheme.green,textColor: AppTheme.primary,)
+            CustomButton(text: "Continue",onPressed: (){},buttonColor: AppTheme.whitegreen,textColor: AppTheme.primary,)
 
 
 

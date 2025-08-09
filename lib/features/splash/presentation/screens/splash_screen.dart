@@ -1,4 +1,4 @@
-import 'package:chatbox/feature/splash/presentation/screens/onboarding_screen.dart';
+import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

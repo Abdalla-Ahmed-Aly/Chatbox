@@ -1,9 +1,10 @@
-import 'package:chatbox/feature/auth/presentation/screens/login_screen.dart';
-import 'package:chatbox/feature/splash/presentation/screens/onboarding_screen.dart';
-import 'package:chatbox/feature/splash/presentation/screens/splash_screen.dart';
+import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
+import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
-import 'feature/auth/presentation/screens/register_screen.dart';
+import 'features/auth/presentation/screens/register_screen.dart';
+import 'features/home/presentation/screens/homescreen.dart';
 
 
 void main() {
@@ -23,12 +24,13 @@ class ChatBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.darktheme,
       routes: {
         SplashScreen.routeName: (_) => SplashScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
+        HomeScreen.routeName: (_) => HomeScreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

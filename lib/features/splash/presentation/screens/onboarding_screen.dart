@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:chatbox/feature/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../../../../core/theme/app_theme.dart';
@@ -128,7 +128,7 @@ class OnboardingScreen extends StatelessWidget {
                     },
                     text: 'Sign up withn mails',
                     textColor: AppTheme.black,
-                    buttonColor: AppTheme.whiteGreen,
+                    buttonColor: AppTheme.whitegreen,
                   ),
                   SizedBox(height: 40),
                   TextButton(

@@ -36,7 +36,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 TextTheme textStyle = Theme.of(context).textTheme;
     return TextFormField(
       style: textStyle.bodyMedium,
-      cursorColor: AppTheme.green,
+      cursorColor: AppTheme.whitegreen,
       validator: widget.validator,
       controller: widget.controller,
       onChanged: widget.onChanged,
