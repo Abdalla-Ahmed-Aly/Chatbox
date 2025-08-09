@@ -4,7 +4,7 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     required this.textInputType,
-    required this.hintText,
+    required this.label,
     this.controller,
     this.prefixIconPath,
     this.validator,
@@ -15,7 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   });
 
   final TextEditingController? controller;
-  final String hintText;
+  final String label;
   final TextInputType textInputType;
   final String? prefixIconPath;
   final String? Function(String?)? validator;
@@ -36,7 +36,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 TextTheme textStyle = Theme.of(context).textTheme;
     return TextFormField(
       style: textStyle.bodyMedium,
-      cursorColor: AppTheme.whitegreen,
+      cursorColor: AppTheme.green,
       validator: widget.validator,
       controller: widget.controller,
       onChanged: widget.onChanged,
@@ -47,7 +47,8 @@ TextTheme textStyle = Theme.of(context).textTheme;
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: InputDecoration(
-        label:Text(widget.hintText) ,
+        label:Text(widget.label) ,
+        labelStyle: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
         // filled: true,
         // fillColor: ColorManger.white,
         suffixIcon: widget.isPassword

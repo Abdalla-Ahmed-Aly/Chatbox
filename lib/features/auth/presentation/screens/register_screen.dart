@@ -19,7 +19,7 @@ class RegisterScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Center(
-            heightFactor: 1.6,
+
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -38,22 +38,22 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.name,
-                    hintText: "Your name",
+                    label: "Your name",
                   ),
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.emailAddress,
-                    hintText: "Your email",
+                    label: "Your email",
                   ),
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.visiblePassword,
-                    hintText: "Password",
+                    label: "Password",
                   ),
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.visiblePassword,
-                    hintText: "Confirm Password",
+                    label: "Confirm Password",
                   ),
                   const SizedBox(height: 30),
                   CustomTextButton(
@@ -81,7 +81,7 @@ class RegisterScreen extends StatelessWidget {
                       Navigator.pushNamed(context, HomeScreen.routeName);
                     },
                     text: "Create an account",
-                    buttonColor: AppTheme.lightgreen,
+                    buttonColor: AppTheme.lightGreen,
                     textColor: AppTheme.primary,
                   ),
                   const SizedBox(height: 16),

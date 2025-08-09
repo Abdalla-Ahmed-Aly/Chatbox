@@ -78,12 +78,12 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.emailAddress,
-                    hintText: "Your email",
+                    label: "Your email",
                   ),
                   const SizedBox(height: 30),
                   CustomTextFormField(
                     textInputType: TextInputType.visiblePassword,
-                    hintText: "Password",
+                    label: "Password",
                     isPassword: true,
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.217),
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                       Navigator.pushNamed(context, HomeScreen.routeName);
                     },
                     text: "Log in",
-                    buttonColor: AppTheme.lightgreen,
+                    buttonColor: AppTheme.lightGreen,
                     textColor: AppTheme.primary,
                   ),
                   const SizedBox(height: 16),

@@ -9,6 +9,6 @@ final VoidCallback onTap;
   Widget build(BuildContext context) {
     return GestureDetector(
     onTap: onTap,
-    child: Text(label,style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.lightgreen)));
+    child: Text(label,style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.lightGreen)));
   }
 }

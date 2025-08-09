@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: SvgPicture.asset(
               'assets/svg/Group.svg',
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 0 ? AppTheme.lightgreen : AppTheme.gray,
+                _selectedIndex == 0 ? AppTheme.lightGreen : AppTheme.gray,
                 BlendMode.srcIn,
               ),
             ),
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: SvgPicture.asset(
               'assets/svg/Call.svg',
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 1 ? AppTheme.lightgreen : AppTheme.gray,
+                _selectedIndex == 1 ? AppTheme.lightGreen : AppTheme.gray,
                 BlendMode.srcIn,
               ),
             ),
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: SvgPicture.asset(
               'assets/svg/user.svg',
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 2 ? AppTheme.lightgreen : AppTheme.gray,
+                _selectedIndex == 2 ? AppTheme.lightGreen : AppTheme.gray,
                 BlendMode.srcIn,
               ),
             ),
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: SvgPicture.asset(
               'assets/svg/settings.svg',
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 3 ? AppTheme.lightgreen : AppTheme.gray,
+                _selectedIndex == 3 ? AppTheme.lightGreen : AppTheme.gray,
                 BlendMode.srcIn,
               ),
             ),

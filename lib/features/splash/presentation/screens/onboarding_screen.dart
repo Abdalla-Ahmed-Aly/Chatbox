@@ -128,7 +128,7 @@ class OnboardingScreen extends StatelessWidget {
                     },
                     text: 'Sign up withn mails',
                     textColor: AppTheme.black,
-                    buttonColor: AppTheme.whitegreen,
+                    buttonColor: AppTheme.whiteGreen,
                   ),
                   SizedBox(height: 40),
                   TextButton(

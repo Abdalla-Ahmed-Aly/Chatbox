@@ -18,9 +18,9 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 9),
             Text("Enter your email for the verification proccesss,we will send 6 digits code to your email.",style: textTheme.bodyLarge!.copyWith(color: AppTheme.gray),),
             const SizedBox(height: 36),
-            CustomTextFormField(textInputType: TextInputType.emailAddress, hintText: "Email"),
+            CustomTextFormField(textInputType: TextInputType.emailAddress, label: "Email"),
             const SizedBox(height: 30),
-            CustomButton(text: "Continue",onPressed: (){},buttonColor: AppTheme.whitegreen,textColor: AppTheme.primary,)
+            CustomButton(text: "Continue",onPressed: (){},buttonColor: AppTheme.green,textColor: AppTheme.primary,)
 
 
 

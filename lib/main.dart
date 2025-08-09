@@ -24,7 +24,7 @@ class ChatBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darktheme,
+      theme: AppTheme.lightTheme,
       routes: {
         SplashScreen.routeName: (_) => SplashScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
