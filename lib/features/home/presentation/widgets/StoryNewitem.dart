@@ -25,8 +25,6 @@ class StoryNewItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 80,
-            height: 80,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: hasNewStory && !isViewed
