@@ -1,4 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/core/widget/OnlineAvatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -187,12 +188,15 @@ class _CustomSlidableMessageItemState extends State<CustomSlidableMessageItem>
                     child: SizedBox(
                       height: size.height * 0.1,
                       child: ListTile(
-                        leading: CircleAvatar(
+                        leading: OnlineAvatar(
+                          imagePath: 'assets/images/model1.png',
+                          isOnline: widget.isOnline,
                           radius: 25,
-                          backgroundImage: AssetImage(
-                            'assets/images/model1.png',
-                          ),
+                          onTap: () {
+                            print("Avatar tapped");
+                          },
                         ),
+
                         title: Text(
                           'Abdelrahman Ghareeb',
                           softWrap: true,

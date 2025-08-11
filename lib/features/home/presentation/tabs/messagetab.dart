@@ -1,4 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/home/presentation/widgets/scrollablefrienditem.dart';
 import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +106,7 @@ class MessageTab extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CustomSlidableMessageItem(
                           onTap: () {
+                            Navigator.pushNamed(context, Chatscreen.routeName);
                             print('Tapped Ghareeb');
                           },
                           onMute: () {

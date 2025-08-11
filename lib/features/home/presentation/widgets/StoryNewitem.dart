@@ -53,7 +53,7 @@ class StoryNewItem extends StatelessWidget {
               child: ClipOval(
                 child: Image.asset(
                   image,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   width: 66,
                   height: 66,
                   errorBuilder: (context, error, stackTrace) {

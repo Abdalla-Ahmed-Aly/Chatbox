@@ -1,4 +1,5 @@
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class ChatBox extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
+        Chatscreen.routeName: (_) => Chatscreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

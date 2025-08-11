@@ -18,38 +18,31 @@ class AppTheme {
       unselectedItemColor: gray,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      contentPadding:  EdgeInsetsDirectional.symmetric(vertical: 18,horizontal:25),
+      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      hintStyle: TextStyle(
+        color: Colors.grey.shade500,
+        fontSize: 12,
+      ),
       border: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: AppTheme.green,
-          width: 1,
+          color: Colors.grey.shade400,
+          width: 0.7,
         ),
       ),
-      enabledBorder:  UnderlineInputBorder(
+      enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: AppTheme.green,
-          width: 1,
+          color: Colors.grey.shade400,
+          width: 0.7,
         ),
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: AppTheme.green,
+          color: AppTheme.primary,
           width: 1,
         ),
       ),
-      errorBorder: UnderlineInputBorder(
-
-          borderSide: BorderSide(
-            color: AppTheme.red,
-          )
-      ),
-      focusedErrorBorder: UnderlineInputBorder(
-
-          borderSide:  BorderSide(
-            color: AppTheme.red,
-          )
-      ),
     ),
+
     textTheme: TextTheme(
       displayLarge: TextStyle(
         color: primary,
