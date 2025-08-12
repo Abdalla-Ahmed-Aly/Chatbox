@@ -1,3 +1,4 @@
+import 'package:chatbox/features/auth/presentation/screens/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widget/custom_button.dart';
@@ -20,7 +21,9 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 36),
             CustomTextFormField(textInputType: TextInputType.emailAddress, label: "Email"),
             const SizedBox(height: 30),
-            CustomButton(text: "Continue",onPressed: (){},buttonColor: AppTheme.green,textColor: AppTheme.primary,)
+            CustomButton(text: "Continue",onPressed: (){
+              Navigator.pushReplacementNamed(context, VerificationCodeScreen.routeName);
+            },buttonColor: AppTheme.green,textColor: AppTheme.primary,)
 
 
 

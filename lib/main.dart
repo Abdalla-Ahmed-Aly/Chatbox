@@ -1,4 +1,6 @@
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:chatbox/features/auth/presentation/screens/verification_code_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
@@ -33,6 +35,8 @@ class ChatBox extends StatelessWidget {
         RegisterScreen.routeName: (_) => RegisterScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
         Chatscreen.routeName: (_) => Chatscreen(),
+        VerificationCodeScreen.routeName: (_) => VerificationCodeScreen(),
+        ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

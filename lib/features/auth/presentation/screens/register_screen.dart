@@ -42,6 +42,11 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   CustomTextFormField(
+                    textInputType: TextInputType.phone,
+                    label: "Your phone number",
+                  ),
+                  const SizedBox(height: 30),
+                  CustomTextFormField(
                     textInputType: TextInputType.emailAddress,
                     label: "Your email",
                   ),

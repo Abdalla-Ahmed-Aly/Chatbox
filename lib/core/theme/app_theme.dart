@@ -121,6 +121,12 @@ class AppTheme {
         fontFamily: 'myFonts',
         fontWeight: FontWeight.w400, // regular font
       ),
+      labelMedium: TextStyle(
+        color: black,
+        fontSize: 26,
+        fontFamily: 'myFonts',
+        fontWeight: FontWeight.w700, // regular font
+      ),
     ),
   );
 }
