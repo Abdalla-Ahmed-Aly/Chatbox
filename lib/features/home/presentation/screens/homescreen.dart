@@ -1,10 +1,14 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/home/presentation/tabs/friend_screens/main_screen/friendstab.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
+import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
 static const String routeName='/HomeScreen';
+
+  const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -14,12 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // List of pages for each tab
   final List<Widget> _pages = [
-    MessageTab(),
+    const MessageTab(),
     const Center(child: Text('Search', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Favorites', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Profile', style: TextStyle(fontSize: 24))),
+    const FriendsTab(),
+    const SettingTab()
   ];
-  final List<String> _tabLabels = ['Home', 'Calls', 'Contacts', 'Settings'];
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -66,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlendMode.srcIn,
               ),
             ),
-            label: 'Favorites',
+            label: 'Friends',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -76,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlendMode.srcIn,
               ),
             ),
-            label: 'Profile',
+            label: 'Settings',
           ),
         ],
       ),
