@@ -1,8 +1,6 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/OnlineAvatar.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
-import 'package:chatbox/features/chat/presentation/screens/widget/resiver/continerCusomeResiver.dart';
-import 'package:chatbox/features/chat/presentation/screens/widget/resiver/playRecordResiver.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/testMic.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,11 +43,6 @@ class _ChatscreenState extends State<Chatscreen> {
     }
   }
 
-  List<Widget> messages = [
-    ResiverMessage(text: 'hi abdoo'),
-    SenderMessage(text: 'Hi Ahmed'),
-  ];
-
   Future<void> pickImage() async {
     try {
       final XFile? picked = await _picker.pickImage(
@@ -66,12 +59,33 @@ class _ChatscreenState extends State<Chatscreen> {
     }
   }
 
+  List<Widget> messages = [
+    ResiverMessage(text: 'hi abdoo'),
+    SenderMessage(text: 'Hi Ahmed'),
+  ];
   void onSendMessage() {
     final message = textEditingController.text.trim();
     if (message.isNotEmpty) {
       print('Send message: $message');
       textEditingController.clear();
       scrollToBottom();
+    }
+  }
+
+  Future<void> captureImage() async {
+    try {
+      final XFile? captured = await _picker.pickImage(
+        source: ImageSource.camera,
+      );
+      if (captured != null) {
+        setState(() {
+          recordedImagePath = captured.path;
+          messages.add(SenderMessage(imagePath: recordedImagePath));
+        });
+        scrollToBottom();
+      }
+    } catch (e) {
+      print("Error capturing image: $e");
     }
   }
 
@@ -103,14 +117,11 @@ class _ChatscreenState extends State<Chatscreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    List<Widget> messages = [
-      ResiverMessage(text: 'hi abdoo'),
-      SenderMessage(text: 'Hi Ahmed'),
-    ];
-    if (recordedAudioPath != null) {
-      messages.add(ResiverMessage(audioPath: recordedAudioPath));
-      messages.add(SenderMessage(audioPath: recordedAudioPath));
-    }
+
+    // if (recordedAudioPath != null) {
+    //   messages.add(ResiverMessage(audioPath: recordedAudioPath));
+    //   messages.add(SenderMessage(audioPath: recordedAudioPath));
+    // }
 
     if (recordedImagePath != null) {
       messages.add(ResiverMessage(imagePath: recordedImagePath));
@@ -232,7 +243,9 @@ class _ChatscreenState extends State<Chatscreen> {
 
                 if (textEditingController.text.isEmpty) ...[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      captureImage();
+                    },
                     icon: Icon(
                       CupertinoIcons.camera,
                       color: AppTheme.black,

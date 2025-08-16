@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/playRecordSender.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_theme.dart';
@@ -44,7 +43,7 @@ class SenderMessage extends StatelessWidget {
       messageContent = Playrecordsender(audioPath: audioPath!);
     } else {
       messageContent = Text(
-        text ?? 'ss',
+        text ?? '',
         style: textTheme.bodyMedium!.copyWith(color: Colors.white),
       );
     }
@@ -52,37 +51,52 @@ class SenderMessage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.6,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: imagePath != null ? Colors.transparent : AppTheme.lightGreen,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(0),
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // الرسالة نفسها
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.6,
               ),
-            ],
-          ),
-          child: messageContent,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: imagePath != null
+                    ? Colors.transparent
+                    : AppTheme.lightGreen,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: messageContent,
+            ),
+
+            // الساعة: خليها Positioned خارج أي Padding جوه الـ messageContent
+            Positioned(
+              bottom: -2,
+              right: 4,
+              child: Text(
+                '09:25 AM',
+                style: textTheme.bodySmall!.copyWith(
+                  color: AppTheme.gray,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 4),
-        Text(
-          '09:25 AM',
-          style: textTheme.bodySmall!.copyWith(
-            color: AppTheme.gray,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
       ],
     );
   }
