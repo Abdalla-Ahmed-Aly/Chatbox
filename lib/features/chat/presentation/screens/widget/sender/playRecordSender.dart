@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 
-class InstagramStyleAudioPlayer extends StatefulWidget {
+class Playrecordsender extends StatefulWidget {
   final String audioPath;
-  const InstagramStyleAudioPlayer({ required this.audioPath});
+  const Playrecordsender({required this.audioPath});
 
   @override
-  State<InstagramStyleAudioPlayer> createState() =>
-      _InstagramStyleAudioPlayerState();
+  State<Playrecordsender> createState() => _PlayrecordsenderState();
 }
 
-class _InstagramStyleAudioPlayerState extends State<InstagramStyleAudioPlayer> {
-  static _InstagramStyleAudioPlayerState? _currentPlayer;
+class _PlayrecordsenderState extends State<Playrecordsender> {
+  static _PlayrecordsenderState? _currentPlayer;
 
   late final AudioPlayer _player;
   late final PlayerController _waveController;
@@ -156,27 +155,19 @@ class _InstagramStyleAudioPlayerState extends State<InstagramStyleAudioPlayer> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppTheme.whiteGreen,
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return Positioned(
       child: Row(
         children: [
           InkWell(
             onTap: _hasError ? null : _togglePlay,
             child: CircleAvatar(
-              backgroundColor: _hasError
-                  ? Colors.red
-                  : (_isPlaying ? Colors.green : Colors.grey),
+              backgroundColor: _hasError ? Colors.red : AppTheme.whiteGreen,
               radius: 18,
               child: Icon(
                 _hasError
                     ? Icons.error
                     : (_isPlaying ? Icons.pause : Icons.play_arrow),
-                color: Colors.white,
+                color: AppTheme.lightGreen,
                 size: 22,
               ),
             ),
@@ -193,7 +184,7 @@ class _InstagramStyleAudioPlayerState extends State<InstagramStyleAudioPlayer> {
                     playerWaveStyle: PlayerWaveStyle(
                       fixedWaveColor: Colors.grey.shade400,
                       liveWaveColor: _isPlaying
-                          ? Colors.greenAccent
+                          ? AppTheme.whiteGreen
                           : Colors.grey.shade400,
                       waveThickness: 1.5,
                       spacing: 3,
@@ -214,7 +205,7 @@ class _InstagramStyleAudioPlayerState extends State<InstagramStyleAudioPlayer> {
           Text(
             _isPlaying ? _formatTime(_position) : _formatTime(_duration),
             style: textTheme.bodyMedium!.copyWith(
-              color: _hasError ? Colors.red : AppTheme.black,
+              color: _hasError ? Colors.red : AppTheme.whiteGreen,
             ),
           ),
         ],

@@ -1,11 +1,13 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/OnlineAvatar.dart';
-import 'package:chatbox/features/chat/presentation/screens/widget/SenderMessage.dart';
-import 'package:chatbox/features/chat/presentation/screens/widget/playRecord.dart';
-import 'package:chatbox/features/chat/presentation/screens/widget/resiverMessage.dart';
+import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
+import 'package:chatbox/features/chat/presentation/screens/widget/resiver/continerCusomeResiver.dart';
+import 'package:chatbox/features/chat/presentation/screens/widget/resiver/playRecordResiver.dart';
+import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/testMic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Chatscreen extends StatefulWidget {
   static const String routeName = '/chatScreen';
@@ -22,6 +24,8 @@ class _ChatscreenState extends State<Chatscreen> {
 
   bool isRecording = false;
   String? recordedAudioPath;
+  String? recordedImagePath;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -41,6 +45,27 @@ class _ChatscreenState extends State<Chatscreen> {
     }
   }
 
+  List<Widget> messages = [
+    ResiverMessage(text: 'hi abdoo'),
+    SenderMessage(text: 'Hi Ahmed'),
+  ];
+
+  Future<void> pickImage() async {
+    try {
+      final XFile? picked = await _picker.pickImage(
+        source: ImageSource.gallery,
+      );
+      if (picked != null) {
+        setState(() {
+          recordedImagePath = picked.path;
+        });
+        scrollToBottom();
+      }
+    } catch (e) {
+      print("Error picking image: $e");
+    }
+  }
+
   void onSendMessage() {
     final message = textEditingController.text.trim();
     if (message.isNotEmpty) {
@@ -53,13 +78,12 @@ class _ChatscreenState extends State<Chatscreen> {
   Future<void> startRecording() async {
     bool granted = await _recorderHelper.requestPermissions();
     if (!granted) {
-      // ممكن تظهر رسالة للمستخدم إن السماحية مرفوضة
       return;
     }
     await _recorderHelper.startRecording();
     setState(() {
       isRecording = true;
-      recordedAudioPath = null; // لما يبدأ تسجيل جديد، نلغي القديم
+      recordedAudioPath = null;
     });
   }
 
@@ -73,15 +97,25 @@ class _ChatscreenState extends State<Chatscreen> {
 
   @override
   void dispose() {
-    // لو AudioRecorderHelper عنده dispose() فعلها هنا
-    // _recorderHelper.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    List<Widget> messages = [
+      ResiverMessage(text: 'hi abdoo'),
+      SenderMessage(text: 'Hi Ahmed'),
+    ];
+    if (recordedAudioPath != null) {
+      messages.add(ResiverMessage(audioPath: recordedAudioPath));
+      messages.add(SenderMessage(audioPath: recordedAudioPath));
+    }
 
+    if (recordedImagePath != null) {
+      messages.add(ResiverMessage(imagePath: recordedImagePath));
+      messages.add(SenderMessage(imagePath: recordedImagePath));
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -138,29 +172,10 @@ class _ChatscreenState extends State<Chatscreen> {
               child: ListView(
                 controller: scrollController,
                 reverse: true,
-                children: [
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  ResiverMessage(),
-                  const SizedBox(height: 10),
-                  SenderMessage(),
-                  SenderMessage(),
-                ],
+                children: messages.reversed.toList(),
               ),
             ),
           ),
-
-          // عرض مشغل الصوت لو في تسجيل
-          if (recordedAudioPath != null) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: InstagramStyleAudioPlayer(audioPath: recordedAudioPath!),
-            ),
-          ],
 
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -197,7 +212,9 @@ class _ChatscreenState extends State<Chatscreen> {
                         hintStyle: TextStyle(color: Colors.grey.shade500),
                         border: InputBorder.none,
                         suffixIcon: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await pickImage();
+                          },
                           icon: Icon(
                             CupertinoIcons.photo_on_rectangle,
                             color: AppTheme.gray,
