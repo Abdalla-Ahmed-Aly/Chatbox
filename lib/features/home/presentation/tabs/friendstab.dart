@@ -60,8 +60,8 @@ class FriendsTab extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppTheme.primary,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(size.width * 0.1),
-                topRight: Radius.circular(size.width * 0.1),
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
               ),
               boxShadow: [
                 BoxShadow(

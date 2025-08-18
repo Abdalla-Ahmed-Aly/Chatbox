@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/home/presentation/screens/homescreen.dart';
+import 'features/home/presentation/widgets/qr_code_screen.dart';
 
 
 void main() {
@@ -37,6 +38,7 @@ class ChatBox extends StatelessWidget {
         Chatscreen.routeName: (_) => Chatscreen(),
         VerificationCodeScreen.routeName: (_) => VerificationCodeScreen(),
         ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
+        QrCodeScreen.routeName: (_) => QrCodeScreen(),
       },
       initialRoute: HomeScreen.routeName,
     );

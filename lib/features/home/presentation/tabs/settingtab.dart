@@ -1,3 +1,7 @@
+import 'package:chatbox/features/home/data/models/contact_model.dart';
+import 'package:chatbox/features/home/data/models/setting_model.dart';
+import 'package:chatbox/features/home/presentation/widgets/contact_info_widget.dart';
+import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_theme.dart';
 class SettingTab extends StatelessWidget {
@@ -5,7 +9,7 @@ class SettingTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.sizeOf(context);
+
     return SafeArea(
       child: Column(
         children: [
@@ -26,8 +30,8 @@ class SettingTab extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppTheme.primary,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(size.width * 0.1),
-                  topRight: Radius.circular(size.width * 0.1),
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -37,7 +41,24 @@ class SettingTab extends StatelessWidget {
                   ),
                 ],
               ),
+child: Padding(
+  padding: const EdgeInsets.only(top: 25),
+  child: Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 24),
+        child: ContactInfoWidget(contact: ContactModel.contact[2],isNeedToLeadingIcon: true,),
+      ),
+      const SizedBox(height: 24,),
+      Divider(color:AppTheme.gray.withOpacity(.1) ,height: 1,),
+      const SizedBox(height: 24,),
+      Expanded(child:ListView.separated(padding: const EdgeInsets.only(left: 24),itemBuilder: (context, index) => SettingWidget(setting: SettingModel.setting[index]), separatorBuilder:(context, index) =>  const SizedBox(height: 35,), itemCount: SettingModel.setting.length))
 
+    ],
+
+
+  ),
+),
 
             ),
           )
