@@ -30,7 +30,7 @@ class MessageTab extends StatelessWidget {
                   onTap: () {},
                   child: SvgPicture.asset(
                     'assets/svg/Group 370.svg',
-                    height: size.height * 0.035,
+                    height: size.height * 0.05,
                   ),
                 ),
                 Text(

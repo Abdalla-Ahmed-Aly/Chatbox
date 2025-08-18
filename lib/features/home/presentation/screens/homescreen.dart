@@ -1,5 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/presentation/tabs/friend_screens/main_screen/friendstab.dart';
+import 'package:chatbox/features/home/presentation/tabs/friendstab.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
 import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
 import 'package:flutter/material.dart';

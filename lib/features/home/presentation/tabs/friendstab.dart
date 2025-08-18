@@ -1,7 +1,8 @@
-import 'package:chatbox/features/home/presentation/tabs/friend_screens/sub-screens/search_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:chatbox/features/home/presentation/widgets/contact_list.dart';
+import 'package:chatbox/features/home/presentation/widgets/search_item.dart';
+import 'package:flutter/material.dart' ;
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 class FriendsTab extends StatelessWidget {
   const FriendsTab({super.key});
 
@@ -21,12 +22,12 @@ class FriendsTab extends StatelessWidget {
                    onTap: () async{
                      await showSearch(
                        context: context,
-                       delegate: SearchScreen()
+                       delegate: SearchItem()
                      );
                    },
                    child: SvgPicture.asset(
             'assets/svg/Group 370.svg',
-            height: size.height * 0.035,
+            height: size.height * 0.04,
                    ),
                  ),
                  Text(
@@ -37,10 +38,15 @@ class FriendsTab extends StatelessWidget {
                  ),
               InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: () {},
+                onTap: () async{
+                  await showSearch(
+                      context: context,
+                      delegate: SearchItem(isFriendRequest: true)
+                  );
+                },
                 child: SvgPicture.asset(
                   'assets/svg/addFriend.svg',
-                  height: size.height * 0.035,
+                  height: size.height * 0.04,
                 ),
               ),
 
@@ -64,8 +70,9 @@ class FriendsTab extends StatelessWidget {
                   offset: Offset(0, -2),
                 ),
               ],
-            ),
 
+            ),
+            child:ContactList(header: "My Friend",)
 
           ),
         )

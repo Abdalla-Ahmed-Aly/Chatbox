@@ -38,7 +38,7 @@ class ChatBox extends StatelessWidget {
         VerificationCodeScreen.routeName: (_) => VerificationCodeScreen(),
         ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
