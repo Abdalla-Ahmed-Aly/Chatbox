@@ -189,18 +189,18 @@ class _ChatscreenState extends State<Chatscreen> {
           ),
 
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             color: Colors.white,
             child: Row(
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    CupertinoIcons.paperclip,
-                    color: AppTheme.black,
-                    size: 26,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     CupertinoIcons.paperclip,
+                //     color: AppTheme.black,
+                //     size: 26,
+                //   ),
+                // ),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
