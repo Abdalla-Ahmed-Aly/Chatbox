@@ -16,7 +16,7 @@ class Continercusomeresiver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

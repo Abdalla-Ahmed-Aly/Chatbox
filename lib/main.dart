@@ -2,6 +2,7 @@ import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/verification_code_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
+import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/home/presentation/screens/homescreen.dart';
 import 'features/home/presentation/widgets/qr_code_screen.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -18,7 +18,7 @@ void main() {
 
   runApp(ChatBox());
 
- WidgetsBinding.instance.allowFirstFrame();
+  WidgetsBinding.instance.allowFirstFrame();
 }
 
 class ChatBox extends StatelessWidget {
@@ -39,6 +39,7 @@ class ChatBox extends StatelessWidget {
         VerificationCodeScreen.routeName: (_) => VerificationCodeScreen(),
         ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
         QrCodeScreen.routeName: (_) => QrCodeScreen(),
+        CreateGroupscreen.routeName: (_) => CreateGroupscreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

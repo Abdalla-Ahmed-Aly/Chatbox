@@ -1,4 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/home/presentation/tabs/friendstab.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
 import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
-static const String routeName='/HomeScreen';
+  static const String routeName = '/HomeScreen';
 
   const HomeScreen({super.key});
   @override
@@ -21,9 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
     const MessageTab(),
     const Center(child: Text('Search', style: TextStyle(fontSize: 24))),
     const FriendsTab(),
-    const SettingTab()
+    const SettingTab(),
   ];
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,6 +34,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          color: Colors.teal,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 8,
+              offset: Offset(2, 4),
+            ),
+          ],
+        ),
+        child: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, CreateGroupscreen.routeName);
+          },
+          icon: Icon(Icons.group_add, color: Colors.white, size: 28),
+        ),
+      ),
+
       backgroundColor: AppTheme.black,
       body: SafeArea(child: _pages[_selectedIndex]),
 
