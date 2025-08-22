@@ -9,7 +9,7 @@ class ResiverMessage extends StatelessWidget {
   final String? imagePath;
   final String? text;
 
-  const ResiverMessage({this.audioPath, this.imagePath, this.text});
+  const ResiverMessage({super.key, this.audioPath, this.imagePath, this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 
 class Playrecordsender extends StatefulWidget {
   final String audioPath;
-  const Playrecordsender({required this.audioPath});
+  const Playrecordsender({super.key, required this.audioPath});
 
   @override
   State<Playrecordsender> createState() => _PlayrecordsenderState();

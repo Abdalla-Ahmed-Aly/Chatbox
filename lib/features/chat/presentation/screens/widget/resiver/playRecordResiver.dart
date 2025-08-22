@@ -7,7 +7,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 
 class Playrecordresiver extends StatefulWidget {
   final String audioPath;
-  const Playrecordresiver({required this.audioPath});
+  const Playrecordresiver({super.key, required this.audioPath});
 
   @override
   State<Playrecordresiver> createState() => _PlayrecordresiverState();

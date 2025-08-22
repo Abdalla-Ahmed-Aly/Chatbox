@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 class CreateGroupscreen extends StatefulWidget {
   static const String routeName = '/CreateGroup';
 
+  const CreateGroupscreen({super.key});
+
   @override
   State<CreateGroupscreen> createState() => _CreateGroupscreenState();
 }

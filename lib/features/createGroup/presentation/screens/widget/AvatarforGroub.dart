@@ -8,7 +8,7 @@ class Avatarforgroub extends StatelessWidget {
   final VoidCallback? onTap;
 
   const Avatarforgroub({
-    Key? key,
+    super.key,
     required this.imagePath,
     this.showAddButton = true,
     this.radius = 25,

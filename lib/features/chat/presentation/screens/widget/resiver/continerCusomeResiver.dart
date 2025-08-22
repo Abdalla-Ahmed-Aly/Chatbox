@@ -8,6 +8,7 @@ class Continercusomeresiver extends StatelessWidget {
   final Widget messageContent;
 
   const Continercusomeresiver({
+    super.key,
     required this.imagePath,
     required this.isOnline,
     this.radius = 20,

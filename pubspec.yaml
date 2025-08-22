@@ -46,6 +46,11 @@ dependencies:
   camera: ^0.11.2
   azlistview_plus: ^3.0.0
   qr_flutter: ^4.1.0
+  font_awesome_flutter: ^10.9.0
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  video_player: ^2.10.0
+  timeago: ^3.7.1
 
 dev_dependencies:
   flutter_test:

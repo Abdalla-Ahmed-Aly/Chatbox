@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 class Chatscreen extends StatefulWidget {
   static const String routeName = '/chatScreen';
 
+  const Chatscreen({super.key});
+
   @override
   State<Chatscreen> createState() => _ChatscreenState();
 }
@@ -124,7 +126,12 @@ class _ChatscreenState extends State<Chatscreen> {
     // }
 
     if (recordedImagePath != null) {
-      messages.add(ResiverMessage(imagePath: recordedImagePath));
+      messages.add(
+        ResiverMessage(
+          imagePath: recordedImagePath,
+          audioPath: recordedAudioPath,
+        ),
+      );
       messages.add(SenderMessage(imagePath: recordedImagePath));
     }
     return Scaffold(

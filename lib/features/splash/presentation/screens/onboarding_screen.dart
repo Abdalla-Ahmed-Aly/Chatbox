@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -22,22 +21,19 @@ class OnboardingScreen extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              left: 80,     
-              top: -130,     
+              left: 80,
+              top: -130,
               child: Opacity(
                 opacity: 0.4,
                 child: Container(
-                  width: 380,  
+                  width: 380,
                   height: 600,
                   transform: Matrix4.identity()..rotateZ(math.pi / 10),
                   decoration: ShapeDecoration(
                     gradient: LinearGradient(
                       begin: Alignment(0.64, 0.50),
                       end: Alignment(-0.07, 0.35),
-                      colors: const [
-                        Color(0xFF42106A),
-                        Color(0xFF0A1731),
-                      ],
+                      colors: const [Color(0xFF42106A), Color(0xFF0A1731)],
                     ),
                     shape: const OvalBorder(),
                   ),
@@ -116,7 +112,10 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: 30),
                   CustomButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, RegisterScreen.routeName);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        RegisterScreen.routeName,
+                      );
                     },
                     text: 'Sign up withn mails',
                     textColor: AppTheme.black,
@@ -125,7 +124,10 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: 40),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        LoginScreen.routeName,
+                      );
                     },
                     child: Text(
                       'Existing account? Log in',

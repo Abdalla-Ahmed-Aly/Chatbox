@@ -6,7 +6,7 @@ import '../../../../../../core/theme/app_theme.dart';
 class Groubadminstyle extends StatelessWidget {
   final String Name;
 
-  const Groubadminstyle({required this.Name});
+  const Groubadminstyle({super.key, required this.Name});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,6 @@ class Groubadminstyle extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-         
         ],
       ),
     );

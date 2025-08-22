@@ -7,11 +7,11 @@ class SelectGroup extends StatelessWidget {
   final VoidCallback onTap;
 
   const SelectGroup({
-    Key? key,
+    super.key,
     required this.text,
     required this.isSelected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ class SenderMessage extends StatelessWidget {
   final String? imagePath;
   final String? text;
 
-  const SenderMessage({this.audioPath, this.imagePath, this.text});
+  const SenderMessage({super.key, this.audioPath, this.imagePath, this.text});
 
   @override
   Widget build(BuildContext context) {
