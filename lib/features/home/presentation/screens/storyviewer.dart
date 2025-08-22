@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chatbox/core/constants/story_constants/storyconstants.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/story.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
@@ -157,13 +158,24 @@ class _StoryViewerState extends State<StoryViewer>
       _isPaused = false;
     });
 
-    final remainingTime =
-        _getCurrentStory().duration * (1 - _progressController.value);
-    _progressController.duration = remainingTime;
+    final story = _getCurrentStory();
+    Duration totalDuration = story.duration;
+
+    if (story.mediaType == MediaType.video && _videoController != null) {
+      totalDuration = _videoController!.value.duration;
+    }
+
+    final remainingTime = totalDuration * (1 - _progressController.value);
+
+    final adjustedRemainingTime = remainingTime.inMilliseconds > 100
+        ? remainingTime
+        : const Duration(milliseconds: 100);
+
+    _progressController.duration = adjustedRemainingTime;
     _progressController.forward();
     _videoController?.play();
 
-    _storyTimer = Timer(remainingTime, () {
+    _storyTimer = Timer(adjustedRemainingTime, () {
       _nextStory();
     });
   }
@@ -251,6 +263,7 @@ class _StoryViewerState extends State<StoryViewer>
 
   @override
   Widget build(BuildContext context) {
+    final Size screendim = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: PageView.builder(
@@ -264,13 +277,13 @@ class _StoryViewerState extends State<StoryViewer>
         },
         itemCount: widget.users.length,
         itemBuilder: (context, userIndex) {
-          return _buildStoryView();
+          return _buildStoryView(screendim);
         },
       ),
     );
   }
 
-  Widget _buildStoryView() {
+  Widget _buildStoryView(Size screendim) {
     final user = _getCurrentUser();
     final story = _getCurrentStory();
 
@@ -298,7 +311,7 @@ class _StoryViewerState extends State<StoryViewer>
       },
       child: Stack(
         children: [
-          SafeArea(child: _buildStoryContent(story)),
+          SafeArea(child: _buildStoryContent(story, screendim)),
 
           Positioned(top: 40, left: 8, right: 8, child: _buildProgressBars()),
 
@@ -320,118 +333,142 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildStoryContent(Story story) {
-    if (story.mediaType == MediaType.video) {
-      if (_videoInitializing) {
-        return Container(
-          color: Colors.black,
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(color: Colors.white),
-                SizedBox(height: 16),
-                Text('Loading video...', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-        );
-      }
-
-      if (_videoController != null && _videoController!.value.isInitialized) {
-        return Center(
-          child: AspectRatio(
-            aspectRatio: _videoController!.value.aspectRatio,
-            child: VideoPlayer(_videoController!),
-          ),
-        );
-      } else {
-        return Container(
-          color: Colors.grey[900],
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FaIcon(
-                  FontAwesomeIcons.triangleExclamation,
-                  color: Colors.red,
-                  size: 50,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Failed to load video',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    } else {
-      if (_isAssetPath(story.mediaUrl)) {
-        return Container(
-          width: double.infinity,
-          height: 700,
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-          child: Image.asset(
-            story.mediaUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.triangleExclamation,
-                      color: Colors.red,
-                      size: 50,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Failed to load image',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      } else {
-        return Container(
-          width: double.infinity,
-          height: 700,
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-          child: Image.file(
-            File(story.mediaUrl),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.triangleExclamation,
-                      color: Colors.red,
-                      size: 50,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Failed to load image',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      }
+  Widget _buildStoryContent(Story story, Size screendim) {
+    switch (story.mediaType) {
+      case MediaType.video:
+        return _buildVideoContent(story, screendim);
+      case MediaType.image:
+        return _buildImageContent(story, screendim);
     }
+  }
+
+  Widget _buildVideoContent(Story story, Size screendim) {
+    if (_videoInitializing) {
+      return _buildLoadingState('Loading video...');
+    }
+
+    if (_videoController != null && _videoController!.value.isInitialized) {
+      return _buildMediaContainer(
+        screendim,
+        child: AspectRatio(
+          aspectRatio: _videoController!.value.aspectRatio,
+          child: VideoPlayer(_videoController!),
+        ),
+      );
+    }
+
+    return _buildErrorState('Failed to load video');
+  }
+
+  Widget _buildImageContent(Story story, Size screendim) {
+    return _buildMediaContainer(screendim, child: _buildImageWidget(story));
+  }
+
+  Widget _buildMediaContainer(Size screendim, {required Widget child}) {
+    return Container(
+      width: double.infinity,
+      height: screendim.height * StoryContentConstants.contentHeightRatio,
+      margin: const EdgeInsets.symmetric(
+        horizontal: StoryContentConstants.horizontalMargin,
+      ),
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(StoryContentConstants.borderRadius),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildImageWidget(Story story) {
+    if (_isAssetPath(story.mediaUrl)) {
+      return Image.asset(
+        story.mediaUrl,
+        fit: BoxFit.cover,
+        frameBuilder: _buildImageFrameBuilder,
+        errorBuilder: (context, error, stackTrace) =>
+            _buildErrorState('Failed to load image'),
+      );
+    } else {
+      return Image.file(
+        File(story.mediaUrl),
+        fit: BoxFit.cover,
+        frameBuilder: _buildImageFrameBuilder,
+        errorBuilder: (context, error, stackTrace) =>
+            _buildErrorState('Failed to load image'),
+      );
+    }
+  }
+
+  Widget _buildImageFrameBuilder(
+    BuildContext context,
+    Widget child,
+    int? frame,
+    bool wasSynchronouslyLoaded,
+  ) {
+    if (wasSynchronouslyLoaded) return child;
+
+    return AnimatedOpacity(
+      opacity: frame == null ? 0 : 1,
+      duration: const Duration(milliseconds: 300),
+      child: child,
+    );
+  }
+
+  Widget _buildLoadingState(String message) {
+    return Container(
+      color: Colors.black,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(color: Colors.white),
+            const SizedBox(height: StoryContentConstants.errorSpacing),
+            Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: StoryContentConstants.errorFontSize,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorState(String message) {
+    return Container(
+      color: Colors.grey[900],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const FaIcon(
+              FontAwesomeIcons.triangleExclamation,
+              color: Colors.red,
+              size: StoryContentConstants.errorIconSize,
+            ),
+            const SizedBox(height: StoryContentConstants.errorSpacing),
+            Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: StoryContentConstants.errorFontSize,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: StoryContentConstants.errorSpacing),
+            TextButton(
+              onPressed: () => _initializeCurrentStory(),
+              child: const Text(
+                'Tap to retry',
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildProgressBars() {
@@ -493,10 +530,7 @@ class _StoryViewerState extends State<StoryViewer>
               ),
               Text(
                 _getPublishedTime(_getCurrentStory().createdAt),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: AppTheme.gray, fontSize: 12),
               ),
             ],
           ),

@@ -17,7 +17,6 @@ class User {
   });
 
   static final List<Story> myStatus = [];
-
   static final List<User> storyUser = [
     User(
       id: '0',
@@ -25,6 +24,7 @@ class User {
       profileImage: 'assets/images/model1.png',
       stories: [],
     ),
+
     User(
       id: '1',
       username: 'john_doe',
