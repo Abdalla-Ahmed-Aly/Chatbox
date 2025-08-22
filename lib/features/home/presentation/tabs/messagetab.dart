@@ -5,9 +5,15 @@ import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MessageTab extends StatelessWidget {
-  const MessageTab({super.key});
+class MessageTab extends StatefulWidget {
+  const MessageTab({super.key, required this.pageController});
+  final PageController pageController;
 
+  @override
+  State<MessageTab> createState() => _MessageTabState();
+}
+
+class _MessageTabState extends State<MessageTab> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -36,8 +42,8 @@ class MessageTab extends StatelessWidget {
                 Text(
                   'Home',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -46,8 +52,9 @@ class MessageTab extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: CircleAvatar(
                     radius: size.width * 0.055,
-                    backgroundImage:
-                        AssetImage('assets/images/Ellipse 307.png'),
+                    backgroundImage: AssetImage(
+                      'assets/images/Ellipse 307.png',
+                    ),
                   ),
                 ),
               ],
@@ -57,7 +64,7 @@ class MessageTab extends StatelessWidget {
           /// ====== Stories ======
           Padding(
             padding: EdgeInsets.only(left: size.width * 0.04),
-            child: StoryDisplay(),
+            child: StoryDisplay(pageController: widget.pageController),
           ),
           SizedBox(height: verticalSpacing),
 
@@ -84,9 +91,7 @@ class MessageTab extends StatelessWidget {
                   Container(
                     width: size.width * 0.1,
                     height: size.height * 0.005,
-                    margin: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
                     decoration: BoxDecoration(
                       color: Colors.grey[400],
                       borderRadius: BorderRadius.circular(10),
@@ -100,9 +105,8 @@ class MessageTab extends StatelessWidget {
                         vertical: size.height * 0.01,
                       ),
                       itemCount: 10,
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: size.height * 0.01,
-                      ),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: size.height * 0.01),
                       itemBuilder: (context, index) {
                         return CustomSlidableMessageItem(
                           onTap: () {

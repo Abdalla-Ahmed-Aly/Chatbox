@@ -1,26 +1,44 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:flutter/material.dart';
 
 class StoryNewItem extends StatelessWidget {
-  final String username;
-  final String image;
+  final User storyUser;
   final bool hasNewStory;
-  final bool isViewed;
-  final VoidCallback? onTap;
+  bool isViewed;
+  final List<User> users;
+  final int currentIndex;
 
-  const StoryNewItem({
+  StoryNewItem({
     super.key,
-    this.username = 'Ghareeb',
-    this.image = 'assets/images/model1.png',
+    required this.storyUser,
     this.hasNewStory = true,
     this.isViewed = false,
-    this.onTap,
+    required this.users,
+    required this.currentIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        isViewed = true;
+        print(isViewed);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StoryViewer(
+              users: users,
+              initialUserIndex: currentIndex,
+
+              onClose: () {
+                print('Story viewer closed');
+              },
+            ),
+          ),
+        );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -52,7 +70,7 @@ class StoryNewItem extends StatelessWidget {
               ),
               child: ClipOval(
                 child: Image.asset(
-                  image,
+                  storyUser.profileImage,
                   fit: BoxFit.cover,
                   width: 66,
                   height: 66,
@@ -74,7 +92,7 @@ class StoryNewItem extends StatelessWidget {
           SizedBox(
             width: 70,
             child: Text(
-              username,
+              storyUser.username,
               style: Theme.of(context).textTheme.labelLarge,
               textAlign: TextAlign.center,
               maxLines: 1,

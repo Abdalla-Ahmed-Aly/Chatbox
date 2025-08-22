@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_theme.dart';
 
 class ResiverMessage extends StatelessWidget {
+  const ResiverMessage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;

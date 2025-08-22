@@ -7,12 +7,12 @@ class OnlineAvatar extends StatelessWidget {
   final VoidCallback? onTap;
 
   const OnlineAvatar({
-    Key? key,
+    super.key,
     required this.imagePath,
     this.isOnline = true,
     this.radius = 25,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,7 @@ class OnlineAvatar extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            radius: radius,
-            backgroundImage: AssetImage(imagePath),
-          ),
+          CircleAvatar(radius: radius, backgroundImage: AssetImage(imagePath)),
           if (isOnline)
             Positioned(
               right: -2,
@@ -37,10 +34,7 @@ class OnlineAvatar extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.greenAccent,
-                      Colors.green,
-                    ],
+                    colors: [Colors.greenAccent, Colors.green],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
