@@ -1,6 +1,7 @@
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/verification_code_screen.dart';
+import 'package:chatbox/features/callForChat/presentation/screens/CallScreen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
@@ -40,8 +41,9 @@ class ChatBox extends StatelessWidget {
         ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
         QrCodeScreen.routeName: (_) => QrCodeScreen(),
         CreateGroupscreen.routeName: (_) => CreateGroupscreen(),
+        Callscreen.routeName: (_) => Callscreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: Chatscreen.routeName,
     );
   }
 }

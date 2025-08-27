@@ -1,5 +1,6 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/OnlineAvatar.dart';
+import 'package:chatbox/features/callForChat/presentation/screens/CallScreen.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/testMic.dart';
@@ -169,13 +170,17 @@ class _ChatscreenState extends State<Chatscreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Callscreen.routeName);
+            },
             icon: const Icon(CupertinoIcons.phone),
             iconSize: 24,
             color: AppTheme.black,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Callscreen.routeName);
+            },
             icon: const Icon(CupertinoIcons.video_camera),
             iconSize: 30,
             color: AppTheme.black,
