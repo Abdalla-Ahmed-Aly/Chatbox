@@ -43,7 +43,7 @@ class ChatBox extends StatelessWidget {
         CreateGroupscreen.routeName: (_) => CreateGroupscreen(),
         Callscreen.routeName: (_) => Callscreen(),
       },
-      initialRoute: Chatscreen.routeName,
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

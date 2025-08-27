@@ -85,7 +85,7 @@ class _CallscreenState extends State<Callscreen> {
                   ),
                   const SizedBox(width: 20),
                   CustomButtonChat(
-                    icon:  Icons.close,
+                    icon: Icons.close,
                     color: AppTheme.red,
                     onPressed: () {},
                   ),
