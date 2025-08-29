@@ -1,6 +1,6 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/OnlineAvatar.dart';
-import 'package:chatbox/features/callForChat/presentation/screens/CallScreen.dart';
+import 'package:chatbox/features/callForChat/presentation/screens/ring_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/testMic.dart';
@@ -8,16 +8,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Chatscreen extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
   static const String routeName = '/chatScreen';
 
-  const Chatscreen({super.key});
+  const ChatScreen({super.key});
 
   @override
-  State<Chatscreen> createState() => _ChatscreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatscreenState extends State<Chatscreen> {
+class _ChatScreenState extends State<ChatScreen> {
   TextEditingController textEditingController = TextEditingController();
   ScrollController scrollController = ScrollController();
   final AudioRecorderHelper _recorderHelper = AudioRecorderHelper();
@@ -171,7 +171,7 @@ class _ChatscreenState extends State<Chatscreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, Callscreen.routeName);
+              Navigator.pushNamed(context, RingScreen.routeName);
             },
             icon: const Icon(CupertinoIcons.phone),
             iconSize: 24,
@@ -179,7 +179,7 @@ class _ChatscreenState extends State<Chatscreen> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, Callscreen.routeName);
+              Navigator.pushNamed(context, RingScreen.routeName);
             },
             icon: const Icon(CupertinoIcons.video_camera),
             iconSize: 30,

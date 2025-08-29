@@ -1,16 +1,17 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/callForChat/presentation/screens/widget/custom_button_chat.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Callscreen extends StatefulWidget {
-  static const String routeName = '/Callscreen';
+class CallScreen extends StatefulWidget {
+  static const String routeName = '/callScreen';
+
+  const CallScreen({super.key});
 
   @override
-  State<Callscreen> createState() => _CallscreenState();
+  State<CallScreen> createState() => _CallScreenState();
 }
 
-class _CallscreenState extends State<Callscreen> {
+class _CallScreenState extends State<CallScreen> {
   bool isMicOn = true;
   bool isSpeakerOn = true;
   bool isVideoOn = true;

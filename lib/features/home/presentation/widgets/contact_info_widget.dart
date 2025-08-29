@@ -17,7 +17,7 @@ final bool isFriendRequest;
     TextTheme textTheme= Theme.of(context).textTheme;
     Size screenSize=MediaQuery.sizeOf(context);
     return GestureDetector(
-      onTap: () =>isNeedToLeadingIcon?null:Navigator.pushNamed(context, Chatscreen.routeName),
+      onTap: () =>isNeedToLeadingIcon?null:Navigator.pushNamed(context, ChatScreen.routeName),
       child: Row(
         children: [
           Container(

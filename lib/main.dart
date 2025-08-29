@@ -1,7 +1,7 @@
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:chatbox/features/auth/presentation/screens/verification_code_screen.dart';
-import 'package:chatbox/features/callForChat/presentation/screens/CallScreen.dart';
+import 'package:chatbox/features/callForChat/presentation/screens/call_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
@@ -9,6 +9,7 @@ import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart'
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
+import 'features/callForChat/presentation/screens/ring_screen.dart';
 import 'features/home/presentation/screens/homescreen.dart';
 import 'features/home/presentation/widgets/qr_code_screen.dart';
 
@@ -36,14 +37,15 @@ class ChatBox extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
-        Chatscreen.routeName: (_) => Chatscreen(),
+        ChatScreen.routeName: (_) => ChatScreen(),
         VerificationCodeScreen.routeName: (_) => VerificationCodeScreen(),
         ResetPasswordScreen.routeName: (_) => ResetPasswordScreen(),
         QrCodeScreen.routeName: (_) => QrCodeScreen(),
         CreateGroupscreen.routeName: (_) => CreateGroupscreen(),
-        Callscreen.routeName: (_) => Callscreen(),
+        CallScreen.routeName: (_) => CallScreen(),
+         RingScreen.routeName: (_) => RingScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute:  SplashScreen.routeName,
     );
   }
 }

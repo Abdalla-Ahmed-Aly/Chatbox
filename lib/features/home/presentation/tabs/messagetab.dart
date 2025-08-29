@@ -105,7 +105,7 @@ class MessageTab extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CustomSlidableMessageItem(
                           onTap: () {
-                            Navigator.pushNamed(context, Chatscreen.routeName);
+                            Navigator.pushNamed(context, ChatScreen.routeName);
                             print('Tapped Ghareeb');
                           },
                           onMute: () {
