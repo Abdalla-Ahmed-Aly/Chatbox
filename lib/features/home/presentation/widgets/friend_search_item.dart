@@ -3,23 +3,22 @@ import 'package:chatbox/features/home/presentation/widgets/app_bar_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'contact_list.dart';
 
-class SearchItem extends SearchDelegate {
+class FriendSearchItem extends SearchDelegate {
 
- SearchItem();
+  FriendSearchItem();
   @override
-  String get searchFieldLabel =>'Search username or number';
+  String get searchFieldLabel =>"Search username";
   @override
   ThemeData appBarTheme(BuildContext context) {
     return SearchDelegateTheme.searchTheme;
   }
   @override
   List<Widget>? buildActions(BuildContext context) {
-   return [
- AppBarIcon(onPressed: clearFunction
-   ,icon:CupertinoIcons.clear,)
-   ];
+    return [
+      AppBarIcon(onPressed:searchFunction
+        ,icon:CupertinoIcons.search,)
+    ];
   }
 
   @override
@@ -32,18 +31,17 @@ class SearchItem extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-return Scaffold(
+    return Scaffold(
 
 
-);
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
- return   ContactList(header: 'Chat',isAlph: false,);
+    return Scaffold();
   }
-  void clearFunction(){
-    query="";
-}
 
+  void searchFunction(){
+  }
 }

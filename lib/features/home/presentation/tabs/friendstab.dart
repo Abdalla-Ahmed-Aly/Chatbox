@@ -3,6 +3,7 @@ import 'package:chatbox/features/home/presentation/widgets/search_item.dart';
 import 'package:flutter/material.dart' ;
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../widgets/friend_search_item.dart';
 class FriendsTab extends StatelessWidget {
   const FriendsTab({super.key});
 
@@ -41,7 +42,7 @@ class FriendsTab extends StatelessWidget {
                 onTap: () async{
                   await showSearch(
                       context: context,
-                      delegate: SearchItem(isFriendRequest: true)
+                      delegate: FriendSearchItem()
                   );
                 },
                 child: SvgPicture.asset(
@@ -65,7 +66,7 @@ class FriendsTab extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 10,
                   offset: Offset(0, -2),
                 ),
