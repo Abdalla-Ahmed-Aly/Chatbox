@@ -14,7 +14,7 @@ class QrCodeItem extends StatelessWidget {
       embeddedImage: AssetImage("assets/images/cBAW.png"),
       embeddedImageStyle: QrEmbeddedImageStyle(
         size: Size(50, 50),
-      ),
+    ),
       errorStateBuilder: (cxt, err) {
         return Center(
           child: Text(

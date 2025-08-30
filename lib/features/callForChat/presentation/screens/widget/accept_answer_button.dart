@@ -16,7 +16,7 @@ class AcceptAnswerButton extends StatelessWidget {
       activeTrackColor: AppTheme.primary.withValues(alpha: .3),
       thumbPadding: const EdgeInsets.all(6),
       borderRadius: BorderRadius.circular(30),
-      width: MediaQuery.sizeOf(context).width*.69,
+      width: 350,
       onSwipe: () {
 Navigator.pushReplacementNamed(context, CallScreen.routeName);
       },

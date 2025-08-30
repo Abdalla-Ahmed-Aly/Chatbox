@@ -9,7 +9,7 @@ class QrCodeScreen extends StatelessWidget {
 static const String routeName="/qr code";
   @override
   Widget build(BuildContext context) {
-    Size screenSize=MediaQuery.sizeOf(context);
+
     return Scaffold(
       backgroundColor: AppTheme.primary.withValues(alpha: .98),
       appBar: AppBar(
@@ -22,8 +22,7 @@ static const String routeName="/qr code";
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: screenSize.width*.4,
-              height: screenSize.height*.2,
+
                 color: AppTheme.primary,
               child:QrCodeItem()
             ),
