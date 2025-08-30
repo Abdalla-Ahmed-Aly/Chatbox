@@ -1,6 +1,7 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/home/presentation/widgets/qr_code_item.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+
 
 
 class QrCodeScreen extends StatelessWidget {
@@ -8,34 +9,26 @@ class QrCodeScreen extends StatelessWidget {
 static const String routeName="/qr code";
   @override
   Widget build(BuildContext context) {
+    Size screenSize=MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: AppTheme.primary.withValues(alpha: .98),
       appBar: AppBar(
         backgroundColor: AppTheme.primary,
+
   title: Text("QR Code"),
       ),
-      body:Center(
-        child: Container(
-          decoration: BoxDecoration(
-          ),
-          child: QrImageView(
-            data: 'https://github.com/Marwan9Atef',
-            version: QrVersions.auto,
-            size: 200,
-            gapless: false,
-
-            embeddedImageStyle: QrEmbeddedImageStyle(
-              size: Size(80, 80),
+      body:Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: screenSize.width*.4,
+              height: screenSize.height*.2,
+                color: AppTheme.primary,
+              child:QrCodeItem()
             ),
-            errorStateBuilder: (cxt, err) {
-              return Center(
-                child: Text(
-                  "Uh oh! Something went wrong...",
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
           ),
-        ),
+        ],
       ),
 
     );

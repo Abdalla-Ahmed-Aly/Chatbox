@@ -1,5 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/core/widget/OnlineAvatar.dart';
+import 'package:chatbox/core/widget/online_avatar.dart';
 import 'package:chatbox/features/callForChat/presentation/screens/ring_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';

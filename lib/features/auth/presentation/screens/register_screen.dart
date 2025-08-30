@@ -1,5 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/core/widget/CustomTextButton.dart';
+import 'package:chatbox/core/widget/custom_text_button.dart';
 import 'package:chatbox/core/widget/custom_button.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:chatbox/features/auth/presentation/screens/forgot_password_screen.dart';

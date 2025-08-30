@@ -1,5 +1,5 @@
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
-import 'package:chatbox/features/home/presentation/widgets/StoryNewitem.dart';
+import 'package:chatbox/features/home/presentation/widgets/story_new_item.dart';
 import 'package:chatbox/features/home/presentation/widgets/mystatuswid.dart';
 import 'package:flutter/material.dart';
 

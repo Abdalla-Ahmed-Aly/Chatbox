@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 
 class CustomButton extends StatefulWidget {
-  String text;
-  Color? textColor;
-  Color? buttonColor;
-  Color? textColorWhenHover;
-  Color? buttonColorWhenHover;
-  void Function() onPressed;
-  CustomButton({super.key, required this.onPressed, required this.text, this.textColor,this.buttonColor,this.buttonColorWhenHover,this.textColorWhenHover});
+ final String text;
+ final Color? textColor;
+ final Color? buttonColor;
+ final Color? textColorWhenHover;
+ final Color? buttonColorWhenHover;
+ final void Function() onPressed;
+  const CustomButton({super.key, required this.onPressed, required this.text, this.textColor,this.buttonColor,this.buttonColorWhenHover,this.textColorWhenHover});
   @override
   State<CustomButton> createState() => _CustomButtonState();
 }

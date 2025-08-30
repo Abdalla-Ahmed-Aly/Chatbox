@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import '../theme/app_theme.dart';
 
 class CustomButtonIcon extends StatelessWidget {
-  void Function() onTap;
-  String assetName;
-  CustomButtonIcon({super.key, required this.assetName,required this.onTap});
+ final void Function() onTap;
+ final String assetName;
+  const CustomButtonIcon({super.key, required this.assetName,required this.onTap});
 
   @override
   Widget build(BuildContext context) {

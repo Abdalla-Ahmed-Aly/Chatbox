@@ -2,7 +2,7 @@ import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widget/custom_button_Icon.dart';
+import '../../../../core/widget/custom_button_icon.dart';
 import '../../../../core/widget/custom_button.dart';
 import '../../../auth/presentation/screens/register_screen.dart';
 

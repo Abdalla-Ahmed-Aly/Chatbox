@@ -42,7 +42,7 @@ class _PlayrecordsenderState extends State<Playrecordsender> {
 
     _durationSub = _player.onDurationChanged.listen((duration) {
       if (!mounted) return;
-      setState(() => _duration = duration ?? Duration.zero);
+      setState(() => _duration = duration);
     });
 
     _positionSub = _player.onPositionChanged.listen((position) {

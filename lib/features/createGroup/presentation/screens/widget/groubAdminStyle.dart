@@ -1,4 +1,3 @@
-import 'package:chatbox/core/widget/OnlineAvatar.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/continerCusomeResiver.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_theme.dart';

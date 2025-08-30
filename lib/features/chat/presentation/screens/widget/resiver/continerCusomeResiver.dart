@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chatbox/core/widget/OnlineAvatar.dart';
+import 'package:chatbox/core/widget/online_avatar.dart';
 
 class Continercusomeresiver extends StatelessWidget {
   final String imagePath;

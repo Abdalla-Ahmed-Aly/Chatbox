@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MessageTab extends StatelessWidget {
-  MessageTab({super.key, required this.pageController});
-  PageController pageController;
+  const MessageTab({super.key, required this.pageController});
+ final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class MessageTab extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    print('Tapped Profile');
+
                   },
                   borderRadius: BorderRadius.circular(15),
                   child: CircleAvatar(
@@ -75,7 +75,7 @@ class MessageTab extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 10,
                     offset: Offset(0, -2),
                   ),
@@ -106,7 +106,7 @@ class MessageTab extends StatelessWidget {
                         return CustomSlidableMessageItem(
                           onTap: () {
                             Navigator.pushNamed(context, ChatScreen.routeName);
-                            print('Tapped Ghareeb');
+
                           },
                           onMute: () {
                             ScaffoldMessenger.of(context).showSnackBar(

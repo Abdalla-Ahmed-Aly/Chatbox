@@ -1,7 +1,10 @@
+import 'package:chatbox/features/callForChat/presentation/screens/widget/accept_answer_button.dart';
 import 'package:chatbox/features/callForChat/presentation/screens/widget/component_in_middle.dart';
 import 'package:chatbox/features/callForChat/presentation/screens/widget/filterd_image.dart';
 import 'package:chatbox/features/callForChat/presentation/screens/widget/row_of_ring_screen.dart';
 import 'package:flutter/material.dart';
+
+
 
 class RingScreen extends StatelessWidget {
   const RingScreen({super.key});
@@ -28,6 +31,7 @@ class RingScreen extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
+               AcceptAnswerButton()
 
               ],
 

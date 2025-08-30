@@ -1,6 +1,6 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/core/widget/CustomTextButton.dart';
-import 'package:chatbox/core/widget/Custom_button_Icon.dart';
+import 'package:chatbox/core/widget/custom_text_button.dart';
+import 'package:chatbox/core/widget/custom_button_icon.dart';
 import 'package:chatbox/core/widget/custom_button.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:chatbox/features/auth/presentation/screens/register_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/core/widget/OnlineAvatar.dart';
+import 'package:chatbox/core/widget/online_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
