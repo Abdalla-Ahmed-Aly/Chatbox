@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 class MessageTab extends StatelessWidget {
   const MessageTab({super.key, required this.pageController});
- final PageController pageController;
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class MessageTab extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-
+                    print('Tapped Profile');
                   },
                   borderRadius: BorderRadius.circular(15),
                   child: CircleAvatar(
@@ -106,7 +106,6 @@ class MessageTab extends StatelessWidget {
                         return CustomSlidableMessageItem(
                           onTap: () {
                             Navigator.pushNamed(context, ChatScreen.routeName);
-
                           },
                           onMute: () {
                             ScaffoldMessenger.of(context).showSnackBar(

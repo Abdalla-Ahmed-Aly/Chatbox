@@ -1,6 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
-import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +39,18 @@ class MyStatus extends StatelessWidget {
                   ),
                 ),
               )
-            : Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      StoryMakerScreen(pageController: pageController),
-                ),
+            : pageController.animateToPage(
+                0,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
               );
+        // : Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) =>
+        //           StoryMakerScreen(pageController: pageController),
+        //     ),
+        //   );
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
