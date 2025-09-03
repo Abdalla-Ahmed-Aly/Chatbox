@@ -40,7 +40,7 @@ class _StoryViewerState extends State<StoryViewer>
   bool _isPaused = false;
   bool _videoInitializing = false;
 
-  Set<String> _likedStories = {};
+  final Set<String> _likedStories = {};
 
   @override
   void initState() {

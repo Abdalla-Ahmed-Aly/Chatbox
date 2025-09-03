@@ -1,4 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/core/widget/customizedprofileimage.dart';
 import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/home/presentation/widgets/scrollablefrienditem.dart';
 import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
@@ -40,15 +41,25 @@ class MessageTab extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    print('Tapped Profile');
-                  },
-                  borderRadius: BorderRadius.circular(15),
-                  child: CircleAvatar(
-                    radius: size.width * 0.055,
-                    backgroundImage: AssetImage(
-                      'assets/images/Ellipse 307.png',
+                Container(
+                  height: size.height * 0.065,
+                  width: size.height * 0.065,
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  child: Material(
+                    shape: CircleBorder(),
+                    color: Colors.transparent,
+                    child: InkWell(
+                      customBorder: CircleBorder(),
+                      onTap: () {
+                        print('Tapped Profile');
+                      },
+                      borderRadius: BorderRadius.circular(15),
+                      child: CircularProfileAvatarWidget(
+                        imagePath: 'assets/images/model1.png',
+                        // 'https://thfvnext.bing.com/th/id/OIP.dg2MXYDWgmIkHEF738ObUgHaOF?w=126&h=187&c=7&r=0&o=7&cb=thfvnext&dpr=2&pid=1.7&rm=3',
+                        isAsset: true,
+                        // size: size.height * 0.055,
+                      ),
                     ),
                   ),
                 ),

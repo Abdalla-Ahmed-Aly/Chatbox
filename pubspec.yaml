@@ -51,6 +51,14 @@ dependencies:
   path: ^1.9.1
   video_player: ^2.10.0
   timeago: ^3.7.1
+  extended_image: ^10.0.1
+  circular_profile_avatar: ^2.0.5
+  image: ^4.5.4
+  photo_view: ^0.15.0
+  image_palette_extractor: ^1.0.1
+  flutter_color_extractor: ^1.0.0+1
+  screenshot: ^3.0.0
+  another_xlider: ^3.0.2
 
 dev_dependencies:
   flutter_test:

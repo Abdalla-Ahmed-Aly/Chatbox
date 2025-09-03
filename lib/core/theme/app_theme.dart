@@ -20,28 +20,13 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-      hintStyle: TextStyle(
-        color: Colors.grey.shade500,
-        fontSize: 12,
-      ),
-      border: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.grey.shade400,
-          width: 0.7,
-        ),
-      ),
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.grey.shade400,
-          width: 0.7,
-        ),
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: AppTheme.primary,
-          width: 1,
-        ),
-      ),
+      hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      disabledBorder: InputBorder.none, // when disabled
+      errorBorder: InputBorder.none, // when error
+      focusedErrorBorder: InputBorder.none,
     ),
 
     textTheme: TextTheme(

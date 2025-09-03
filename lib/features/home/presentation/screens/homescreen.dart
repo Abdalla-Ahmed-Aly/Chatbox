@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  bool _isLocked = false;
   final PageController _pageController = PageController(initialPage: 1);
 
   void _onItemTapped(int index) {
@@ -27,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // List of pages for each tab
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       MessageTab(pageController: _pageController),
       const Center(child: Text('Search', style: TextStyle(fontSize: 24))),
       const FriendsTab(),
@@ -37,11 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageView(
       controller: _pageController,
       onPageChanged: (value) => setState(() {}),
-      physics: _selectedIndex != 0
+      physics: _isLocked
+          ? NeverScrollableScrollPhysics()
+          : _selectedIndex != 0
           ? NeverScrollableScrollPhysics()
           : AlwaysScrollableScrollPhysics(),
       children: [
-        StoryMakerScreen(pageController: _pageController),
+        NewStoryMakerScreen(
+          pageController: _pageController,
+          onImageCaptured: () {
+            setState(() {
+              _isLocked = !_isLocked;
+            });
+          },
+        ),
         Scaffold(
           floatingActionButton: Container(
             decoration: BoxDecoration(
@@ -64,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           backgroundColor: AppTheme.black,
-          body: SafeArea(child: _pages[_selectedIndex]),
+          body: SafeArea(child: pages[_selectedIndex]),
 
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
