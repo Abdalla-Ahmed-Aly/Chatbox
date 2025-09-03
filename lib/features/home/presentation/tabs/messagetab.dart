@@ -107,6 +107,15 @@ class MessageTab extends StatelessWidget {
                           onTap: () {
                             Navigator.pushNamed(context, ChatScreen.routeName);
                           },
+                          onSwipeBack: () {
+                            pageController.animateToPage(
+                              0,
+                              duration: const Duration(milliseconds: 350),
+                              curve: Curves.easeOutCubic,
+                            );
+                          },
+                          edgeWidth: 150,
+                          backSwipeThreshold: 160,
                           onMute: () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
