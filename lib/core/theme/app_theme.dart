@@ -2,42 +2,33 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static Color primary = Color(0xffFFFFFF);
+  static Color darkWhite = Color(0xffF3F6F6);
   static Color red = Color(0xffF04A4C);
-  static Color black = Color(0xff1E1E1E);
+  static Color black = Color(0xff000E08);
   static Color gray = Color(0xff797C7B);
-  static Color lightgreen = Color(0xff20A090);
-  static Color whitegreen = Color(0xffF2F7FB);
+  static Color lightGreen = Color(0xff20A090);
+  static Color green = Color(0xff24786D);
+  static Color whiteGreen = Color(0xffF2F7FB);
 
-  static ThemeData darktheme = ThemeData(
+  static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: primary,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primary,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: lightgreen,
+      selectedItemColor: lightGreen,
       unselectedItemColor: gray,
     ),
-    // inputDecorationTheme: InputDecorationTheme(
-    //   enabledBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(12),
-    //     borderSide: BorderSide(color: AppTheme.black),
-    //   ),
-    //   focusedBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(15),
-    //     borderSide: BorderSide(color: AppTheme.primary),
-    //   ),
-    //   errorBorder: OutlineInputBorder(
-    //       borderSide: BorderSide(
-    //         width: 1,
-    //         color: red,
-    //       ),
-    //       borderRadius: BorderRadius.circular(16)),
-    //   focusedErrorBorder: OutlineInputBorder(
-    //       borderSide: BorderSide(
-    //         width: 1,
-    //         color: red,
-    //       ),
-    //       borderRadius: BorderRadius.circular(16)),
-    // ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      disabledBorder: InputBorder.none, // when disabled
+      errorBorder: InputBorder.none, // when error
+      focusedErrorBorder: InputBorder.none,
+    ),
+
     textTheme: TextTheme(
       displayLarge: TextStyle(
         color: primary,
@@ -109,6 +100,18 @@ class AppTheme {
         fontSize: 12,
         fontFamily: 'myFonts',
         fontWeight: FontWeight.w300, // light font
+      ),
+      labelLarge: TextStyle(
+        color: primary,
+        fontSize: 14,
+        fontFamily: 'myFonts',
+        fontWeight: FontWeight.w400, // regular font
+      ),
+      labelMedium: TextStyle(
+        color: black,
+        fontSize: 26,
+        fontFamily: 'myFonts',
+        fontWeight: FontWeight.w700, // regular font
       ),
     ),
   );
