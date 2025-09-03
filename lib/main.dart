@@ -6,6 +6,7 @@ import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
+import 'package:chatbox/features/updateProfile/presentation/screens/update_Profile_Screen.dart';
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
@@ -44,6 +45,7 @@ class ChatBox extends StatelessWidget {
         CreateGroupscreen.routeName: (_) => CreateGroupscreen(),
         CallScreen.routeName: (_) => CallScreen(),
          RingScreen.routeName: (_) => RingScreen(),
+         UpdateProfileScreen.routeName: (_) => UpdateProfileScreen(),
       },
       initialRoute:  SplashScreen.routeName,
     );
