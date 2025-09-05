@@ -41,9 +41,7 @@ class MessageTab extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    print('Tapped Profile');
-                  },
+                  onTap: () {},
                   borderRadius: BorderRadius.circular(15),
                   child: CircleAvatar(
                     radius: size.width * 0.055,

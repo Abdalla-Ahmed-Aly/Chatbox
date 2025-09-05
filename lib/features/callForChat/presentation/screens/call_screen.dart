@@ -1,5 +1,5 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/callForChat/presentation/screens/widget/custom_button_chat.dart';
+import 'package:chatbox/features/callForChat/presentation/widget/custom_button_chat.dart';
 import 'package:flutter/material.dart';
 
 class CallScreen extends StatefulWidget {

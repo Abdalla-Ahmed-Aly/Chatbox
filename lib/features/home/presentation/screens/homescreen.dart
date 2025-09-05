@@ -31,7 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      MessageTab(pageController: _pageController),
+      EnhancedSwipeBackGesture(
+        pageController: _pageController,
+        edgeWidth: 300,
+        velocityThreshold: 200,
+        dragThreshold: 80.0,
+        onSwipeStart: () {
+          print("Swipe back started");
+        },
+        onSwipeEnd: () {
+          print("Navigating back to page 0");
+        },
+
+        child: MessageTab(pageController: _pageController),
+      ),
       const Center(child: Text('Search', style: TextStyle(fontSize: 24))),
       const FriendsTab(),
       const SettingTab(),
@@ -57,88 +70,76 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           },
         ),
-        EnhancedSwipeBackGesture(
-          pageController: _pageController,
-          edgeWidth: 300,
-          velocityThreshold: 200,
-          dragThreshold: 80.0,
-          onSwipeStart: () {
-            print("Swipe back started");
-          },
-          onSwipeEnd: () {
-            print("Navigating back to page 0");
-          },
-          child: Scaffold(
-            floatingActionButton: Container(
-              decoration: BoxDecoration(
-                color: Colors.teal,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8,
-                    offset: Offset(2, 4),
-                  ),
-                ],
-              ),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, CreateGroupscreen.routeName);
-                },
-                icon: Icon(Icons.group_add, color: Colors.white, size: 28),
-              ),
-            ),
-
-            backgroundColor: AppTheme.black,
-            body: SafeArea(child: pages[_selectedIndex]),
-
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              items: [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/svg/Group.svg',
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 0 ? AppTheme.lightGreen : AppTheme.gray,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/svg/Call.svg',
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 1 ? AppTheme.lightGreen : AppTheme.gray,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  label: 'Search',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/svg/user.svg',
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 2 ? AppTheme.lightGreen : AppTheme.gray,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  label: 'Friends',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/svg/settings.svg',
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 3 ? AppTheme.lightGreen : AppTheme.gray,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  label: 'Settings',
+        Scaffold(
+          floatingActionButton: Container(
+            decoration: BoxDecoration(
+              color: Colors.teal,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 8,
+                  offset: Offset(2, 4),
                 ),
               ],
             ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, CreateGroupscreen.routeName);
+              },
+              icon: Icon(Icons.group_add, color: Colors.white, size: 28),
+            ),
+          ),
+
+          backgroundColor: AppTheme.black,
+          body: SafeArea(child: pages[_selectedIndex]),
+
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/Group.svg',
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 0 ? AppTheme.lightGreen : AppTheme.gray,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/Call.svg',
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 1 ? AppTheme.lightGreen : AppTheme.gray,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/user.svg',
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 2 ? AppTheme.lightGreen : AppTheme.gray,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                label: 'Friends',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/svg/settings.svg',
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 3 ? AppTheme.lightGreen : AppTheme.gray,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                label: 'Settings',
+              ),
+            ],
           ),
         ),
       ],

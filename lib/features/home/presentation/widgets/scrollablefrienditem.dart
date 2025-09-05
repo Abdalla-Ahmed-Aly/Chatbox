@@ -10,12 +10,12 @@ class CustomSlidableMessageItem extends StatefulWidget {
   final VoidCallback? onTap;
   final VoidCallback? onMute;
   final VoidCallback? onDelete;
-  final VoidCallback? onSwipeBack; // New callback for right swipe
+  final VoidCallback? onSwipeBack;
   final double slideThreshold;
   final double velocityThreshold;
   final double maxSlideDistance;
-  final double edgeWidth; // Width from left edge to trigger back swipe
-  final double backSwipeThreshold; // Threshold for back swipe
+  final double edgeWidth;
+  final double backSwipeThreshold;
 
   const CustomSlidableMessageItem({
     super.key,
@@ -91,10 +91,6 @@ class _CustomSlidableMessageItemState extends State<CustomSlidableMessageItem>
       begin: 1.0,
       end: 0.98,
     ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
-
-    // _backSwipeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-    //   CurvedAnimation(parent: _backSwipeController, curve: Curves.easeOutCubic),
-    // );
   }
 
   @override

@@ -7,7 +7,7 @@ class TextOverlay {
   Color color;
   double fontSize;
   TextAlign textAlign;
-  int backgroundClickCount; // Add this field for individual background state
+  int backgroundClickCount;
 
   TextOverlay({
     required this.id,
@@ -16,7 +16,7 @@ class TextOverlay {
     required this.textAlign,
     this.color = Colors.white,
     this.fontSize = 24.0,
-    this.backgroundClickCount = 0, // Initialize background state
+    this.backgroundClickCount = 0,
   });
 
   Color lightenHSL(Color color, [double amount = 0.2]) {
@@ -25,14 +25,13 @@ class TextOverlay {
     return lighter.toColor();
   }
 
-  // Get background color for preview
   Color getBackgroundColor() {
     Color backGroundColor;
     Color originColor = color;
     if (backgroundClickCount == 0) {
       color = originColor;
       backGroundColor = Colors.transparent;
-      return backGroundColor; // first click → transparent
+      return backGroundColor;
     } else if (backgroundClickCount == 1) {
       if (color == Colors.white) {
         backGroundColor = Colors.black;
@@ -42,7 +41,7 @@ class TextOverlay {
         return backGroundColor;
       } else {
         backGroundColor = lightenHSL(color);
-        return backGroundColor; // second click → white
+        return backGroundColor;
       }
     } else {
       if (color == Colors.white) {
@@ -57,7 +56,7 @@ class TextOverlay {
         backGroundColor = color;
         color = lightenHSL(color);
         return backGroundColor;
-      } // third click → shade of text color
+      }
     }
   }
 }

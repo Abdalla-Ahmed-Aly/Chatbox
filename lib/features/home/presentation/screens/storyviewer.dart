@@ -69,7 +69,8 @@ class _StoryViewerState extends State<StoryViewer>
   }
 
   Story _getCurrentStory() {
-    return widget.users[_currentUserIndex].stories[_currentStoryIndex];
+    List<Story> stories = widget.users[_currentUserIndex].stories;
+    return stories[stories.length - 1 - _currentStoryIndex];
   }
 
   User _getCurrentUser() {
