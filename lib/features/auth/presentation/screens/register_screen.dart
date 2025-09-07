@@ -1,15 +1,15 @@
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/custom_text_button.dart';
 import 'package:chatbox/core/widget/custom_button.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:chatbox/features/auth/presentation/screens/forgot_password_screen.dart';
-import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
-import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
-  static const String routeName = '/register';
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.06),
                   CustomButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, HomeScreen.routeName);
+                     context.push(RouteCenter.home);
                     },
                     text: "Create an account",
                     buttonColor: AppTheme.lightGreen,
@@ -93,10 +93,7 @@ class RegisterScreen extends StatelessWidget {
                   CustomTextButton(
                     label: "Have an account? Log in",
                     onTap: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        LoginScreen.routeName,
-                      );
+                      context.pushReplacement(RouteCenter.login);
                     },
                   ),
                 ],

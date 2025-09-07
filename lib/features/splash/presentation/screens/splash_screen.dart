@@ -1,8 +1,10 @@
-import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
+import 'package:chatbox/core/route/route_center.dart';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String routeName = '/splashScreen';
+
 
   const SplashScreen({super.key});
 
@@ -75,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     await Future.delayed(Duration(milliseconds: 400));
 
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
+     context.pushReplacement(RouteCenter.onboarding);
     }
   }
 

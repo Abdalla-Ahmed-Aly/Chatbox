@@ -1,11 +1,13 @@
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widget/custom_button.dart';
-import '../../../home/presentation/screens/homescreen.dart';
+
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
-static const String routeName = '/reset-password';
+
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
@@ -38,7 +40,7 @@ static const String routeName = '/reset-password';
                   CustomTextFormField(textInputType: TextInputType.visiblePassword, label: "Re-enter Password"),
                   const SizedBox(height: 30),
                   CustomButton(onPressed: (){
-                    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                    context.pushReplacement(RouteCenter.home);
                   }, text: "Update Password",textColor: AppTheme.primary,buttonColor: AppTheme.green,)
 
 

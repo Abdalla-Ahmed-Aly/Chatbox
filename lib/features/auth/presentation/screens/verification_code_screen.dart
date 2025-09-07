@@ -1,7 +1,8 @@
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/widget/custom_button.dart';
-import 'package:chatbox/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:resend_timer_button/resend_timer_button.dart' show ResendTimerButton, ButtonType;
 
@@ -10,7 +11,7 @@ import '../../../../core/theme/app_theme.dart';
 
 class VerificationCodeScreen extends StatelessWidget {
   const VerificationCodeScreen({super.key});
-static const String routeName = '/verification-code';
+
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle=Theme.of(context).textTheme;
@@ -40,7 +41,7 @@ static const String routeName = '/verification-code';
                   const SizedBox(height: 30),
                   Pinput(
                     onCompleted: (value) {
-                      Navigator.pushReplacementNamed(context, ResetPasswordScreen.routeName);
+                      context.pushReplacement(RouteCenter.resetPassword);
 
                     },
                     keyboardType: TextInputType.number,
@@ -91,7 +92,7 @@ static const String routeName = '/verification-code';
                   ResendTimerButton(onPressed: (){}, text: Text("Resend Code",style: textStyle.titleMedium!.copyWith(color: AppTheme.black),), duration: 5,buttonType:ButtonType.text_button,),
                   const SizedBox(height: 30),
                   CustomButton(onPressed: (){
-                    Navigator.pushReplacementNamed(context, ResetPasswordScreen.routeName);
+                    context.pushReplacement(RouteCenter.resetPassword);
                   }, text: "Continue",textColor: AppTheme.primary,buttonColor: AppTheme.green,)
 
 

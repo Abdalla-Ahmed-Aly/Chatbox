@@ -1,6 +1,7 @@
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/callForChat/presentation/widget/ring_icon.dart';
-import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 
 class RowOfRingScreen extends StatelessWidget {
   const RowOfRingScreen({super.key});
@@ -14,7 +15,7 @@ class RowOfRingScreen extends StatelessWidget {
         RingIcon(
           title: "Message",
           iconPath: "message",
-          onPress: () => Navigator.pushNamed(context, ChatScreen.routeName),
+          onPress: () => context.push(RouteCenter.chatScreen),
         ),
       ],
     );

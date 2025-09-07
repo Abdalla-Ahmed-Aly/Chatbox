@@ -1,13 +1,14 @@
-import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widget/custom_button_icon.dart';
 import '../../../../core/widget/custom_button.dart';
-import '../../../auth/presentation/screens/register_screen.dart';
+
 
 class OnboardingScreen extends StatelessWidget {
-  static const String routeName = '/onboarding';
+
 
   const OnboardingScreen({super.key});
 
@@ -112,9 +113,8 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: 30),
                   CustomButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        RegisterScreen.routeName,
+                      context.pushReplacement(
+                   RouteCenter.register
                       );
                     },
                     text: 'Sign up withn mails',
@@ -124,9 +124,8 @@ class OnboardingScreen extends StatelessWidget {
                   SizedBox(height: 40),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        LoginScreen.routeName,
+                      context.pushReplacement(
+                      RouteCenter.login
                       );
                     },
                     child: Text(

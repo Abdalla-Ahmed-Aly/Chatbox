@@ -3,7 +3,7 @@ import 'package:chatbox/features/callForChat/presentation/widget/custom_button_c
 import 'package:flutter/material.dart';
 
 class CallScreen extends StatefulWidget {
-  static const String routeName = '/callScreen';
+
 
   const CallScreen({super.key});
 

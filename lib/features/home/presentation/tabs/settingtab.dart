@@ -53,7 +53,7 @@ class SettingTab extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    Divider(color: AppTheme.gray.withOpacity(.1), height: 1),
+                    Divider(color: AppTheme.gray.withValues(alpha: .1), height: 1),
                     const SizedBox(height: 24),
                     Expanded(
                       child: ListView.separated(

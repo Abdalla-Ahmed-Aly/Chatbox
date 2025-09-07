@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class RingScreen extends StatelessWidget {
   const RingScreen({super.key});
-  static const String routeName = '/ringScreen';
+
 
   @override
   Widget build(BuildContext context) {

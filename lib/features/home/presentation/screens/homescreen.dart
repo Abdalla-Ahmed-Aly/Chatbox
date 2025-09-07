@@ -1,5 +1,5 @@
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
 import 'package:chatbox/features/home/presentation/tabs/friendstab.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
@@ -7,9 +7,10 @@ import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
 import 'package:chatbox/features/home/presentation/widgets/custom_physics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String routeName = '/HomeScreen';
+
 
   const HomeScreen({super.key});
   @override
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, CreateGroupscreen.routeName);
+                context.push(RouteCenter.createGroup);
               },
               icon: Icon(Icons.group_add, color: Colors.white, size: 28),
             ),

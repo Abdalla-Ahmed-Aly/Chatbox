@@ -1,7 +1,8 @@
-import 'package:chatbox/features/callForChat/presentation/screens/call_screen.dart';
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_theme.dart';
 
@@ -23,7 +24,7 @@ class AcceptAnswerButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       width: 350,
       onSwipe: () {
-        Navigator.pushReplacementNamed(context, CallScreen.routeName);
+        context.pushReplacement(RouteCenter.callScreen);
       },
       child: Text(
         "slide to answer",

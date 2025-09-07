@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class QrCodeScreen extends StatelessWidget {
   const QrCodeScreen({super.key});
-static const String routeName="/qr code";
+
   @override
   Widget build(BuildContext context) {
 

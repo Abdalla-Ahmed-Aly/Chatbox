@@ -1,9 +1,8 @@
-import 'package:chatbox/features/chat/presentation/screens/chatScreen.dart';
+import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/home/data/models/contact_model.dart';
-
-import 'package:chatbox/features/home/presentation/widgets/qr_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class ContactInfoWidget extends StatelessWidget {
@@ -22,7 +21,7 @@ class ContactInfoWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => isNeedToLeadingIcon
           ? null
-          : Navigator.pushNamed(context, ChatScreen.routeName),
+          : context.push(RouteCenter.chatScreen),
       child: Row(
         children: [
           Container(
@@ -66,7 +65,7 @@ class ContactInfoWidget extends StatelessWidget {
           isNeedToLeadingIcon
               ? GestureDetector(
                   onTap: () =>
-                      Navigator.pushNamed(context, QrCodeScreen.routeName),
+                      context.push(RouteCenter.qrCode),
                   child: SvgPicture.asset(
                     "assets/svg/qrCode.svg",
                     width: screenSize.width * 0.027,
