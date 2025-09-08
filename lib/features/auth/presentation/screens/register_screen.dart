@@ -83,7 +83,7 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.06),
                   CustomButton(
                     onPressed: () {
-                     context.push(RouteCenter.home);
+                     context.pushReplacement(RouteCenter.home);
                     },
                     text: "Create an account",
                     buttonColor: AppTheme.lightGreen,
