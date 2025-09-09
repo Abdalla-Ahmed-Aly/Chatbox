@@ -10,7 +10,7 @@ import '../../../../../core/utils/validator.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../../../core/widget/custom_text_form_field.dart';
 import '../../cubit/register_cubit/register_cubit.dart';
-import '../../cubit/register_cubit/register_state.dart';
+import '../../cubit/register_cubit/register_states.dart';
 
 
 class RegisterFormAndButton extends StatefulWidget {
@@ -91,13 +91,13 @@ class _RegisterFormAndButtonState extends State<RegisterFormAndButton> {
                 child: CustomButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-
-                    }
                       context.read<RegisterCubit>().register(RegisterRequest(
                           password: _passwordController.text,
                           phoneNumber: _phoneNumberController.text,
                           email: _emailController.text,
                           username: _userNameController.text));
+                    }
+
 
                   },
                   isLoading: state is RegisterLoading,

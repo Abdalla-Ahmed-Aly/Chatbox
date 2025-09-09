@@ -19,8 +19,12 @@ import 'package:chatbox/features/auth/data/repositories/auth_repository_impl.dar
 import 'package:chatbox/features/auth/domain/repositories/auth_repository.dart'
     as _i493;
 import 'package:chatbox/features/auth/domain/use_cases/register.dart' as _i239;
+import 'package:chatbox/features/auth/domain/use_cases/send_verification.dart'
+    as _i614;
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart'
     as _i62;
+import 'package:chatbox/features/auth/presentation/cubit/send_verification_cubit/send_verification_cubit.dart'
+    as _i1013;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -42,6 +46,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i239.Register>(
       () => _i239.Register(gh<_i493.AuthRepository>()),
+    );
+    gh.singleton<_i614.SendVerification>(
+      () => _i614.SendVerification(gh<_i493.AuthRepository>()),
+    );
+    gh.singleton<_i1013.SendVerificationCubit>(
+      () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
     );
     gh.singleton<_i62.RegisterCubit>(
       () => _i62.RegisterCubit(gh<_i239.Register>()),

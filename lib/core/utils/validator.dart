@@ -24,9 +24,9 @@ class Validator {
         if (value.length < 8) {
           return 'Password must be at least 8 characters long';
         }
-        if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])^[A-Za-z\d@#$%^&*]+$')
-            .hasMatch(value)) {
-          return 'Password must contain at least one uppercase letter, one number, and one special character (@, #,  %, ^, &, *).\nOther special characters are not allowed.';
+        // ✅ At least one uppercase, one number, and no special chars
+        if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(value)) {
+          return 'Password must contain at least one uppercase letter and one number.\nSpecial characters are not allowed.';
         }
         break;
 
