@@ -1,4 +1,6 @@
+import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:flutter/material.dart';
+
 
 
 class CustomButton extends StatefulWidget {
@@ -8,7 +10,8 @@ class CustomButton extends StatefulWidget {
  final Color? textColorWhenHover;
  final Color? buttonColorWhenHover;
  final void Function() onPressed;
-  const CustomButton({super.key, required this.onPressed, required this.text, this.textColor,this.buttonColor,this.buttonColorWhenHover,this.textColorWhenHover});
+ final bool isLoading;
+  const CustomButton({super.key, required this.onPressed, required this.text, this.textColor,this.buttonColor,this.buttonColorWhenHover,this.textColorWhenHover,this.isLoading=false});
   @override
   State<CustomButton> createState() => _CustomButtonState();
 }
@@ -31,7 +34,7 @@ class _CustomButtonState extends State<CustomButton> {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          child: Text(
+          child:widget.isLoading?LoadingIndicator(isButton: true,):Text(
             widget.text,
             style: Theme.of(
               context,

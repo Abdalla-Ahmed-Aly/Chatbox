@@ -1,4 +1,6 @@
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
+import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
@@ -6,6 +8,7 @@ import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/reset_password_screen.dart';
@@ -40,7 +43,10 @@ class AppRouter {
     GoRoute(
       path: RouteCenter.register,
       pageBuilder: (context, state) {
-        return CustomTransitionPage(child: const RegisterScreen(), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
+        return CustomTransitionPage(child: BlocProvider(
+          create: (context) => serviceLocator.get<RegisterCubit>(),
+          child: const RegisterScreen(),
+        ), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
 
       },
     ),

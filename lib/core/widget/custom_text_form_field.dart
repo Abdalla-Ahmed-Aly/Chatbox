@@ -50,7 +50,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: InputDecoration(
         label: Text(widget.label),
-        labelStyle: textStyle.bodyMedium!.copyWith(color: AppTheme.green),
+        labelStyle: WidgetStateTextStyle.resolveWith(
+              (Set<WidgetState> states) {
+            if (states.contains(WidgetState.error)) {
+              return textStyle.bodyMedium!.copyWith(color: AppTheme.red);
+            }
+            return textStyle.bodyMedium!.copyWith(color: AppTheme.green); // Use the default theme color for other states
+          },
+        ),
         suffixIcon: widget.isPassword
             ? IconButton(
                 onPressed: () {
