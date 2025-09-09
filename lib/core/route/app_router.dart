@@ -2,6 +2,7 @@ import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/auth/presentation/cubit/confirm_otp_cubit/confirm_otp_cubit.dart';
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart';
+import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
@@ -79,7 +80,14 @@ class AppRouter {
     GoRoute(
       path: RouteCenter.resetPassword,
       pageBuilder: (context, state) {
-        return CustomTransitionPage(child: const ResetPasswordScreen(), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
+        final String email = state.extra as String;
+        return CustomTransitionPage(
+          child: BlocProvider(
+            create: (context) => serviceLocator.get<ResetPasswordCubit>(),
+            child:  ResetPasswordScreen(email: email,),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child,),
+        );
 
       },
     ),

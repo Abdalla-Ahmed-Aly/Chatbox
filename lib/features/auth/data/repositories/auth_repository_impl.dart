@@ -4,6 +4,8 @@ import 'package:chatbox/features/auth/data/data_sources/remote/auth_remote_data_
 import 'package:chatbox/features/auth/data/model/otp_request.dart';
 import 'package:chatbox/features/auth/data/model/otp_response.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
+import 'package:chatbox/features/auth/data/model/reset_password_request.dart';
+import 'package:chatbox/features/auth/data/model/reset_password_response.dart';
 import 'package:chatbox/features/auth/data/model/send_verification_request.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -44,4 +46,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(Failure(exception.message));
     }
 }
+
+  @override
+  Future<Either<Failure, ResetPasswordResponse>> resetPassword(ResetPasswordRequest request)async {
+    try {
+      final response = await _remoteDataSource.resetPassword(request);
+      return Right(response);
+    } on AppException catch (exception) {
+      return Left(Failure(exception.message));
+    }
+  }
 }

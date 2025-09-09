@@ -32,7 +32,7 @@ class _VerificationFormAndButtonState extends State<VerificationFormAndButton> {
   listener: (context, state) {
     if(state is ConfirmOtpSuccessState){
       AppSnackBars.showSuccessSnackBar(context: context, message:state.message);
-      context.pushReplacement(RouteCenter.resetPassword);
+      context.pushReplacement(RouteCenter.resetPassword,extra: widget.email);
     }else if(state is ConfirmOtpErrorState){
       AppSnackBars.showErrorSnackBar(context: context, message:state.error);
     }

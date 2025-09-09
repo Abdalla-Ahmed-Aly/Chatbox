@@ -75,7 +75,7 @@ class _RegisterFormAndButtonState extends State<RegisterFormAndButton> {
           SizedBox(height: MediaQuery
               .sizeOf(context)
               .height * 0.06),
-          BlocConsumer<RegisterCubit, RegisterState>(
+          BlocConsumer<RegisterCubit, RegisterStates>(
             listener: (context, state) {
               if(state is RegisterSuccess){
                 context.pushReplacement(RouteCenter.login);

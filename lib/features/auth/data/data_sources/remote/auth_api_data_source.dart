@@ -4,6 +4,8 @@ import 'package:chatbox/features/auth/data/model/otp_response.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
 
 import 'package:chatbox/features/auth/data/model/register_response.dart';
+import 'package:chatbox/features/auth/data/model/reset_password_request.dart';
+import 'package:chatbox/features/auth/data/model/reset_password_response.dart';
 import 'package:chatbox/features/auth/data/model/send_verification_request.dart';
 import 'package:chatbox/features/auth/data/model/receive_verification_response.dart';
 import 'package:dio/dio.dart';
@@ -70,6 +72,23 @@ throw RemoteException(message ?? "An error occurred while registering.");
    throw RemoteException(message ?? "An error occurred while confirming OTP.");
     
   }
+  }
+
+  @override
+  Future<ResetPasswordResponse> resetPassword(ResetPasswordRequest request)async {
+    try {
+      final response = await _dio.post(
+          APIConstant.resetPasswordEndpoint,
+          data: request.toJson()
+      );
+      return ResetPasswordResponse.fromJson(response.data);
+    }catch(error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data["message"];
+      }
+      throw RemoteException(message??"An error occurred while reset password.");
+    }
   }
 
 

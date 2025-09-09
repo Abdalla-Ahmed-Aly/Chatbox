@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../domain/use_cases/register.dart';
 @injectable
-class RegisterCubit extends Cubit<RegisterState> {
+class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit(this._register) : super(RegisterInitial());
 final Register _register;
 
