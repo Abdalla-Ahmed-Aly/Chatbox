@@ -36,9 +36,10 @@ class _ForgetFormAndButtonState extends State<ForgetFormAndButton> {
           listener: (context, state) {
             if(state is SendVerificationSuccess){
               AppSnackBars.showSuccessSnackBar(context: context, message: state.message);
-              context.pushReplacement(RouteCenter.verification);
+              context.go(RouteCenter.verification,extra: _emailController.text);
               context.pop();
             }else if (state is SendVerificationFailure){
+              context.pop();
               AppSnackBars.showErrorSnackBar(context: context, message: state.error);
             }
           },
@@ -60,5 +61,10 @@ class _ForgetFormAndButtonState extends State<ForgetFormAndButton> {
       ],
 
     );
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 }

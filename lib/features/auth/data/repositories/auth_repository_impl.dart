@@ -1,6 +1,8 @@
 import 'package:chatbox/core/error/exceptions.dart';
 import 'package:chatbox/core/failure/failure.dart';
 import 'package:chatbox/features/auth/data/data_sources/remote/auth_remote_data_source.dart';
+import 'package:chatbox/features/auth/data/model/otp_request.dart';
+import 'package:chatbox/features/auth/data/model/otp_response.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
 import 'package:chatbox/features/auth/data/model/send_verification_request.dart';
 import 'package:dartz/dartz.dart';
@@ -32,4 +34,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(Failure(exception.message));
     }
   }
+
+  @override
+  Future<Either<Failure, OtpResponse>> confirmOtp(OtpRequest request)async {
+    try {
+      final response = await _remoteDataSource.confirmOtp(request);
+      return Right(response);
+    } on AppException catch (exception) {
+      return Left(Failure(exception.message));
+    }
+}
 }

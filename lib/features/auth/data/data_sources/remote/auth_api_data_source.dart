@@ -1,4 +1,6 @@
 import 'package:chatbox/core/constants/api_constant/api_constant.dart';
+import 'package:chatbox/features/auth/data/model/otp_request.dart';
+import 'package:chatbox/features/auth/data/model/otp_response.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
 
 import 'package:chatbox/features/auth/data/model/register_response.dart';
@@ -49,6 +51,25 @@ throw RemoteException(message ?? "An error occurred while registering.");
 
 
     }
+  }
+
+  @override
+  Future<OtpResponse> confirmOtp(OtpRequest request) async{
+  try{
+    final response=await _dio.post(
+      APIConstant.confirmOtpEndpoint,
+      data: request.toJson()
+    );
+    return OtpResponse.fromJson(response.data);
+  }catch (error){
+   String? message;
+    if(error is DioException){
+       message=error.response?.data["message"];
+
+    }
+   throw RemoteException(message ?? "An error occurred while confirming OTP.");
+    
+  }
   }
 
 

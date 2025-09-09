@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/failure/failure.dart';
 import '../../data/model/register_request.dart';
 import '../repositories/auth_repository.dart';
-@singleton
+@injectable
 class Register {
   const Register(this._authRepository);
   final AuthRepository _authRepository;

@@ -1,5 +1,6 @@
 import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
+import 'package:chatbox/features/auth/presentation/cubit/confirm_otp_cubit/confirm_otp_cubit.dart';
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
@@ -43,7 +44,7 @@ class AppRouter {
     GoRoute(
       path: RouteCenter.register,
       pageBuilder: (context, state) {
-        return CustomTransitionPage(child: BlocProvider(
+        return CustomTransitionPage(child:  BlocProvider(
           create: (context) => serviceLocator.get<RegisterCubit>(),
           child: const RegisterScreen(),
         ), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
@@ -67,7 +68,11 @@ class AppRouter {
     GoRoute(
       path: RouteCenter.verification,
       pageBuilder: (context, state) {
-        return CustomTransitionPage(child: const VerificationCodeScreen(), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
+        final String email = state.extra as String;
+        return CustomTransitionPage(child: BlocProvider(
+          create: (context) => serviceLocator.get<ConfirmOtpCubit>(),
+          child:  VerificationCodeScreen(email: email,),
+        ), transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation,child: child,));
 
       },
     ),
