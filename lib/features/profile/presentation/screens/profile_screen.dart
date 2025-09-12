@@ -4,8 +4,8 @@ import 'package:chatbox/features/profile/presentation/screens/custom_image_crop.
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -273,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                             color: AppTheme
-                                                .DarkGreen.withOpacity(0.3),
+                                                .darkGreen.withOpacity(0.3),
                                             width: 2,
                                           ),
                                         ),
@@ -407,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       width: 55,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppTheme.DarkGreen,
+        color: AppTheme.darkGreen,
       ),
       child: Material(
         color: Colors.transparent,
@@ -463,20 +463,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: InkWell(
         onTap: onTap,
         customBorder: const BeveledRectangleBorder(),
-        splashColor: AppTheme.DarkGreen.withOpacity(0.5),
-        highlightColor: AppTheme.DarkGreen.withOpacity(0.5),
+        splashColor: AppTheme.darkGreen.withOpacity(0.5),
+        highlightColor: AppTheme.darkGreen.withOpacity(0.5),
         child: SizedBox(
           height: 60,
           child: Row(
             children: [
               const SizedBox(width: 10),
-              Icon(icon, size: 30, color: AppTheme.DarkGreen),
+              Icon(icon, size: 30, color: AppTheme.darkGreen),
               const SizedBox(width: 10),
               Text(
                 label,
                 style: Theme.of(
                   context,
-                ).textTheme.headlineMedium?.copyWith(color: AppTheme.DarkGreen),
+                ).textTheme.headlineMedium?.copyWith(color: AppTheme.darkGreen),
               ),
               const Spacer(),
             ],

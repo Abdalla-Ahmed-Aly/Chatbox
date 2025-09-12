@@ -51,26 +51,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i493.AuthRepository>(
       () => _i758.AuthRepositoryImpl(gh<_i817.AuthRemoteDataSource>()),
     );
+    gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
     gh.factory<_i239.Register>(
       () => _i239.Register(gh<_i493.AuthRepository>()),
     );
-    gh.lazySingleton<_i614.SendVerification>(
-      () => _i614.SendVerification(gh<_i493.AuthRepository>()),
-    );
-    gh.lazySingleton<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
-    gh.lazySingleton<_i1.ResetPassword>(
+    gh.factory<_i1.ResetPassword>(
       () => _i1.ResetPassword(gh<_i493.AuthRepository>()),
     );
-    gh.lazySingleton<_i1010.ResetPasswordCubit>(
+    gh.factory<_i614.SendVerification>(
+      () => _i614.SendVerification(gh<_i493.AuthRepository>()),
+    );
+    gh.factory<_i1010.ResetPasswordCubit>(
       () => _i1010.ResetPasswordCubit(gh<_i1.ResetPassword>()),
     );
-    gh.lazySingleton<_i1013.SendVerificationCubit>(
+    gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
     );
     gh.factory<_i62.RegisterCubit>(
       () => _i62.RegisterCubit(gh<_i239.Register>()),
     );
-    gh.lazySingleton<_i393.ConfirmOtpCubit>(
+    gh.factory<_i393.ConfirmOtpCubit>(
       () => _i393.ConfirmOtpCubit(gh<_i158.Otp>()),
     );
     return this;

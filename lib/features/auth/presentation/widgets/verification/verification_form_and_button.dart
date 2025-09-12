@@ -1,4 +1,3 @@
-import 'package:chatbox/core/constants/api_constant/otp_constant.dart';
 import 'package:chatbox/core/utils/app_snack_bars.dart';
 import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:chatbox/features/auth/data/model/otp_request.dart';
@@ -45,7 +44,7 @@ class _VerificationFormAndButtonState extends State<VerificationFormAndButton> {
       children: [
         Pinput(
           onCompleted: (value) {
-          context.read<ConfirmOtpCubit>().confirmOtp(OtpRequest(otp: _otp.text, type: OtpConstant.otpType, email: widget.email));
+          context.read<ConfirmOtpCubit>().confirmOtp(OtpRequest(email: widget.email, code:_otp.text));
           _otp.clear();
           },
           keyboardType: TextInputType.number,

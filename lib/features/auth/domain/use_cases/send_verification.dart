@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/failure/failure.dart';
 import '../../data/model/send_verification_request.dart';
 
-@lazySingleton
+@injectable
 class SendVerification {
  final AuthRepository _authRepository;
   SendVerification(this._authRepository);

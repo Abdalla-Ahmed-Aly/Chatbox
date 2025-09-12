@@ -2,10 +2,9 @@ import 'package:chatbox/core/error/exceptions.dart';
 import 'package:chatbox/core/failure/failure.dart';
 import 'package:chatbox/features/auth/data/data_sources/remote/auth_remote_data_source.dart';
 import 'package:chatbox/features/auth/data/model/otp_request.dart';
-import 'package:chatbox/features/auth/data/model/otp_response.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
 import 'package:chatbox/features/auth/data/model/reset_password_request.dart';
-import 'package:chatbox/features/auth/data/model/reset_password_response.dart';
+import 'package:chatbox/features/auth/data/model/shared_response.dart';
 import 'package:chatbox/features/auth/data/model/send_verification_request.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -38,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, OtpResponse>> confirmOtp(OtpRequest request)async {
+  Future<Either<Failure, SharedResponse>> confirmOtp(OtpRequest request)async {
     try {
       final response = await _remoteDataSource.confirmOtp(request);
       return Right(response);
@@ -48,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
 }
 
   @override
-  Future<Either<Failure, ResetPasswordResponse>> resetPassword(ResetPasswordRequest request)async {
+  Future<Either<Failure, SharedResponse>> resetPassword(ResetPasswordRequest request)async {
     try {
       final response = await _remoteDataSource.resetPassword(request);
       return Right(response);

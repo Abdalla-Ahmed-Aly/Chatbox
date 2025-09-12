@@ -1,8 +1,8 @@
 class APIConstant {
   static const String baseUrl = 'https://chatbox-0dk5.onrender.com';
-  static const String registerEndpoint = '/auth/signup';
+  static const String registerEndpoint = '/auth/register';
   static const String vericationEndpoint = '/auth/send-forget-password-code';
-  static const String confirmOtpEndpoint = '/auth/confirm-otp';
+  static const String confirmOtpEndpoint = '/auth/verify-forget-password-code';
   static String resetPasswordEndpoint="/auth/reset-password";
 
 

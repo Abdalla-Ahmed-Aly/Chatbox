@@ -31,16 +31,16 @@ class _ResetPasswordFormAndButtonState extends State<ResetPasswordFormAndButton>
       key: _formKey,
       child: Column(
         children: [
-          CustomTextFormField(textInputType: TextInputType.visiblePassword, label: "New Password",controller: _password,validator: (value) =>
+          CustomTextFormField(isPassword: true,textInputType: TextInputType.visiblePassword, label: "New Password",controller: _password,validator: (value) =>
               Validator.validateField(value, 'password'),),
           const SizedBox(height: 30),
-          CustomTextFormField(textInputType: TextInputType.visiblePassword, label: "Re-enter Password",controller: _confirmPassword,),
+          CustomTextFormField(isPassword: true,textInputType: TextInputType.visiblePassword, label: "Re-enter Password",controller: _confirmPassword,),
           const SizedBox(height: 30),
           BlocConsumer<ResetPasswordCubit, ResetPasswordStates>(
         listener: (context, state) {
         if (state is ResetPasswordSuccess){
       AppSnackBars.showSuccessSnackBar(context: context, message: state.message);
-      context.pushReplacement(RouteCenter.home);
+      context.pushReplacement(RouteCenter.login);
         }
         if(state is ResetPasswordFailure){
       AppSnackBars.showErrorSnackBar(context: context, message: state.error);

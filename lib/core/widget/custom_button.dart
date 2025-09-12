@@ -1,6 +1,8 @@
 import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 
 
 class CustomButton extends StatefulWidget {
@@ -17,17 +19,20 @@ class CustomButton extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomButton> {
-  bool isHoverd = false;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+    double screenWidth=MediaQuery.sizeOf(context).width;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: AnimatedContainer(
+        curve: Curves.easeInOutQuint,
+        duration: Duration(milliseconds: 500),
+        width: widget.isLoading?screenWidth*.4:screenWidth,
         child: ElevatedButton(
           onPressed:widget.onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: widget.buttonColor,
+            backgroundColor:widget.isLoading?AppTheme.gray:widget.buttonColor,
             padding: EdgeInsets.all(16),
 
             shape: RoundedRectangleBorder(

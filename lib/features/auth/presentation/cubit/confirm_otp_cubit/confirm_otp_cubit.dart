@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'confirm_otp_states.dart';
-@lazySingleton
+@injectable
 class ConfirmOtpCubit extends Cubit<ConfirmOtpStates> {
   ConfirmOtpCubit(this._otp) : super(ConfirmOtpInitialState());
   final Otp _otp;

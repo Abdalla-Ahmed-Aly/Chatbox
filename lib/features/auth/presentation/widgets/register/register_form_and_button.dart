@@ -78,7 +78,7 @@ class _RegisterFormAndButtonState extends State<RegisterFormAndButton> {
           BlocConsumer<RegisterCubit, RegisterStates>(
             listener: (context, state) {
               if(state is RegisterSuccess){
-                context.pushReplacement(RouteCenter.login);
+                context.pushReplacement(RouteCenter.home);
              AppSnackBars.showSuccessSnackBar(context: context, message: state.message);
               }else if(state is RegisterFailure){
               AppSnackBars.showErrorSnackBar(context: context, message: state.error);
