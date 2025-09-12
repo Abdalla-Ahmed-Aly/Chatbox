@@ -10,7 +10,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/error/exceptions.dart';
 import 'auth_remote_data_source.dart';
-@Singleton(as: AuthRemoteDataSource)
+@LazySingleton(as: AuthRemoteDataSource)
 class AuthApiDataSource implements AuthRemoteDataSource{
  final Dio _dio;
   AuthApiDataSource(this._dio);
