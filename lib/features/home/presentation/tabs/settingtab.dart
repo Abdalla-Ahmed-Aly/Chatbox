@@ -61,11 +61,10 @@ class SettingTab extends StatelessWidget {
                     const SizedBox(height: 24),
                     Expanded(
                       child: ListView.separated(
-                        padding: const EdgeInsets.only(left: 24),
                         itemBuilder: (context, index) =>
                             SettingWidget(setting: SettingModel.setting[index]),
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 35),
+                            const SizedBox(height: 20),
                         itemCount: SettingModel.setting.length,
                       ),
                     ),
