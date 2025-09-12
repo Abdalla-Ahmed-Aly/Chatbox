@@ -28,7 +28,6 @@ class StoryDisplay extends StatelessWidget {
                   )
                 : MyStatus(
                     pageController: pageController,
-                    image: 'assets/images/model1.png',
                     username: 'My Status',
                     hasNewStory: User.storyUser[0].stories.isNotEmpty,
                   ),

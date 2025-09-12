@@ -1,0 +1,488 @@
+import 'dart:io';
+import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/profile/presentation/screens/custom_image_crop.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chatbox/features/home/data/models/storymodels/user.dart'; // Import User model
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final ImagePicker _picker = ImagePicker();
+  File? _profileImage;
+  User currentUser = User.storyUser.firstWhere((user) => user.id == '0');
+
+  Future<void> pickImageFromGallery(BuildContext context) async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1080,
+      maxHeight: 1080,
+      imageQuality: 80,
+    );
+    if (image != null) {
+      File imageFile = File(image.path);
+      _navigateToCropScreen(context, imageFile);
+    }
+  }
+
+  Future<void> pickImageFromCamera(BuildContext context) async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1080,
+      maxHeight: 1080,
+      imageQuality: 80,
+    );
+    if (image != null) {
+      File imageFile = File(image.path);
+      _navigateToCropScreen(context, imageFile);
+    }
+  }
+
+  Future<void> _navigateToCropScreen(
+    BuildContext context,
+    File imageFile,
+  ) async {
+    final result = await Navigator.push<File?>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CustomImageCropScreen(
+          cameraImage: imageFile,
+          onCropped: (croppedFile) {
+            if (croppedFile != null) {
+              print('Image cropped successfully: ${croppedFile.path}');
+            }
+          },
+        ),
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        _profileImage = result;
+      });
+
+      final updatedUser = User(
+        id: currentUser.id,
+        username: currentUser.username,
+        profileImage: result.path,
+        stories: currentUser.stories,
+        bio: currentUser.bio,
+        friends: currentUser.friends,
+        lastSeen: currentUser.lastSeen,
+        onlineStatus: currentUser.onlineStatus,
+        chatRooms: currentUser.chatRooms,
+      );
+      currentUser = updatedUser;
+      await _saveProfileImagePath(result.path);
+
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> _saveProfileImagePath(String imagePath) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('profile_image_path', imagePath);
+    final index = User.storyUser.indexWhere(
+      (user) => user.id == currentUser.id,
+    );
+    if (index != -1) {
+      User.storyUser[index] = currentUser;
+    }
+  }
+
+  Future<void> _loadProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString('profile_image_path');
+    if (imagePath != null && File(imagePath).existsSync()) {
+      setState(() {
+        _profileImage = File(imagePath);
+        currentUser = User(
+          id: currentUser.id,
+          username: currentUser.username,
+          profileImage: imagePath,
+          stories: currentUser.stories,
+          bio: currentUser.bio,
+          friends: currentUser.friends,
+          lastSeen: currentUser.lastSeen,
+          onlineStatus: currentUser.onlineStatus,
+          chatRooms: currentUser.chatRooms,
+        );
+      });
+    }
+  }
+
+  void _removeProfileImage() async {
+    setState(() {
+      _profileImage = null;
+    });
+    Navigator.pop(context);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('profile_image_path');
+    final updatedUser = User(
+      id: currentUser.id,
+      username: currentUser.username,
+      profileImage: 'assets/images/model1.png',
+      stories: currentUser.stories,
+      bio: currentUser.bio,
+      friends: currentUser.friends,
+      lastSeen: currentUser.lastSeen,
+      onlineStatus: currentUser.onlineStatus,
+      chatRooms: currentUser.chatRooms,
+    );
+    currentUser = updatedUser;
+
+    final index = User.storyUser.indexWhere(
+      (user) => user.id == currentUser.id,
+    );
+    if (index != -1) {
+      User.storyUser[index] = currentUser;
+    }
+  }
+
+  void showPickingOptions(double height, BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          ),
+          color: AppTheme.primary,
+        ),
+        height: height * 0.35,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildControlButton(
+                  onTap: () => Navigator.pop(context),
+                  icon: Icons.close,
+                ),
+                Text(
+                  'Profile Photo',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                _buildControlButton(
+                  onTap: _removeProfileImage,
+                  icon: Icons.delete_outline_rounded,
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            _buildPickingOptions(
+              onTap: () => pickImageFromCamera(context),
+              context,
+              icon: Icons.camera_alt_outlined,
+              label: 'Camera',
+            ),
+            _buildPickingOptions(
+              onTap: () => pickImageFromGallery(context),
+              context,
+              icon: Icons.image,
+              label: 'Gallery',
+            ),
+            _buildPickingOptions(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              context,
+              icon: Icons.emoji_emotions,
+              label: 'Avatar',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileImage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size screenDim = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: AppTheme.black,
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+          SizedBox(
+            height: screenDim.height * 0.35,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: AppTheme.primary,
+                          size: 30,
+                        ),
+                      ),
+                      const Spacer(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Material(
+                            shape: const CircleBorder(),
+                            child: InkWell(
+                              onTap: () =>
+                                  showPickingOptions(screenDim.height, context),
+                              customBorder: const CircleBorder(),
+                              child: CircleAvatar(
+                                radius: screenDim.height * 0.1,
+                                backgroundImage: _profileImage != null
+                                    ? FileImage(_profileImage!) as ImageProvider
+                                    : const AssetImage(
+                                        'assets/images/model1.png',
+                                      ),
+                                child: _profileImage == null
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: AppTheme
+                                                .DarkGreen.withOpacity(0.3),
+                                            width: 2,
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            currentUser.username,
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '@${currentUser.username}',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppTheme.gray),
+                          ),
+                        ],
+                      ),
+                      const Spacer(flex: 2),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildControlButton(
+                        onTap: () {},
+                        svgPath: 'assets/svg/Group (1).svg',
+                      ),
+                      _buildControlButton(
+                        onTap: () {},
+                        svgPath: 'assets/svg/Group (2).svg',
+                        width: 25,
+                        height: 25,
+                      ),
+                      _buildControlButton(
+                        onTap: () {},
+                        svgPath: 'assets/svg/Rectangle 77.svg',
+                      ),
+                      _buildControlButton(
+                        onTap: () {},
+                        svgPath: 'assets/svg/More.svg',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(top: screenDim.height * 0.015),
+              decoration: BoxDecoration(
+                color: AppTheme.primary,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 10,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: screenDim.width * 0.1,
+                          height: screenDim.height * 0.005,
+                          margin: EdgeInsets.symmetric(
+                            vertical: screenDim.height * 0.01,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ],
+                    ),
+                    _buildUserInfoItem(
+                      context,
+                      label: 'Display Name',
+                      info: '  ${currentUser.username}',
+                    ),
+                    _buildUserInfoItem(
+                      context,
+                      label: 'Email Address',
+                      info: '  bedoman11@gmail.com',
+                    ),
+                    _buildUserInfoItem(
+                      context,
+                      label: 'Address',
+                      info: '  Egypt-Sharqia-Zagzig',
+                    ),
+                    _buildUserInfoItem(
+                      context,
+                      label: 'Phone Number',
+                      info: '  01013259819',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildControlButton({
+    String? svgPath,
+    IconData? icon = Icons.hourglass_empty,
+    required VoidCallback onTap,
+    double height = 30,
+    double width = 30,
+  }) {
+    return Container(
+      height: 55,
+      width: 55,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppTheme.DarkGreen,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: svgPath != null
+                ? SvgPicture.asset(svgPath, height: height, width: width)
+                : Icon(icon, size: 30, color: AppTheme.primary),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserInfoItem(
+    BuildContext context, {
+    required String label,
+    required String info,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: AppTheme.gray),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          info,
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(color: AppTheme.black),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPickingOptions(
+    BuildContext context, {
+    required VoidCallback onTap,
+    required String label,
+    required IconData icon,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      shape: const BeveledRectangleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const BeveledRectangleBorder(),
+        splashColor: AppTheme.DarkGreen.withOpacity(0.5),
+        highlightColor: AppTheme.DarkGreen.withOpacity(0.5),
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(icon, size: 30, color: AppTheme.DarkGreen),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(color: AppTheme.DarkGreen),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

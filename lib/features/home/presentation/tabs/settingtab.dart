@@ -2,6 +2,7 @@ import 'package:chatbox/features/home/data/models/contact_model.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';
 import 'package:chatbox/features/home/presentation/widgets/contact_info_widget.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
+import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_theme.dart';
 
@@ -48,6 +49,7 @@ class SettingTab extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 24),
                       child: ContactInfoWidget(
+                        verticalPadding: 20,
                         contact: ContactModel.contact[2],
                         isNeedToLeadingIcon: true,
                       ),
