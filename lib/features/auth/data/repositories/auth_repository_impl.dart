@@ -9,7 +9,7 @@ import 'package:chatbox/features/auth/data/model/send_verification_request.dart'
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/repositories/auth_repository.dart';
-@Singleton(as: AuthRepository)
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
 

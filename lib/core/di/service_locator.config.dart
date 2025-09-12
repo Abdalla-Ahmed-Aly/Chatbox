@@ -48,7 +48,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i817.AuthRemoteDataSource>(
       () => _i719.AuthApiDataSource(gh<_i361.Dio>()),
     );
-    gh.singleton<_i493.AuthRepository>(
+    gh.lazySingleton<_i493.AuthRepository>(
       () => _i758.AuthRepositoryImpl(gh<_i817.AuthRemoteDataSource>()),
     );
     gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));

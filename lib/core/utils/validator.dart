@@ -7,8 +7,8 @@ class Validator {
 
     switch (fieldType) {
       case 'name':
-        if (!RegExp(r'^[a-zA-Z\u0600-\u06FF\s]+$').hasMatch(value)) {
-          return 'Name should contain only letters (Arabic or English)';
+        if (!RegExp(r'^[a-zA-Z0-9\u0600-\u06FF\s]+$').hasMatch(value)) {
+          return 'Name should contain only letters, numbers (Arabic or English)';
         }
         break;
 
