@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyStatus extends StatelessWidget {
   final String username;
@@ -21,6 +24,16 @@ class MyStatus extends StatelessWidget {
     this.isViewed = false,
     required this.pageController,
   });
+
+  Future<String> _loadProfileImagePath() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString('profile_image_path');
+    final currentUser = User.storyUser.firstWhere(
+      (user) => user.id == '0',
+      orElse: () => User.storyUser.first,
+    );
+    return imagePath ?? currentUser.profileImage;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,23 +96,33 @@ class MyStatus extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: AppTheme.black, width: 3),
                   ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      image,
-                      fit: BoxFit.cover,
-                      width: 66,
-                      height: 66,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(
-                            Icons.person,
-                            size: 30,
-                            color: Colors.grey,
-                          ),
-                        );
-                      },
-                    ),
+                  child: FutureBuilder(
+                    future: _loadProfileImagePath(),
+                    builder: (context, snapshot) {
+                      final imageProvider =
+                          snapshot.data != null &&
+                              File(snapshot.data!).existsSync()
+                          ? snapshot.data!
+                          : 'assets/images/Ellipse 307.png';
+                      return ClipOval(
+                        child: Image.file(
+                          File(imageProvider),
+                          fit: BoxFit.cover,
+                          width: 66,
+                          height: 66,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[300],
+                              child: const Icon(
+                                Icons.person,
+                                size: 30,
+                                color: Colors.grey,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

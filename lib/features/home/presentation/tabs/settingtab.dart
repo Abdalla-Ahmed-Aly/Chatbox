@@ -48,12 +48,16 @@ class SettingTab extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 24),
                       child: ContactInfoWidget(
+                        verticalPadding: 20,
                         contact: ContactModel.contact[2],
                         isNeedToLeadingIcon: true,
                       ),
                     ),
                     const SizedBox(height: 24),
-                    Divider(color: AppTheme.gray.withValues(alpha: .1), height: 1),
+                    Divider(
+                      color: AppTheme.gray.withValues(alpha: .1),
+                      height: 1,
+                    ),
                     const SizedBox(height: 24),
                     Expanded(
                       child: ListView.separated(

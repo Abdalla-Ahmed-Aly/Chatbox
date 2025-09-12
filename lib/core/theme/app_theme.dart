@@ -9,6 +9,7 @@ class AppTheme {
   static Color lightGreen = Color(0xff20A090);
   static Color green = Color(0xff24786D);
   static Color whiteGreen = Color(0xffF2F7FB);
+  static Color DarkGreen = Color(0xff051D13);
 
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: primary,
