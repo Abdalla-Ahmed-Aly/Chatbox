@@ -115,7 +115,7 @@ class MyStatus extends StatelessWidget {
                               color: Colors.grey[300],
                               child: const Icon(
                                 Icons.person,
-                                size: 30,
+                                size: 66,
                                 color: Colors.grey,
                               ),
                             );

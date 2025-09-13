@@ -3,10 +3,12 @@ import 'package:chatbox/core/constants/story_constants/storyconstants.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/story.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/presentation/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:video_player/video_player.dart';
 
@@ -31,16 +33,22 @@ class StoryViewer extends StatefulWidget {
 class _StoryViewerState extends State<StoryViewer>
     with TickerProviderStateMixin {
   late PageController _pageController;
+  Map<int, GlobalKey> _pageKeys = {};
   late AnimationController _progressController;
   Timer? _storyTimer;
   VideoPlayerController? _videoController;
 
   int _currentUserIndex = 0;
   int _currentStoryIndex = 0;
+  String? _profileImagePath;
   bool _isPaused = false;
   bool _videoInitializing = false;
 
   final Set<String> _likedStories = {};
+
+  Map<int, _UserStoryData> _userDataCache = {};
+
+  bool _isTransitioning = false;
 
   @override
   void initState() {
@@ -49,12 +57,19 @@ class _StoryViewerState extends State<StoryViewer>
     _currentStoryIndex = widget.initialStoryIndex;
 
     _pageController = PageController(initialPage: _currentUserIndex);
+
+    _cacheUserData(_currentUserIndex);
+    _cacheAdjacentUsers();
+
     _progressController = AnimationController(
       vsync: this,
       duration: _getCurrentStory().duration,
     );
 
     _initializeCurrentStory();
+
+    _loadProfileImagePath();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
@@ -68,13 +83,71 @@ class _StoryViewerState extends State<StoryViewer>
     super.dispose();
   }
 
+  void _cacheUserData(int userIndex) {
+    if (!_userDataCache.containsKey(userIndex) &&
+        userIndex >= 0 &&
+        userIndex < widget.users.length) {
+      final user = widget.users[userIndex];
+      _userDataCache[userIndex] = _UserStoryData(
+        user: user,
+        currentStoryIndex: userIndex == _currentUserIndex
+            ? _currentStoryIndex
+            : 0,
+      );
+    }
+  }
+
+  void _cacheAdjacentUsers() {
+    if (_currentUserIndex > 0) {
+      _cacheUserData(_currentUserIndex - 1);
+    }
+
+    if (_currentUserIndex < widget.users.length - 1) {
+      _cacheUserData(_currentUserIndex + 1);
+    }
+  }
+
+  void _cleanupDistantCache() {
+    _userDataCache.removeWhere(
+      (index, data) =>
+          (index < _currentUserIndex - 2 || index > _currentUserIndex + 2),
+    );
+  }
+
+  GlobalKey _getPageKey(int index) {
+    return _pageKeys.putIfAbsent(index, () => GlobalKey());
+  }
+
   Story _getCurrentStory() {
+    final cachedData = _userDataCache[_currentUserIndex];
+    if (cachedData != null && !_isTransitioning) {
+      List<Story> stories = cachedData.user.stories;
+      return stories[stories.length - 1 - cachedData.currentStoryIndex];
+    }
+
     List<Story> stories = widget.users[_currentUserIndex].stories;
     return stories[stories.length - 1 - _currentStoryIndex];
   }
 
   User _getCurrentUser() {
+    final cachedData = _userDataCache[_currentUserIndex];
+    if (cachedData != null && !_isTransitioning) {
+      return cachedData.user;
+    }
+
     return widget.users[_currentUserIndex];
+  }
+
+  Future<void> _loadProfileImagePath() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString('profile_image_path');
+    final currentUser = User.storyUser.firstWhere(
+      (user) => user.id == '0',
+      orElse: () => User.storyUser.first,
+    );
+    setState(() {
+      _profileImagePath = imagePath ?? currentUser.profileImage;
+    });
   }
 
   Future<void> _initializeCurrentStory() async {
@@ -185,6 +258,9 @@ class _StoryViewerState extends State<StoryViewer>
     if (_currentStoryIndex < _getCurrentUser().stories.length - 1) {
       setState(() {
         _currentStoryIndex++;
+
+        _userDataCache[_currentUserIndex]?.currentStoryIndex =
+            _currentStoryIndex;
       });
       _initializeCurrentStory();
     } else {
@@ -196,6 +272,9 @@ class _StoryViewerState extends State<StoryViewer>
     if (_currentStoryIndex > 0) {
       setState(() {
         _currentStoryIndex--;
+
+        _userDataCache[_currentUserIndex]?.currentStoryIndex =
+            _currentStoryIndex;
       });
       _initializeCurrentStory();
     } else {
@@ -206,14 +285,26 @@ class _StoryViewerState extends State<StoryViewer>
   void _nextUser() {
     if (_currentUserIndex < widget.users.length - 1) {
       setState(() {
+        _isTransitioning = true;
         _currentUserIndex++;
         _currentStoryIndex = 0;
       });
+
+      _cacheUserData(_currentUserIndex);
+      _cacheAdjacentUsers();
+      _cleanupDistantCache();
+
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-      _initializeCurrentStory();
+
+      Timer(const Duration(milliseconds: 350), () {
+        setState(() {
+          _isTransitioning = false;
+        });
+        _initializeCurrentStory();
+      });
     } else {
       _closeViewer();
     }
@@ -222,14 +313,26 @@ class _StoryViewerState extends State<StoryViewer>
   void _previousUser() {
     if (_currentUserIndex > 0) {
       setState(() {
+        _isTransitioning = true;
         _currentUserIndex--;
         _currentStoryIndex = _getCurrentUser().stories.length - 1;
       });
+
+      _cacheUserData(_currentUserIndex);
+      _cacheAdjacentUsers();
+      _cleanupDistantCache();
+
       _pageController.previousPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-      _initializeCurrentStory();
+
+      Timer(const Duration(milliseconds: 350), () {
+        setState(() {
+          _isTransitioning = false;
+        });
+        _initializeCurrentStory();
+      });
     }
   }
 
@@ -243,24 +346,24 @@ class _StoryViewerState extends State<StoryViewer>
     return publishedAt;
   }
 
-  bool _isCurrentStoryLiked() {
-    return _likedStories.contains(_getCurrentStory().id);
-  }
+  // bool _isCurrentStoryLiked() {
+  //   return _likedStories.contains(_getCurrentStory().id);
+  // }
 
   bool _isAssetPath(String path) {
     return path.startsWith('assets/');
   }
 
-  void _toggleCurrentStoryLike() {
-    final storyId = _getCurrentStory().id;
-    setState(() {
-      if (_likedStories.contains(storyId)) {
-        _likedStories.remove(storyId);
-      } else {
-        _likedStories.add(storyId);
-      }
-    });
-  }
+  // void _toggleCurrentStoryLike() {
+  //   final storyId = _getCurrentStory().id;
+  //   setState(() {
+  //     if (_likedStories.contains(storyId)) {
+  //       _likedStories.remove(storyId);
+  //     } else {
+  //       _likedStories.add(storyId);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -269,65 +372,86 @@ class _StoryViewerState extends State<StoryViewer>
       backgroundColor: Colors.black,
       body: PageView.builder(
         controller: _pageController,
+        allowImplicitScrolling: true,
         onPageChanged: (index) {
-          setState(() {
-            _currentUserIndex = index;
-            _currentStoryIndex = 0;
-          });
-          _initializeCurrentStory();
+          if (!_isTransitioning) {
+            setState(() {
+              _currentUserIndex = index;
+              _currentStoryIndex = 0;
+            });
+
+            _cacheUserData(index);
+            _cacheAdjacentUsers();
+            _cleanupDistantCache();
+
+            _initializeCurrentStory();
+          }
         },
         itemCount: widget.users.length,
         itemBuilder: (context, userIndex) {
-          return _buildStoryView(screendim);
+          return KeepAliveWrapper(
+            key: _getPageKey(userIndex),
+            child: _buildStoryView(screendim, userIndex),
+          );
         },
       ),
     );
   }
 
-  Widget _buildStoryView(Size screendim) {
-    final user = _getCurrentUser();
-    final story = _getCurrentStory();
+  Widget _buildStoryView(Size screendim, int userIndex) {
+    final userData = _userDataCache[userIndex];
+    final user = userData?.user ?? widget.users[userIndex];
+    final storyIndex = userData?.currentStoryIndex ?? 0;
+    final stories = user.stories;
+    final story = stories[stories.length - 1 - storyIndex];
 
     return GestureDetector(
       onTapDown: (details) {
-        _pauseStory();
+        if (userIndex == _currentUserIndex) _pauseStory();
       },
       onTapUp: (details) {
-        _resumeStory();
-        final screenWidth = MediaQuery.of(context).size.width;
-        if (details.localPosition.dx < screenWidth / 3) {
-          _previousStory();
-        } else if (details.localPosition.dx > screenWidth * 2 / 3) {
-          _nextStory();
+        if (userIndex == _currentUserIndex) {
+          _resumeStory();
+          final screenWidth = MediaQuery.of(context).size.width;
+          if (details.localPosition.dx < screenWidth / 3) {
+            _previousStory();
+          } else if (details.localPosition.dx > screenWidth * 2 / 3) {
+            _nextStory();
+          }
         }
       },
       onTapCancel: () {
-        _resumeStory();
+        if (userIndex == _currentUserIndex) _resumeStory();
       },
       onLongPressStart: (details) {
-        _pauseStory();
+        if (userIndex == _currentUserIndex) _pauseStory();
       },
       onLongPressEnd: (details) {
-        _resumeStory();
+        if (userIndex == _currentUserIndex) _resumeStory();
       },
       child: Stack(
         children: [
           SafeArea(child: _buildStoryContent(story, screendim)),
 
-          Positioned(top: 40, left: 8, right: 8, child: _buildProgressBars()),
+          Positioned(
+            top: 40,
+            left: 8,
+            right: 8,
+            child: _buildProgressBars(user, storyIndex),
+          ),
 
           Positioned(
             top: 60,
             left: 16,
             right: 16,
-            child: _buildUserHeader(user),
+            child: _buildUserHeader(user, story),
           ),
 
           Positioned(
             bottom: 20,
             left: 16,
             right: 16,
-            child: _buildBottomControls(),
+            child: _buildBottomControls(story),
           ),
         ],
       ),
@@ -472,9 +596,7 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildProgressBars() {
-    final user = _getCurrentUser();
-
+  Widget _buildProgressBars(User user, int storyIndex) {
     return Row(
       children: user.stories.asMap().entries.map((entry) {
         int index = entry.key;
@@ -490,9 +612,9 @@ class _StoryViewerState extends State<StoryViewer>
               animation: _progressController,
               builder: (context, child) {
                 double progress = 0;
-                if (index < _currentStoryIndex) {
+                if (index < storyIndex) {
                   progress = 1;
-                } else if (index == _currentStoryIndex) {
+                } else if (index == storyIndex) {
                   progress = _progressController.value;
                 }
 
@@ -509,13 +631,28 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildUserHeader(User user) {
+  Widget _buildUserHeader(User user, Story story) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 20,
-          backgroundImage: AssetImage(user.profileImage),
-        ),
+        _profileImagePath != null &&
+                File(_profileImagePath!).existsSync() &&
+                widget.users.indexOf(user) == 0
+            ? CircleAvatar(
+                radius: 20,
+                backgroundImage: FileImage(File(_profileImagePath!)),
+              )
+            : widget.users.indexOf(user) == 0
+            ? Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey[300],
+                ),
+                child: const Icon(Icons.person, size: 45, color: Colors.grey),
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage(user.profileImage),
+              ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -530,7 +667,7 @@ class _StoryViewerState extends State<StoryViewer>
                 ),
               ),
               Text(
-                _getPublishedTime(_getCurrentStory().createdAt),
+                _getPublishedTime(story.createdAt),
                 style: TextStyle(color: AppTheme.gray, fontSize: 12),
               ),
             ],
@@ -551,7 +688,7 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildBottomControls() {
+  Widget _buildBottomControls(Story story) {
     return Row(
       children: [
         Expanded(
@@ -574,12 +711,22 @@ class _StoryViewerState extends State<StoryViewer>
         const SizedBox(width: 16),
         IconButton(
           icon: FaIcon(
-            _isCurrentStoryLiked()
+            _likedStories.contains(story.id)
                 ? FontAwesomeIcons.solidHeart
                 : FontAwesomeIcons.heart,
-            color: _isCurrentStoryLiked() ? AppTheme.red : AppTheme.primary,
+            color: _likedStories.contains(story.id)
+                ? AppTheme.red
+                : AppTheme.primary,
           ),
-          onPressed: _toggleCurrentStoryLike,
+          onPressed: () {
+            setState(() {
+              if (_likedStories.contains(story.id)) {
+                _likedStories.remove(story.id);
+              } else {
+                _likedStories.add(story.id);
+              }
+            });
+          },
         ),
         IconButton(
           icon: FaIcon(FontAwesomeIcons.paperPlane, color: AppTheme.primary),
@@ -588,4 +735,12 @@ class _StoryViewerState extends State<StoryViewer>
       ],
     );
   }
+}
+
+// ADD: Helper class to cache user story data
+class _UserStoryData {
+  final User user;
+  int currentStoryIndex;
+
+  _UserStoryData({required this.user, this.currentStoryIndex = 0});
 }

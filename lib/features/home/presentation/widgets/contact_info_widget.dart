@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/home/data/models/contact_model.dart';
+import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 
 import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 
-class ContactInfoWidget extends StatelessWidget {
+class ContactInfoWidget extends StatefulWidget {
   const ContactInfoWidget({
     super.key,
     required this.contact,
@@ -19,13 +23,32 @@ class ContactInfoWidget extends StatelessWidget {
   final double verticalPadding;
 
   @override
+  State<ContactInfoWidget> createState() => _ContactInfoWidgetState();
+}
+
+class _ContactInfoWidgetState extends State<ContactInfoWidget> {
+  String? _profileImagePath;
+
+  Future<void> _loadProfileImagePath() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString('profile_image_path');
+    final currentUser = User.storyUser.firstWhere(
+      (user) => user.id == '0',
+      orElse: () => User.storyUser.first,
+    );
+    setState(() {
+      _profileImagePath = imagePath ?? currentUser.profileImage;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     Size screenSize = MediaQuery.sizeOf(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => isNeedToLeadingIcon
+        onTap: () => widget.isNeedToLeadingIcon
             ? Navigator.push(
                 context,
                 PageRouteBuilder(
@@ -41,10 +64,12 @@ class ContactInfoWidget extends StatelessWidget {
                         return SlideTransition(position: slide, child: child);
                       },
                 ),
-              )
+              ).then((_) {
+                _loadProfileImagePath();
+              })
             : context.push(RouteCenter.chatScreen),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: verticalPadding),
+          padding: EdgeInsets.symmetric(vertical: widget.verticalPadding),
           child: Row(
             children: [
               Container(
@@ -53,14 +78,24 @@ class ContactInfoWidget extends StatelessWidget {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 decoration: BoxDecoration(shape: BoxShape.circle),
-                child: ClipOval(
-                  child: Image.asset(
-                    contact.imagePath,
-                    fit: BoxFit.cover,
-                    width: 60,
-                    height: 60,
-                  ),
-                ),
+                child:
+                    _profileImagePath != null &&
+                        File(_profileImagePath!).existsSync()
+                    ? CircleAvatar(
+                        radius: 35,
+                        backgroundImage: FileImage(File(_profileImagePath!)),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[300],
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +103,7 @@ class ContactInfoWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15),
                   Text(
-                    contact.name,
+                    widget.contact.name,
                     style: textTheme.titleLarge!.copyWith(
                       color: AppTheme.black,
                       fontSize: 18,
@@ -76,7 +111,7 @@ class ContactInfoWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    contact.bio,
+                    widget.contact.bio,
                     style: textTheme.bodySmall!.copyWith(
                       color: AppTheme.gray,
                       fontWeight: FontWeight.w500,
@@ -85,7 +120,7 @@ class ContactInfoWidget extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              isNeedToLeadingIcon
+              widget.isNeedToLeadingIcon
                   ? GestureDetector(
                       onTap: () => context.push(RouteCenter.qrCode),
                       child: SvgPicture.asset(

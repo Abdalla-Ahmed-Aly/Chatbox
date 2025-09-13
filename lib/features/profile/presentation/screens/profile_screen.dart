@@ -260,22 +260,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onTap: () =>
                                   showPickingOptions(screenDim.height, context),
                               customBorder: const CircleBorder(),
+
                               child: CircleAvatar(
                                 radius: screenDim.height * 0.1,
                                 backgroundImage: _profileImage != null
                                     ? FileImage(_profileImage!) as ImageProvider
-                                    : const AssetImage(
-                                        'assets/images/model1.png',
-                                      ),
+                                    : null,
                                 child: _profileImage == null
                                     ? Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppTheme
-                                                .darkGreen.withOpacity(0.3),
-                                            width: 2,
-                                          ),
+                                          color: Colors.grey[300],
+                                        ),
+                                        child: Icon(
+                                          Icons.person,
+                                          size: screenDim.height * 0.2,
+                                          color: Colors.grey,
                                         ),
                                       )
                                     : null,

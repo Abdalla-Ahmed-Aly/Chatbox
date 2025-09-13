@@ -103,10 +103,15 @@ class _MessageTabState extends State<MessageTab> {
                           radius: size.width * 0.055,
                           backgroundImage: FileImage(File(_profileImagePath!)),
                         )
-                      : CircleAvatar(
-                          radius: size.width * 0.055,
-                          backgroundImage: const AssetImage(
-                            'assets/images/Ellipse 307.png',
+                      : Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[300],
+                          ),
+                          child: const Icon(
+                            Icons.person,
+                            size: 45,
+                            color: Colors.grey,
                           ),
                         ),
                 ),
