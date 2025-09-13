@@ -30,7 +30,7 @@ class _CustomImageCropScreenState extends State<CustomImageCropScreen> {
     if (state == null) return null;
 
     final rect = state.getCropRect();
-    final uiImage = await state.image;
+    final uiImage = state.image;
 
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);

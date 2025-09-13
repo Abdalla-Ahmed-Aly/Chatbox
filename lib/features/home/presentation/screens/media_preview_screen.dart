@@ -266,7 +266,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
     setState(() => _isProcessing = true);
 
     try {
-      if (_textOverlays.isNotEmpty && widget.mediaType == MediaType.image) {
+      if (widget.mediaType == MediaType.image) {
         final imageBytes = await _screenshotController.capture(
           delay: const Duration(milliseconds: 100),
           pixelRatio: 2.0,
@@ -396,9 +396,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
         height: screenSize.height * 0.8,
         child: Hero(
           tag: 'media-${widget.mediaPath}',
-          child: RepaintBoundary(
-            child: ImagePhotoViewCombo(imagePath: widget.mediaPath),
-          ),
+          child: ImagePhotoViewCombo(imagePath: widget.mediaPath),
         ),
       );
     } else {

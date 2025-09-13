@@ -280,21 +280,25 @@ class _NewStoryMakerScreenState extends State<NewStoryMakerScreen>
         imageQuality: 85,
       );
 
-      if (image != null && !_isDisposed) {
+      if (image != null && !_isDisposed && mounted) {
         final String imagePath = image.path;
         await _navigateToMediaPreview(imagePath, MediaType.image);
       } else {
+        if (mounted && !_isDisposed) {
+          setState(() {
+            _shouldReinitializeCamera = true;
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking image from gallery: $e');
+      if (mounted && !_isDisposed) {
         setState(() {
           _shouldReinitializeCamera = true;
         });
       }
-    } catch (e) {
-      debugPrint('Error picking image from gallery: $e');
-      setState(() {
-        _shouldReinitializeCamera = true;
-      });
     } finally {
-      if (mounted) {
+      if (mounted && !_isDisposed) {
         setState(() {
           _isProcessingMedia = false;
           _isGalleryOpen = false;
