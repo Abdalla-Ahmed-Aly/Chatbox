@@ -42,6 +42,12 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadProfileImagePath();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     Size screenSize = MediaQuery.sizeOf(context);
