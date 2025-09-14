@@ -1,18 +1,18 @@
 import 'package:chatbox/core/route/route_center.dart';
+import 'package:chatbox/features/auth/data/storage/token_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
-
-
   const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController _positionController;
   late Animation<Offset> _positionAnimation;
 
@@ -32,25 +32,21 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _positionAnimation = Tween<Offset>(
-      begin: Offset(-2.0, -2.0),
-      end: Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _positionController,
-      curve: Curves.easeOutBack,
-    ));
+    _positionAnimation =
+        Tween<Offset>(begin: Offset(-2.0, -2.0), end: Offset(0.0, 0.0)).animate(
+          CurvedAnimation(
+            parent: _positionController,
+            curve: Curves.easeOutBack,
+          ),
+        );
 
     _bounceController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _bounceAnimation = Tween<double>(
-      begin: 0.0,
-      end: 10.0,
-    ).animate(CurvedAnimation(
-      parent: _bounceController,
-      curve: Curves.elasticIn,
-    ));
+    _bounceAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(
+      CurvedAnimation(parent: _bounceController, curve: Curves.elasticIn),
+    );
 
     _image2Controller = AnimationController(
       duration: const Duration(milliseconds: 800),
@@ -59,9 +55,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _image2Controller, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _image2Controller, curve: Curves.easeIn));
     _rotationAnimation = Tween<double>(begin: -0.05, end: 0.0).animate(
       CurvedAnimation(parent: _image2Controller, curve: Curves.easeOut),
     );
@@ -74,10 +71,16 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     await _bounceController.forward();
     await _image2Controller.forward();
 
-    await Future.delayed(Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 400));
 
-    if (mounted) {
-     context.pushReplacement(RouteCenter.onboarding);
+    if (!mounted) return;
+
+    final token = await TokenStorage().getToken();
+
+    if (token != null && token.isNotEmpty) {
+      context.pushReplacement(RouteCenter.home);
+    } else {
+      context.pushReplacement(RouteCenter.onboarding);
     }
   }
 
@@ -97,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         animation: Listenable.merge([
           _positionController,
           _bounceController,
-          _image2Controller
+          _image2Controller,
         ]),
         builder: (context, child) {
           return Center(

@@ -7,7 +7,9 @@ class RegisterLoading extends RegisterStates {
 }
 class RegisterSuccess extends RegisterStates {
   final String message;
-  RegisterSuccess(this.message);
+    final String token;
+
+  RegisterSuccess(this.message, this.token);
 }
 class RegisterFailure extends RegisterStates {
   final String error;

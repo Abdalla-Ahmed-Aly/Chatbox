@@ -16,8 +16,12 @@ import 'package:chatbox/features/auth/data/data_sources/remote/auth_remote_data_
     as _i817;
 import 'package:chatbox/features/auth/data/repositories/auth_repository_impl.dart'
     as _i758;
+import 'package:chatbox/features/auth/data/storage/token_storage.dart' as _i401;
 import 'package:chatbox/features/auth/domain/repositories/auth_repository.dart'
     as _i493;
+import 'package:chatbox/features/auth/domain/storage/i_token_storage.dart'
+    as _i1033;
+import 'package:chatbox/features/auth/domain/use_cases/login.dart' as _i71;
 import 'package:chatbox/features/auth/domain/use_cases/otp.dart' as _i158;
 import 'package:chatbox/features/auth/domain/use_cases/register.dart' as _i239;
 import 'package:chatbox/features/auth/domain/use_cases/reset_password.dart'
@@ -26,6 +30,8 @@ import 'package:chatbox/features/auth/domain/use_cases/send_verification.dart'
     as _i614;
 import 'package:chatbox/features/auth/presentation/cubit/confirm_otp_cubit/confirm_otp_cubit.dart'
     as _i393;
+import 'package:chatbox/features/auth/presentation/cubit/login/login_cubit.dart'
+    as _i739;
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart'
     as _i62;
 import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/reset_password_cubit.dart'
@@ -45,12 +51,17 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.singleton<_i361.Dio>(() => registerModule.dio);
+    gh.lazySingleton<_i1033.ITokenStorage>(() => _i401.TokenStorage());
     gh.lazySingleton<_i817.AuthRemoteDataSource>(
       () => _i719.AuthApiDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i493.AuthRepository>(
-      () => _i758.AuthRepositoryImpl(gh<_i817.AuthRemoteDataSource>()),
+      () => _i758.AuthRepositoryImpl(
+        gh<_i817.AuthRemoteDataSource>(),
+        gh<_i1033.ITokenStorage>(),
+      ),
     );
+    gh.factory<_i71.Login>(() => _i71.Login(gh<_i493.AuthRepository>()));
     gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
     gh.factory<_i239.Register>(
       () => _i239.Register(gh<_i493.AuthRepository>()),
@@ -61,17 +72,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i614.SendVerification>(
       () => _i614.SendVerification(gh<_i493.AuthRepository>()),
     );
+    gh.factory<_i62.RegisterCubit>(
+      () =>
+          _i62.RegisterCubit(gh<_i239.Register>(), gh<_i1033.ITokenStorage>()),
+    );
     gh.factory<_i1010.ResetPasswordCubit>(
       () => _i1010.ResetPasswordCubit(gh<_i1.ResetPassword>()),
     );
     gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
     );
-    gh.factory<_i62.RegisterCubit>(
-      () => _i62.RegisterCubit(gh<_i239.Register>()),
-    );
     gh.factory<_i393.ConfirmOtpCubit>(
       () => _i393.ConfirmOtpCubit(gh<_i158.Otp>()),
+    );
+    gh.factory<_i739.LoginCubit>(
+      () => _i739.LoginCubit(gh<_i71.Login>(), gh<_i1033.ITokenStorage>()),
     );
     return this;
   }
