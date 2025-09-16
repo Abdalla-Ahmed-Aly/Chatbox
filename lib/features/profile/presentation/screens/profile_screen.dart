@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:chatbox/features/profile/presentation/screens/custom_image_crop.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
@@ -227,170 +231,183 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size screenDim = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.black,
-      body: Column(
-        children: [
-          const SizedBox(height: 50),
-          SizedBox(
-            height: screenDim.height * 0.35,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: AppTheme.primary,
-                          size: 30,
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Material(
-                            shape: const CircleBorder(),
-                            child: InkWell(
-                              onTap: () =>
-                                  showPickingOptions(screenDim.height, context),
-                              customBorder: const CircleBorder(),
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          // if (state is ProfileLoading) {
+          //   return const Center(child: CircularProgressIndicator());
+          // } else
+          if (state is ProfileSuccess) {
+            final currentUser = state.message;
+            print(currentUser.address);
 
-                              child: CircleAvatar(
-                                radius: screenDim.height * 0.1,
-                                backgroundImage: _profileImage != null
-                                    ? FileImage(_profileImage!) as ImageProvider
-                                    : null,
-                                child: _profileImage == null
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey[300],
-                                        ),
-                                        child: Icon(
+            return Column(
+              children: [
+                const SizedBox(height: 50),
+                SizedBox(
+                  height: screenDim.height * 0.35,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: AppTheme.primary,
+                                size: 30,
+                              ),
+                            ),
+                            const Spacer(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleAvatar(
+                                  radius: screenDim.height * 0.1,
+                                  backgroundImage:
+                                      currentUser
+                                          .profilePicture
+                                          .secureUrl
+                                          .isNotEmpty
+                                      ? NetworkImage(
+                                          currentUser.profilePicture.secureUrl,
+                                        )
+                                      : null,
+                                  child:
+                                      currentUser
+                                          .profilePicture
+                                          .secureUrl
+                                          .isEmpty
+                                      ? Icon(
                                           Icons.person,
                                           size: screenDim.height * 0.2,
                                           color: Colors.grey,
-                                        ),
-                                      )
-                                    : null,
-                              ),
+                                        )
+                                      : null,
+                                ),
+                                Text(
+                                  currentUser.username,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '${currentUser.bio}',
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: AppTheme.gray),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            currentUser.username,
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '@${currentUser.username}',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: AppTheme.gray),
-                          ),
-                        ],
-                      ),
-                      const Spacer(flex: 2),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildControlButton(
-                        onTap: () {},
-                        svgPath: 'assets/svg/Group (1).svg',
-                      ),
-                      _buildControlButton(
-                        onTap: () {},
-                        svgPath: 'assets/svg/Group (2).svg',
-                        width: 25,
-                        height: 25,
-                      ),
-                      _buildControlButton(
-                        onTap: () {},
-                        svgPath: 'assets/svg/Rectangle 77.svg',
-                      ),
-                      _buildControlButton(
-                        onTap: () {},
-                        svgPath: 'assets/svg/More.svg',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 30),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(top: screenDim.height * 0.015),
-              decoration: BoxDecoration(
-                color: AppTheme.primary,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  topRight: Radius.circular(32),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 10,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: screenDim.width * 0.1,
-                          height: screenDim.height * 0.005,
-                          margin: EdgeInsets.symmetric(
-                            vertical: screenDim.height * 0.01,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                            const Spacer(flex: 2),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildControlButton(
+                              onTap: () {},
+                              svgPath: 'assets/svg/Group (1).svg',
+                            ),
+                            _buildControlButton(
+                              onTap: () {},
+                              svgPath: 'assets/svg/Group (2).svg',
+                              width: 25,
+                              height: 25,
+                            ),
+                            _buildControlButton(
+                              onTap: () {},
+                              svgPath: 'assets/svg/Rectangle 77.svg',
+                            ),
+                            _buildControlButton(
+                              onTap: () {},
+                              svgPath: 'assets/svg/More.svg',
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    _buildUserInfoItem(
-                      context,
-                      label: 'Display Name',
-                      info: '  ${currentUser.username}',
-                    ),
-                    _buildUserInfoItem(
-                      context,
-                      label: 'Email Address',
-                      info: '  bedoman11@gmail.com',
-                    ),
-                    _buildUserInfoItem(
-                      context,
-                      label: 'Address',
-                      info: '  Egypt-Sharqia-Zagzig',
-                    ),
-                    _buildUserInfoItem(
-                      context,
-                      label: 'Phone Number',
-                      info: '  01013259819',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ],
+                const SizedBox(height: 5),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(top: screenDim.height * 0.015),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 10,
+                          offset: const Offset(0, -2),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: screenDim.width * 0.1,
+                                height: screenDim.height * 0.005,
+                                margin: EdgeInsets.symmetric(
+                                  vertical: screenDim.height * 0.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[400],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ],
+                          ),
+                          _buildUserInfoItem(
+                            context,
+                            label: 'Display Name',
+                            info: '  ${currentUser.username}',
+                          ),
+                          _buildUserInfoItem(
+                            context,
+                            label: 'Email Address',
+                            info: '  ${currentUser.email}',
+                          ),
+                          _buildUserInfoItem(
+                            context,
+                            label: 'Address',
+                            info: '  ${currentUser.address}',
+                          ),
+                          _buildUserInfoItem(
+                            context,
+                            label: 'Phone Number',
+                            info: '  ${currentUser.phoneNumber}',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else if (state is ProfileFailure) {
+            return Center(child: Text("Error: ${state.error}"));
+          } else {
+            return Center(child: Text("Error: ${state}"));
+          }
+        },
       ),
     );
   }

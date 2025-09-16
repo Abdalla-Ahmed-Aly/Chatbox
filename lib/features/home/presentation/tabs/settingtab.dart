@@ -1,8 +1,11 @@
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/features/home/data/models/contact_model.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';
 import 'package:chatbox/features/home/presentation/widgets/contact_info_widget.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/theme/app_theme.dart';
 
 class SettingTab extends StatelessWidget {
@@ -10,6 +13,8 @@ class SettingTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // serviceLocator.get<ProfileCubit>().getUserProfile();
+// context.read<ProfileCubit>().getUserProfile();
     return SafeArea(
       child: Column(
         children: [

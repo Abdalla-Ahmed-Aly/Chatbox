@@ -55,22 +55,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () => widget.isNeedToLeadingIcon
-            ? Navigator.push(
-                context,
-                PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 400),
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      ProfileScreen(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                        final slide = Tween(
-                          begin: const Offset(1, 0),
-                          end: Offset(0, 0),
-                        ).animate(animation);
-                        return SlideTransition(position: slide, child: child);
-                      },
-                ),
-              ).then((_) {
+            ? context.push(RouteCenter.ProfileScreen).then((_) {
                 _loadProfileImagePath();
               })
             : context.push(RouteCenter.chatScreen),

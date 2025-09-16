@@ -38,6 +38,17 @@ import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/re
     as _i1010;
 import 'package:chatbox/features/auth/presentation/cubit/send_verification_cubit/send_verification_cubit.dart'
     as _i1013;
+import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
+    as _i505;
+import 'package:chatbox/features/profile/data/data_sources/remote/user_remote_data_source.dart'
+    as _i582;
+import 'package:chatbox/features/profile/data/repositories/userRepositoriesImpl.dart'
+    as _i23;
+import 'package:chatbox/features/profile/domain/repositories/user_repositories.dart'
+    as _i673;
+import 'package:chatbox/features/profile/domain/use_cases/Getuser.dart' as _i13;
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart'
+    as _i133;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -50,8 +61,10 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    gh.singleton<_i361.Dio>(() => registerModule.dio);
     gh.lazySingleton<_i1033.ITokenStorage>(() => _i401.TokenStorage());
+    gh.singleton<_i361.Dio>(
+      () => registerModule.dio(gh<_i1033.ITokenStorage>()),
+    );
     gh.lazySingleton<_i817.AuthRemoteDataSource>(
       () => _i719.AuthApiDataSource(gh<_i361.Dio>()),
     );
@@ -60,6 +73,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i817.AuthRemoteDataSource>(),
         gh<_i1033.ITokenStorage>(),
       ),
+    );
+    gh.lazySingleton<_i582.UserRemoteDataSource>(
+      () => _i505.UserApiDataSource(gh<_i361.Dio>()),
     );
     gh.factory<_i71.Login>(() => _i71.Login(gh<_i493.AuthRepository>()));
     gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
@@ -81,6 +97,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
+    );
+    gh.lazySingleton<_i673.UserRepository>(
+      () => _i23.Userrepositoriesimpl(gh<_i582.UserRemoteDataSource>()),
+    );
+    gh.factory<_i13.Getuser>(
+      () => _i13.Getuser(userRepository: gh<_i673.UserRepository>()),
+    );
+    gh.singleton<_i133.ProfileCubit>(
+      () => _i133.ProfileCubit(profileRepository: gh<_i673.UserRepository>()),
     );
     gh.factory<_i393.ConfirmOtpCubit>(
       () => _i393.ConfirmOtpCubit(gh<_i158.Otp>()),

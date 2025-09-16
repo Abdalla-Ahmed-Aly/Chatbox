@@ -1,3 +1,4 @@
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
@@ -5,13 +6,12 @@ import 'package:chatbox/features/home/presentation/tabs/friendstab.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
 import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
 import 'package:chatbox/features/home/presentation/widgets/custom_physics.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
-
-
   const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -27,6 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    serviceLocator.get<ProfileCubit>()..getUserProfile();
+    super.initState();
   }
 
   @override

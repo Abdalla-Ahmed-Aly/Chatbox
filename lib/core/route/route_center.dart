@@ -7,14 +7,10 @@ class RouteCenter {
   static const String resetPassword = '/resetPassword';
   static const String home = '/Home';
   static const String chatScreen = '/chatScreen';
-  static const String qrCode="/qrcode";
+  static const String qrCode = "/qrcode";
   static const String createGroup = '/CreateGroup';
   static const String callScreen = '/callScreen';
   static const String ringScreen = '/ringScreen';
   static const String updateProfile = '/updateProfile';
-
-
-
-
-
+  static const String ProfileScreen = '/Profile';
 }

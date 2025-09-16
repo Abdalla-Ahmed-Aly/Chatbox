@@ -8,6 +8,8 @@ import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +172,22 @@ class AppRouter {
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             child: const UpdateProfileScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteCenter.ProfileScreen,
+        pageBuilder: (context, state) {
+          final cubit = serviceLocator<ProfileCubit>();
+          cubit.getUserProfile();
+          return CustomTransitionPage(
+            child: BlocProvider.value(
+              value: cubit,
+              child: const ProfileScreen(),
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),
