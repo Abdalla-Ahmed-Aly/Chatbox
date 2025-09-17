@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
@@ -238,17 +237,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // } else
           if (state is ProfileSuccess) {
             final currentUser = state.message;
-            print(currentUser.address);
+            // print(currentUser.address);
 
             return Column(
               children: [
                 const SizedBox(height: 50),
                 SizedBox(
-                  height: screenDim.height * 0.35,
+                  height: screenDim.height * 0.30,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -307,30 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const Spacer(flex: 2),
                           ],
                         ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildControlButton(
-                              onTap: () {},
-                              svgPath: 'assets/svg/Group (1).svg',
-                            ),
-                            _buildControlButton(
-                              onTap: () {},
-                              svgPath: 'assets/svg/Group (2).svg',
-                              width: 25,
-                              height: 25,
-                            ),
-                            _buildControlButton(
-                              onTap: () {},
-                              svgPath: 'assets/svg/Rectangle 77.svg',
-                            ),
-                            _buildControlButton(
-                              onTap: () {},
-                              svgPath: 'assets/svg/More.svg',
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 5),
                       ],
                     ),
                   ),
@@ -354,10 +330,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -365,8 +341,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 width: screenDim.width * 0.1,
                                 height: screenDim.height * 0.005,
-                                margin: EdgeInsets.symmetric(
-                                  vertical: screenDim.height * 0.0,
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[400],
@@ -375,26 +351,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
+
+                          const SizedBox(height: 30),
                           _buildUserInfoItem(
                             context,
                             label: 'Display Name',
-                            info: '  ${currentUser.username}',
+                            info: currentUser.username,
+                            icon: Icons.person,
                           ),
+                          const SizedBox(height: 20),
+
                           _buildUserInfoItem(
                             context,
                             label: 'Email Address',
-                            info: '  ${currentUser.email}',
+                            info: currentUser.email,
+                            icon: Icons.email_outlined,
                           ),
+                          const SizedBox(height: 20),
+
                           _buildUserInfoItem(
                             context,
                             label: 'Address',
-                            info: '  ${currentUser.address}',
+                            info: currentUser.address,
+                            icon: Icons.location_on_outlined,
                           ),
+                          const SizedBox(height: 20),
+
                           _buildUserInfoItem(
                             context,
                             label: 'Phone Number',
-                            info: '  ${currentUser.phoneNumber}',
+                            info: currentUser.phoneNumber,
+                            icon: Icons.phone,
                           ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
@@ -447,24 +436,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
     BuildContext context, {
     required String label,
     required String info,
+    IconData? icon,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyLarge?.copyWith(color: AppTheme.gray),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          info,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(color: AppTheme.black),
-        ),
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: AppTheme.darkGreen.withOpacity(0.1),
+            child: Icon(
+              icon ?? Icons.info_outline,
+              color: AppTheme.darkGreen,
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppTheme.gray,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  info,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppTheme.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

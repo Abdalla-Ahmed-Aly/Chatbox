@@ -49,6 +49,18 @@ import 'package:chatbox/features/profile/domain/repositories/user_repositories.d
 import 'package:chatbox/features/profile/domain/use_cases/Getuser.dart' as _i13;
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart'
     as _i133;
+import 'package:chatbox/features/updateProfile/data/data_sources/remote/updateProfile_api_data_sources.dart'
+    as _i972;
+import 'package:chatbox/features/updateProfile/data/data_sources/remote/updateProfile_remote_data_sources.dart'
+    as _i1049;
+import 'package:chatbox/features/updateProfile/data/repositories/updateProfile_Impl.dart'
+    as _i750;
+import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile_repositories.dart'
+    as _i580;
+import 'package:chatbox/features/updateProfile/domain/use_cases/updateProfile.dart'
+    as _i208;
+import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_cubit.dart'
+    as _i802;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -68,6 +80,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i817.AuthRemoteDataSource>(
       () => _i719.AuthApiDataSource(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i1049.UpdateprofileRemoteDataSources>(
+      () => _i972.UpdateprofileApiDataSources(dio: gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i493.AuthRepository>(
       () => _i758.AuthRepositoryImpl(
         gh<_i817.AuthRemoteDataSource>(),
@@ -76,6 +91,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i582.UserRemoteDataSource>(
       () => _i505.UserApiDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i580.UpdateProfileRepository>(
+      () =>
+          _i750.UpdateprofileImpl(gh<_i1049.UpdateprofileRemoteDataSources>()),
+    );
+    gh.factory<_i802.UpdateprofileCubit>(
+      () => _i802.UpdateprofileCubit(
+        updateProfileRepository: gh<_i580.UpdateProfileRepository>(),
+      ),
     );
     gh.factory<_i71.Login>(() => _i71.Login(gh<_i493.AuthRepository>()));
     gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
@@ -97,6 +121,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
+    );
+    gh.factory<_i208.Updateprofile>(
+      () => _i208.Updateprofile(gh<_i580.UpdateProfileRepository>()),
     );
     gh.lazySingleton<_i673.UserRepository>(
       () => _i23.Userrepositoriesimpl(gh<_i582.UserRemoteDataSource>()),

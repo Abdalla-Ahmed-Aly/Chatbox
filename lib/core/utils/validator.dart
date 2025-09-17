@@ -47,6 +47,17 @@ class Validator {
           return 'Enter a valid 11-digit phone number';
         }
         break;
+        case 'address':
+      if (value.length < 5) {
+        return 'Address should be at least 5 characters';
+      }
+      break;
+
+    case 'bio':
+      if (value.length > 150) {
+        return 'Bio should not exceed 150 characters';
+      }
+      break;
     }
 
     return null;

@@ -6,6 +6,8 @@ class APIConstant {
   static const String confirmOtpEndpoint = '/auth/verify-forget-password-code';
   static const String userProfileEndpoint = '/user/profile';
   static String resetPasswordEndpoint="/auth/reset-password";
+  static String updateProfiel="/user/profile";
+  static String updateProfielPhoto="/user/profile-pic";
 
 
 
