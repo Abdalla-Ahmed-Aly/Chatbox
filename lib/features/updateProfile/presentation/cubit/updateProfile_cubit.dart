@@ -32,18 +32,21 @@ class UpdateprofileCubit extends Cubit<UpdateprofileState> {
     );
   }
 
-  Future<PhotoResponse> updateProfilePhoto(PhotoRequest requset) async {
+  Future<void> updateProfilePhoto(PhotoRequest request) async {
+    if (isClosed) return;
     emit(UpdateprofilePhotoLoading());
-    final result = await updateProfileRepository.updateProfilePhoto(requset);
+    final result = await updateProfileRepository.updateProfilePhoto(request);
 
-    return result.fold(
-      (error) {
-        emit(UpdateprofilePhotoFailure(error.message));
-        throw Exception(error.message);
+    result.fold(
+      (failure) {
+        if (!isClosed) {
+          emit(UpdateprofilePhotoFailure(failure.message));
+        }
       },
-      (response) {
-        emit(UpdateprofilePhotoSuccess(response));
-        return response;
+      (success) {
+        if (!isClosed) {
+          emit(UpdateprofilePhotoSuccess(success));
+        }
       },
     );
   }

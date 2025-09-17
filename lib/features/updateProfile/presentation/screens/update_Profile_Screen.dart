@@ -89,6 +89,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               const SizedBox(height: 20),
               Center(
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     ClipOval(
                       child: localImagePath != null
@@ -113,59 +114,73 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                   )),
                     ),
 
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child:
-                          BlocListener<UpdateprofileCubit, UpdateprofileState>(
-                            listener: (context, state) {
-                              // if (state is UpdateprofilePhotoLoading) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text("Uploading photo..."),
-                              //     ),
-                              //   );
-                              // } else if (state is UpdateprofilePhotoSuccess) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text(
-                              //         "Profile photo updated successfully ✅",
-                              //       ),
-                              //     ),
-                              //   );
-                              if (state is UpdateprofilePhotoFailure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("❌ ${state.error}")),
-                                );
-                              }
-                            },
-                            child: GestureDetector(
-                              onTap: () async {
-                                await pickImage();
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: AppTheme.primary,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: AppTheme.black,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: AppTheme.black,
-                                  size: 22,
+                    BlocBuilder<UpdateprofileCubit, UpdateprofileState>(
+                      builder: (context, state) {
+                        if (state is UpdateprofilePhotoLoading) {
+                          return Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.4),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
                                 ),
                               ),
                             ),
+                          );
+                        } else if (state is UpdateprofilePhotoFailure) {
+                          AppSnackBars.showErrorSnackBar(
+                            context: context,
+                            message: state.error.toString(),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await pickImage();
+
+                          if (localImagePath != null) {
+                            final cubit = context.read<UpdateprofileCubit>();
+                            await cubit.updateProfilePhoto(
+                              PhotoRequest(image: File(localImagePath!)),
+                            );
+
+                            if (mounted) {
+                              serviceLocator.get<ProfileCubit>()
+                                ..getUserProfile();
+                            }
+                          }
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppTheme.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppTheme.black, width: 2),
                           ),
+                          child: Icon(
+                            Icons.edit,
+                            color: AppTheme.black,
+                            size: 22,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
+
               const SizedBox(height: 30),
 
               CustomTextFormField(
@@ -221,27 +236,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     child: CustomButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          if (localImagePath != null) {
-                            final file = File(localImagePath!);
+                          context.read<UpdateprofileCubit>().updateProfile(
+                            UpdateProfileRequest(
+                              address: addressController.text,
+                              bio: biController.text,
+                              phoneNumber: phoneController.text,
+                              username: nameController.text,
+                            ),
+                          );
 
-                            context
-                                .read<UpdateprofileCubit>()
-                                .updateProfilePhoto(PhotoRequest(image: file));
-                          }
-                          context
-                              .read<UpdateprofileCubit>()
-                              .updateProfile(
-                                UpdateProfileRequest(
-                                  address: addressController.text,
-                                  bio: biController.text,
-                                  phoneNumber: phoneController.text,
-                                  username: nameController.text,
-                                ),
-                              )
-                              .then((value) {
-                                serviceLocator.get<ProfileCubit>()
-                                  ..getUserProfile();
-                              });
+                          serviceLocator.get<ProfileCubit>()..getUserProfile();
                         }
                       },
                       isLoading: state is UpdateprofileLoading,
