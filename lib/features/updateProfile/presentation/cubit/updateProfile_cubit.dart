@@ -1,3 +1,5 @@
+import 'package:chatbox/features/updateProfile/data/model/photoRequest.dart';
+import 'package:chatbox/features/updateProfile/data/model/photo_response/photo_response.dart';
 import 'package:chatbox/features/updateProfile/data/model/update_profile_request.dart';
 import 'package:chatbox/features/updateProfile/domain/entity/update_profile_Entity.dart';
 import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile_repositories.dart';
@@ -25,6 +27,22 @@ class UpdateprofileCubit extends Cubit<UpdateprofileState> {
       },
       (response) {
         emit(UpdateprofileSuccess(response));
+        return response;
+      },
+    );
+  }
+
+  Future<PhotoResponse> updateProfilePhoto(PhotoRequest requset) async {
+    emit(UpdateprofilePhotoLoading());
+    final result = await updateProfileRepository.updateProfilePhoto(requset);
+
+    return result.fold(
+      (error) {
+        emit(UpdateprofilePhotoFailure(error.message));
+        throw Exception(error.message);
+      },
+      (response) {
+        emit(UpdateprofilePhotoSuccess(response));
         return response;
       },
     );

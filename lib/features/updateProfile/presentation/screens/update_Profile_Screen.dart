@@ -8,6 +8,7 @@ import 'package:chatbox/core/widget/custom_button.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
+import 'package:chatbox/features/updateProfile/data/model/photoRequest.dart';
 import 'package:chatbox/features/updateProfile/data/model/update_profile_request.dart';
 import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_cubit.dart';
 import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_state.dart';
@@ -115,23 +116,52 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: GestureDetector(
-                        onTap: pickImage,
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primary,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppTheme.black, width: 2),
+                      child:
+                          BlocListener<UpdateprofileCubit, UpdateprofileState>(
+                            listener: (context, state) {
+                              // if (state is UpdateprofilePhotoLoading) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text("Uploading photo..."),
+                              //     ),
+                              //   );
+                              // } else if (state is UpdateprofilePhotoSuccess) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text(
+                              //         "Profile photo updated successfully ✅",
+                              //       ),
+                              //     ),
+                              //   );
+                              if (state is UpdateprofilePhotoFailure) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("❌ ${state.error}")),
+                                );
+                              }
+                            },
+                            child: GestureDetector(
+                              onTap: () async {
+                                await pickImage();
+                              },
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primary,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppTheme.black,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: AppTheme.black,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Icon(
-                            Icons.edit,
-                            color: AppTheme.black,
-                            size: 22,
-                          ),
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -191,6 +221,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     child: CustomButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          if (localImagePath != null) {
+                            final file = File(localImagePath!);
+
+                            context
+                                .read<UpdateprofileCubit>()
+                                .updateProfilePhoto(PhotoRequest(image: file));
+                          }
                           context
                               .read<UpdateprofileCubit>()
                               .updateProfile(
@@ -202,7 +239,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 ),
                               )
                               .then((value) {
-                                serviceLocator.get<ProfileCubit>()..getUserProfile();
+                                serviceLocator.get<ProfileCubit>()
+                                  ..getUserProfile();
                               });
                         }
                       },

@@ -2,6 +2,8 @@ import 'package:chatbox/core/error/exceptions.dart';
 import 'package:chatbox/core/failure/failure.dart';
 import 'package:chatbox/features/updateProfile/data/data_sources/remote/updateProfile_remote_data_sources.dart';
 import 'package:chatbox/features/updateProfile/data/mappers/update_mapper.dart';
+import 'package:chatbox/features/updateProfile/data/model/photoRequest.dart';
+import 'package:chatbox/features/updateProfile/data/model/photo_response/photo_response.dart';
 import 'package:chatbox/features/updateProfile/data/model/update_profile_request.dart';
 import 'package:chatbox/features/updateProfile/domain/entity/update_profile_Entity.dart';
 import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile_repositories.dart';
@@ -19,6 +21,18 @@ class UpdateprofileImpl extends UpdateProfileRepository {
     try {
       final response = await _remoteDataSources.updateProfile(request);
       return Right(response.toEntity());
+    } on AppException catch (exception) {
+      return Left(Failure(exception.message.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PhotoResponse>> updateProfilePhoto(
+    PhotoRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSources.updateProfilePhoto(request);
+      return Right(response);
     } on AppException catch (exception) {
       return Left(Failure(exception.message.toString()));
     }

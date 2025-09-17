@@ -57,6 +57,8 @@ import 'package:chatbox/features/updateProfile/data/repositories/updateProfile_I
     as _i750;
 import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile_repositories.dart'
     as _i580;
+import 'package:chatbox/features/updateProfile/domain/use_cases/updatePhoto.dart'
+    as _i922;
 import 'package:chatbox/features/updateProfile/domain/use_cases/updateProfile.dart'
     as _i208;
 import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_cubit.dart'
@@ -124,6 +126,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i208.Updateprofile>(
       () => _i208.Updateprofile(gh<_i580.UpdateProfileRepository>()),
+    );
+    gh.factory<_i922.Updatephoto>(
+      () => _i922.Updatephoto(gh<_i580.UpdateProfileRepository>()),
     );
     gh.lazySingleton<_i673.UserRepository>(
       () => _i23.Userrepositoriesimpl(gh<_i582.UserRemoteDataSource>()),

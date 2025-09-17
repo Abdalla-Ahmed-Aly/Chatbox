@@ -1,9 +1,17 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 
-class Photorequest {
+class PhotoRequest {
   final File image;
-  Photorequest({required this.image});
-  Map<String, dynamic> toJson() {
-    return {"image": image.path};
+
+  PhotoRequest({required this.image});
+
+  Future<FormData> toFormData() async {
+    return FormData.fromMap({
+      'image': await MultipartFile.fromFile(
+        image.path,
+        filename: image.path.split('/').last,
+      ),
+    });
   }
 }

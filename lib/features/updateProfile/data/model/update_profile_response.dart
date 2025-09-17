@@ -1,7 +1,8 @@
 
-import 'package:chatbox/features/profile/data/model/results.dart';
 
 
+
+import 'package:chatbox/features/updateProfile/data/model/results.dart';
 
 class UpdateProfileResponse {
 	final bool? success;
