@@ -78,26 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         Scaffold(
-          floatingActionButton: Container(
-            decoration: BoxDecoration(
-              color: Colors.teal,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                  offset: Offset(2, 4),
-                ),
-              ],
-            ),
-            child: IconButton(
-              onPressed: () {
-                context.push(RouteCenter.createGroup);
-              },
-              icon: Icon(Icons.group_add, color: Colors.white, size: 28),
-            ),
-          ),
-
           backgroundColor: AppTheme.black,
           body: SafeArea(child: pages[_selectedIndex]),
 
