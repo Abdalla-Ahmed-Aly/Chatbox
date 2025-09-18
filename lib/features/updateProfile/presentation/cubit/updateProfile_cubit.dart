@@ -1,5 +1,4 @@
 import 'package:chatbox/features/updateProfile/data/model/photoRequest.dart';
-import 'package:chatbox/features/updateProfile/data/model/photo_response/photo_response.dart';
 import 'package:chatbox/features/updateProfile/data/model/update_profile_request.dart';
 import 'package:chatbox/features/updateProfile/domain/entity/update_profile_Entity.dart';
 import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile_repositories.dart';

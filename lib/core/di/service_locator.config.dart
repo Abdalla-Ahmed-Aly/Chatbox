@@ -38,6 +38,18 @@ import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/re
     as _i1010;
 import 'package:chatbox/features/auth/presentation/cubit/send_verification_cubit/send_verification_cubit.dart'
     as _i1013;
+import 'package:chatbox/features/chat/data/data_sources/remote/userProfile_api_data_source.dart'
+    as _i406;
+import 'package:chatbox/features/chat/data/data_sources/remote/userProfile_remote_data_source.dart'
+    as _i709;
+import 'package:chatbox/features/chat/data/repositories/getUserProfileImpl.dart'
+    as _i377;
+import 'package:chatbox/features/chat/domain/repositories/user_profile_repository.dart'
+    as _i553;
+import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart'
+    as _i438;
+import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart'
+    as _i797;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
     as _i505;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_remote_data_source.dart'
@@ -79,6 +91,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i361.Dio>(
       () => registerModule.dio(gh<_i1033.ITokenStorage>()),
     );
+    gh.lazySingleton<_i709.UserprofileRemoteDataSource>(
+      () => _i406.UserprofileApiDataSource(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i817.AuthRemoteDataSource>(
       () => _i719.AuthApiDataSource(gh<_i361.Dio>()),
     );
@@ -91,12 +106,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1033.ITokenStorage>(),
       ),
     );
+    gh.lazySingleton<_i553.UserProfileRepository>(
+      () => _i377.Getuserprofileimpl(gh<_i709.UserprofileRemoteDataSource>()),
+    );
     gh.lazySingleton<_i582.UserRemoteDataSource>(
       () => _i505.UserApiDataSource(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i797.GetUserProfileCubit>(
+      () => _i797.GetUserProfileCubit(gh<_i553.UserProfileRepository>()),
     );
     gh.lazySingleton<_i580.UpdateProfileRepository>(
       () =>
           _i750.UpdateprofileImpl(gh<_i1049.UpdateprofileRemoteDataSources>()),
+    );
+    gh.factory<_i438.GetUserProfile>(
+      () => _i438.GetUserProfile(gh<_i553.UserProfileRepository>()),
     );
     gh.factory<_i802.UpdateprofileCubit>(
       () => _i802.UpdateprofileCubit(
@@ -124,11 +148,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
     );
-    gh.factory<_i208.Updateprofile>(
-      () => _i208.Updateprofile(gh<_i580.UpdateProfileRepository>()),
-    );
     gh.factory<_i922.Updatephoto>(
       () => _i922.Updatephoto(gh<_i580.UpdateProfileRepository>()),
+    );
+    gh.factory<_i208.Updateprofile>(
+      () => _i208.Updateprofile(gh<_i580.UpdateProfileRepository>()),
     );
     gh.lazySingleton<_i673.UserRepository>(
       () => _i23.Userrepositoriesimpl(gh<_i582.UserRemoteDataSource>()),

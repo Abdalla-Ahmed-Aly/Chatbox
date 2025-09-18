@@ -1,6 +1,9 @@
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/core/widget/online_avatar.dart';
+import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart';
+import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/sender/SenderMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/resiver/resiverMessage.dart';
 import 'package:chatbox/features/chat/presentation/screens/widget/testMic.dart';
@@ -10,8 +13,6 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
-
-
   const ChatScreen({super.key});
 
   @override
@@ -32,6 +33,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    serviceLocator.get<GetUserProfileCubit>()..getUserProfile(Params('Abdoo'));
+
     textEditingController.addListener(() {
       setState(() {});
     });
@@ -64,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   List<Widget> messages = [
-    ResiverMessage(text: 'hi abdoo'),
+    ResiverMessage(text: 'hi Abdoo'),
     SenderMessage(text: 'Hi Ahmed'),
   ];
   void onSendMessage() {
@@ -150,7 +153,9 @@ class _ChatScreenState extends State<ChatScreen> {
               imagePath: 'assets/images/model1.png',
               isOnline: true,
               radius: 23,
-              onTap: () {},
+              onTap: () {
+                context.push(RouteCenter.ProfileScreenUser, extra: "Abdoo");
+              },
             ),
             const SizedBox(width: 12),
             Column(

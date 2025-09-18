@@ -5,7 +5,11 @@ import 'package:chatbox/features/auth/presentation/cubit/login/login_cubit.dart'
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart';
 import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
+import 'package:chatbox/features/chat/domain/entity/User_profile_entity.dart';
+import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart';
+import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
+import 'package:chatbox/features/chat/presentation/screens/profile_screen_user.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
 import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
@@ -191,6 +195,24 @@ class AppRouter {
             child: BlocProvider.value(
               value: cubit,
               child: const ProfileScreen(),
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteCenter.ProfileScreenUser,
+        pageBuilder: (context, state) {
+          final cubit = serviceLocator<GetUserProfileCubit>();
+          final user = state.extra as String;
+
+          cubit.getUserProfile(Params(user));
+          return CustomTransitionPage(
+            child: BlocProvider.value(
+              value: cubit,
+              child: const ProfileScreenUser(),
             ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
