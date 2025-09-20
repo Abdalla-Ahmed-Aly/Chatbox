@@ -9,6 +9,8 @@ class APIConstant {
   static String updateProfile="/user/profile";
   static String updateProfilePhoto="/user/profile-pic";
   static String fetchFriendsEndpoint="/user/friends";
+  static String searchUserEndpoint="/user/search";
+  static String addFriendEndpoint="/user/send-friend-request";
 
 
 

@@ -85,7 +85,7 @@ class ContactInfoWidget extends StatelessWidget {
               ),
               Spacer(),
               isNeedToLeading
-                  ?forFriend?const RemoveFriendIcon():const QrButton()
+                  ?forFriend? RemoveFriendIcon(userName: username):const QrButton()
                   : const SizedBox(),
             ],
           ),

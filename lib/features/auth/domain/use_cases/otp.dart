@@ -1,4 +1,4 @@
-import 'package:chatbox/features/auth/data/model/shared_response.dart';
+import 'package:chatbox/core/model/shared_response.dart';
 import 'package:chatbox/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
