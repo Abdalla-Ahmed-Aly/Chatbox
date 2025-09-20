@@ -154,7 +154,7 @@ class _ChatScreenState extends State<ChatScreen> {
               isOnline: true,
               radius: 23,
               onTap: () {
-                context.push(RouteCenter.ProfileScreenUser, extra: "Abdoo");
+                context.push(RouteCenter.profileScreenUser, extra: "Abdoo");
               },
             ),
             const SizedBox(width: 12),

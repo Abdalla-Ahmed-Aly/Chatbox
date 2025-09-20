@@ -5,12 +5,13 @@ import 'package:chatbox/features/auth/presentation/cubit/login/login_cubit.dart'
 import 'package:chatbox/features/auth/presentation/cubit/register_cubit/register_cubit.dart';
 import 'package:chatbox/features/auth/presentation/cubit/reset_password_cubit/reset_password_cubit.dart';
 import 'package:chatbox/features/auth/presentation/screens/login_screen.dart';
-import 'package:chatbox/features/chat/domain/entity/User_profile_entity.dart';
 import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart';
 import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart';
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/profile_screen_user.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
+import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
+import 'package:chatbox/features/friend/presentation/screens/friend_request_screen.dart';
 import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
@@ -80,7 +81,10 @@ class AppRouter {
         path: RouteCenter.home,
         pageBuilder: (context, state) {
           return CustomTransitionPage(
-            child: const HomeScreen(),
+            child: BlocProvider(
+              create: (context) => serviceLocator.get<FriendCubit>()..fetchFriends(),
+              child: const HomeScreen(),
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),
@@ -187,7 +191,7 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: RouteCenter.ProfileScreen,
+        path: RouteCenter.profileScreen,
         pageBuilder: (context, state) {
           final cubit = serviceLocator<ProfileCubit>();
           cubit.getUserProfile();
@@ -203,7 +207,7 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: RouteCenter.ProfileScreenUser,
+        path: RouteCenter.profileScreenUser,
         pageBuilder: (context, state) {
           final cubit = serviceLocator<GetUserProfileCubit>();
           final user = state.extra as String;
@@ -217,6 +221,17 @@ class AppRouter {
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteCenter.friendRequestScreen,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const FriendRequestScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                FadeTransition(opacity: animation, child: child),
           );
         },
       ),

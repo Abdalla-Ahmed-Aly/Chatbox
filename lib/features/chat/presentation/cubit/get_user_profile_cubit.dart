@@ -1,4 +1,4 @@
-import 'package:chatbox/features/chat/domain/entity/User_profile_entity.dart';
+import 'package:chatbox/features/chat/domain/entity/user_profile_entity.dart';
 import 'package:chatbox/features/chat/domain/repositories/user_profile_repository.dart';
 import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart';
 import 'package:chatbox/features/chat/presentation/cubit/get_user_Profile_state.dart';

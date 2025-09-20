@@ -12,6 +12,20 @@ class AppTheme {
   static Color darkGreen = Color(0xff051D13);
 
   static ThemeData lightTheme = ThemeData(
+    appBarTheme: AppBarTheme(
+      foregroundColor: primary,
+      centerTitle: true,
+      backgroundColor: AppTheme.black,
+      titleTextStyle: TextStyle(
+        color: primary,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+        fontFamily: 'myFonts',
+
+
+      )
+
+    ),
     scaffoldBackgroundColor: primary,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primary,
@@ -115,5 +129,12 @@ class AppTheme {
         fontWeight: FontWeight.w700, // regular font
       ),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: primary,
+      shape:const CircleBorder(),
+      backgroundColor: green,
+
+
+    )
   );
 }

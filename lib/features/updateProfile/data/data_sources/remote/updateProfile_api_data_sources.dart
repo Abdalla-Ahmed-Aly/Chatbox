@@ -18,7 +18,7 @@ class UpdateprofileApiDataSources extends UpdateprofileRemoteDataSources {
   ) async {
     try {
       final response = await dio.patch(
-        APIConstant.updateProfiel,
+        APIConstant.updateProfile,
         data: request.toJson(),
       );
       return UpdateProfileResponse.fromJson(response.data);
@@ -39,7 +39,7 @@ class UpdateprofileApiDataSources extends UpdateprofileRemoteDataSources {
       final formData = await request.toFormData();
 
       final response = await dio.patch(
-        APIConstant.updateProfielPhoto,
+        APIConstant.updateProfilePhoto,
         data: formData,
       );
 

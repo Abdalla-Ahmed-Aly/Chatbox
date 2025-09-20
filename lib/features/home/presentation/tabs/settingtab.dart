@@ -1,12 +1,12 @@
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/auth/data/storage/token_storage.dart';
-import 'package:chatbox/features/home/data/models/contact_model.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';
-import 'package:chatbox/features/home/presentation/widgets/contact_info_widget.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_theme.dart';
+import '../../../friend/presentation/widgets/contact_info_widget.dart';
+
 
 class SettingTab extends StatelessWidget {
   const SettingTab({super.key});
@@ -30,12 +30,13 @@ class SettingTab extends StatelessWidget {
           ],
         ),
         child: IconButton(
+          icon: Icon(Icons.logout_outlined, color: Colors.white, size: 30),
           onPressed: () async {
             await TokenStorage().clearAll();
-
             context.push(RouteCenter.onboarding);
+
+
           },
-          icon: Icon(Icons.logout_outlined, color: Colors.white, size: 30),
         ),
       ),
 
@@ -77,8 +78,10 @@ class SettingTab extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 24),
                         child: ContactInfoWidget(
+                          image: "https://static.vecteezy.com/system/resources/previews/048/926/084/non_2x/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-illustration-vector.jpg",
                           verticalPadding: 20,
-                          contact: ContactModel.contact[2],
+                          bio: "Hi i use ChatBox",
+                          username: "marwan",
                           isNeedToLeadingIcon: true,
                         ),
                       ),

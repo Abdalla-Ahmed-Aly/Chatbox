@@ -12,6 +12,7 @@ class RouteCenter {
   static const String callScreen = '/callScreen';
   static const String ringScreen = '/ringScreen';
   static const String updateProfile = '/updateProfile';
-  static const String ProfileScreen = '/Profile';
-  static const String ProfileScreenUser = '/ProfileScreenUser';
+  static const String profileScreen = '/profile';
+  static const String profileScreenUser = '/profileScreenUser';
+  static const String friendRequestScreen = '/friendRequestScreen';
 }

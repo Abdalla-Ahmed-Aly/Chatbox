@@ -50,6 +50,18 @@ import 'package:chatbox/features/chat/domain/use_cases/getUserProfile.dart'
     as _i438;
 import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart'
     as _i797;
+import 'package:chatbox/features/friend/data/data_source/remote/friend_api_data_source.dart'
+    as _i975;
+import 'package:chatbox/features/friend/data/data_source/remote/friend_remote_data_source.dart'
+    as _i310;
+import 'package:chatbox/features/friend/data/repositories/friend_repository_impl.dart'
+    as _i719;
+import 'package:chatbox/features/friend/domain/repositories/friend_repository.dart'
+    as _i385;
+import 'package:chatbox/features/friend/domain/use_cases/friend_use_case.dart'
+    as _i208;
+import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart'
+    as _i1012;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
     as _i505;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_remote_data_source.dart'
@@ -91,6 +103,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i361.Dio>(
       () => registerModule.dio(gh<_i1033.ITokenStorage>()),
     );
+    gh.lazySingleton<_i310.FriendRemoteDataSource>(
+      () => _i975.FriendApiDataSource(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i385.FriendRepository>(
+      () => _i719.FriendRepositoryImpl(gh<_i310.FriendRemoteDataSource>()),
+    );
     gh.lazySingleton<_i709.UserprofileRemoteDataSource>(
       () => _i406.UserprofileApiDataSource(gh<_i361.Dio>()),
     );
@@ -112,6 +130,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i582.UserRemoteDataSource>(
       () => _i505.UserApiDataSource(gh<_i361.Dio>()),
     );
+    gh.factory<_i208.FriendUseCase>(
+      () => _i208.FriendUseCase(gh<_i385.FriendRepository>()),
+    );
     gh.singleton<_i797.GetUserProfileCubit>(
       () => _i797.GetUserProfileCubit(gh<_i553.UserProfileRepository>()),
     );
@@ -121,6 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i438.GetUserProfile>(
       () => _i438.GetUserProfile(gh<_i553.UserProfileRepository>()),
+    );
+    gh.factory<_i1012.FriendCubit>(
+      () => _i1012.FriendCubit(gh<_i208.FriendUseCase>()),
     );
     gh.factory<_i802.UpdateprofileCubit>(
       () => _i802.UpdateprofileCubit(

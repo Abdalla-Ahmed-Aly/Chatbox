@@ -15,6 +15,7 @@ class LoginCubit extends Cubit<LoginStates> {
   Future<void> login(LoginRequest request) async {
     emit(LoginLoading());
 
+
     final result = await _login(request);
 
     result.fold((failure) => emit(LoginFailure(failure.message)), (

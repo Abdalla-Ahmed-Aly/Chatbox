@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/widget/loading_indicator.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -232,10 +234,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppTheme.black,
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          // if (state is ProfileLoading) {
-          //   return const Center(child: CircularProgressIndicator());
-          // } else
-          if (state is ProfileSuccess) {
+          if (state is ProfileLoading) {
+            return const LoadingIndicator();
+          }
+          else if (state is ProfileSuccess) {
             final currentUser = state.message;
             // print(currentUser.address);
 

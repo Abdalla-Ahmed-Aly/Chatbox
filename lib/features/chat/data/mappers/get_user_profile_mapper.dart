@@ -1,5 +1,5 @@
 import 'package:chatbox/features/chat/data/model/user_profile_response/user_profile_response.dart';
-import 'package:chatbox/features/chat/domain/entity/User_profile_entity.dart';
+import 'package:chatbox/features/chat/domain/entity/user_profile_entity.dart';
 import 'package:chatbox/features/profile/data/model/profile_pic.dart';
 
 extension GetUserProfileMapper on UserProfileResponse {

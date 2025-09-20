@@ -1,6 +1,7 @@
 import 'package:chatbox/features/profile/data/model/profile_pic.dart';
+import 'package:equatable/equatable.dart';
 
-class UserProfileEntity {
+class UserProfileEntity extends Equatable {
   final String username;
   final String email;
   final String address;
@@ -9,7 +10,7 @@ class UserProfileEntity {
   final String bio;
   final String status;
 
-  UserProfileEntity({
+ const UserProfileEntity({
     required this.username,
     required this.email,
     required this.address,
@@ -18,4 +19,8 @@ class UserProfileEntity {
     required this.bio,
     required this.status,
   });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [username];
 }
