@@ -52,7 +52,7 @@ class FriendSearchItem extends SearchDelegate {
                       SharedRequest(username: query));
                 }
               }
-                , icon:state is AddFriendLoading?CupertinoIcons.circle : CupertinoIcons.search),
+                , icon:state is AddFriendLoading?CupertinoIcons.person_add_solid : CupertinoIcons.person_add),
             );
           },
         ),
