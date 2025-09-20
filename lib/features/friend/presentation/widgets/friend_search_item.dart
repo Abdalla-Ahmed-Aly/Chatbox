@@ -45,9 +45,12 @@ class FriendSearchItem extends SearchDelegate {
             return AbsorbPointer(
               absorbing: state is AddFriendLoading,
               child: AppBarIcon(onPressed: () {
-                context.read<AddFriendCubit>().addFriend(
-                    SharedRequest(username: query));
-
+                if(query.isEmpty) {
+                  return AppSnackBars.showErrorSnackBar(context: context, message: "Please enter a username");
+                } else {
+                  context.read<AddFriendCubit>().addFriend(
+                      SharedRequest(username: query));
+                }
               }
                 , icon:state is AddFriendLoading?CupertinoIcons.circle : CupertinoIcons.search),
             );
