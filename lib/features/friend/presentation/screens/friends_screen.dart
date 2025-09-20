@@ -6,12 +6,12 @@ import 'package:flutter/material.dart' ;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../friend/presentation/widgets/contact_list.dart';
-import '../../../friend/presentation/widgets/friend_request_button.dart';
-import '../../../friend/presentation/widgets/friend_search_item.dart';
-import '../../../friend/presentation/widgets/search_item.dart';
-class FriendsTab extends StatelessWidget {
-  const FriendsTab({super.key});
+import '../widgets/contact_list.dart';
+import '../widgets/friend_request_button.dart';
+import '../widgets/friend_search_item.dart';
+import '../widgets/search_item.dart';
+class FriendsScreen extends StatelessWidget {
+  const FriendsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

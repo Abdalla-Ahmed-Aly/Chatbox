@@ -82,7 +82,7 @@ class SettingTab extends StatelessWidget {
                           verticalPadding: 20,
                           bio: "Hi i use ChatBox",
                           username: "marwan",
-                          isNeedToLeadingIcon: true,
+                          isNeedToLeading: true,
                         ),
                       ),
                       const SizedBox(height: 24),

@@ -1,7 +1,7 @@
 import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
-import 'package:chatbox/features/home/presentation/tabs/friendstab.dart';
+import 'package:chatbox/features/friend/presentation/screens/friends_screen.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
 import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
 import 'package:chatbox/features/home/presentation/widgets/custom_physics.dart';
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: MessageTab(pageController: _pageController),
       ),
       const Center(child: Text('Search', style: TextStyle(fontSize: 24))),
-      const FriendsTab(),
+      const FriendsScreen(),
       const SettingTab(),
     ];
     return PageView(

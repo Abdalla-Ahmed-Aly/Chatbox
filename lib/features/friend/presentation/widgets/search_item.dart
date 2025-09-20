@@ -40,7 +40,7 @@ return Scaffold(
 
   @override
   Widget buildSuggestions(BuildContext context) {
- return   ContactList(header: 'Chat',isAlph: false, friends: [],);
+ return ContactList(header: 'Chat',isAlph: false, friends: [],);
   }
   void clearFunction(){
     query="";

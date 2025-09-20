@@ -8,6 +8,7 @@ class AlphContactList extends StatefulWidget {
   const AlphContactList({super.key,required this.friends});
   final List<FriendEntity>friends;
 
+
   @override
   State<AlphContactList> createState() => _AlphContactListState();
 
@@ -38,7 +39,7 @@ class _AlphContactListState extends State<AlphContactList> {
             ),
           ),
 
-          ContactInfoWidget( username:widget.friends[index].username, bio:widget.friends[index].bio,image:widget.friends[index].profilePic ,),
+          ContactInfoWidget( username:widget.friends[index].username, bio:widget.friends[index].bio,image:widget.friends[index].profilePic,isNeedToLeading: true,forFriend: true,),
         ],
       );
       },

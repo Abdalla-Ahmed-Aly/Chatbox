@@ -1,25 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatbox/core/route/route_center.dart';
+import 'package:chatbox/features/friend/presentation/widgets/remove_friend_icon.dart';
+import 'package:chatbox/features/home/presentation/widgets/setting/qr_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class ContactInfoWidget extends StatelessWidget {
   const ContactInfoWidget({
     super.key,
-    this.isNeedToLeadingIcon = false,
+    this.isNeedToLeading = false,
     this.verticalPadding = 0,
     required this.username,
     required this.bio,
-    required this.image
+    required this.image,
+    this.forFriend=false
   });
 
-  final bool isNeedToLeadingIcon;
+  final bool isNeedToLeading;
   final double verticalPadding;
   final String username;
   final String bio;
   final String image;
+  final bool forFriend;
 
 
   @override
@@ -28,7 +31,7 @@ class ContactInfoWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => isNeedToLeadingIcon
+        onTap: () => isNeedToLeading
             ? context.push(RouteCenter.profileScreen)
             : context.push(RouteCenter.chatScreen),
         child: Padding(
@@ -81,15 +84,8 @@ class ContactInfoWidget extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              isNeedToLeadingIcon
-                  ? GestureDetector(
-                      onTap: () => context.push(RouteCenter.qrCode),
-                      child: SvgPicture.asset(
-                        "assets/svg/qrCode.svg",
-                        width:30,
-                        height: 30,
-                      ),
-                    )
+              isNeedToLeading
+                  ?forFriend?const RemoveFriendIcon():const QrButton()
                   : const SizedBox(),
             ],
           ),
