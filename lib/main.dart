@@ -9,6 +9,7 @@ Future<void> main() async {
   WidgetsBinding.instance.deferFirstFrame();
   observerInit();
   await configureDependencies();
+  
   runApp(ChatBox());
 
   WidgetsBinding.instance.allowFirstFrame();

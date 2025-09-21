@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/core/widget/photo_open_screen.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:chatbox/features/profile/presentation/screens/custom_image_crop.dart';
@@ -236,8 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context, state) {
           if (state is ProfileLoading) {
             return const LoadingIndicator();
-          }
-          else if (state is ProfileSuccess) {
+          } else if (state is ProfileSuccess) {
             final currentUser = state.message;
             // print(currentUser.address);
 
@@ -245,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 const SizedBox(height: 50),
                 SizedBox(
-                  height: screenDim.height * 0.30,
+                  // height: screenDim.height * 0.30,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
@@ -268,29 +268,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                CircleAvatar(
-                                  radius: screenDim.height * 0.1,
-                                  backgroundImage:
-                                      currentUser
-                                          .profilePicture
-                                          .secureUrl
-                                          .isNotEmpty
-                                      ? NetworkImage(
-                                          currentUser.profilePicture.secureUrl,
-                                        )
-                                      : null,
-                                  child:
-                                      currentUser
-                                          .profilePicture
-                                          .secureUrl
-                                          .isEmpty
-                                      ? Icon(
-                                          Icons.person,
-                                          size: screenDim.height * 0.2,
-                                          color: Colors.grey,
-                                        )
-                                      : null,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => PhotoOpenScreen(
+                                          imageUrl: currentUser
+                                              .profilePicture
+                                              .secureUrl,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    radius: screenDim.height * 0.1,
+                                    backgroundImage:
+                                        currentUser
+                                            .profilePicture
+                                            .secureUrl
+                                            .isNotEmpty
+                                        ? NetworkImage(
+                                            currentUser
+                                                .profilePicture
+                                                .secureUrl,
+                                          )
+                                        : null,
+                                    child:
+                                        currentUser
+                                            .profilePicture
+                                            .secureUrl
+                                            .isEmpty
+                                        ? Icon(
+                                            Icons.person,
+                                            size: screenDim.height * 0.2,
+                                            color: Colors.grey,
+                                          )
+                                        : null,
+                                  ),
                                 ),
+
                                 Text(
                                   currentUser.username,
                                   style: Theme.of(context)
@@ -298,6 +315,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       .headlineMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
+
+                                const SizedBox(height: 2),
                                 Text(
                                   '${currentUser.bio}',
                                   style: Theme.of(context).textTheme.bodySmall
@@ -308,7 +327,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const Spacer(flex: 2),
                           ],
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
@@ -316,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 5),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.only(top: screenDim.height * 0.015),
+                    padding: EdgeInsets.only(top: screenDim.height * 0.011),
                     decoration: BoxDecoration(
                       color: AppTheme.primary,
                       borderRadius: const BorderRadius.only(
@@ -331,62 +350,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: screenDim.width * 0.1,
-                                height: screenDim.height * 0.005,
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 12,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: screenDim.width * 0.2,
+                                  height: screenDim.height * 0.005,
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[400],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[400],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          const SizedBox(height: 30),
-                          _buildUserInfoItem(
-                            context,
-                            label: 'Display Name',
-                            info: currentUser.username,
-                            icon: Icons.person,
-                          ),
-                          const SizedBox(height: 20),
+                            const SizedBox(height: 30),
+                            _buildUserInfoItem(
+                              context,
+                              label: 'Display Name',
+                              info: currentUser.username,
+                              icon: Icons.person,
+                            ),
+                            const SizedBox(height: 20),
 
-                          _buildUserInfoItem(
-                            context,
-                            label: 'Email Address',
-                            info: currentUser.email,
-                            icon: Icons.email_outlined,
-                          ),
-                          const SizedBox(height: 20),
+                            _buildUserInfoItem(
+                              context,
+                              label: 'Email Address',
+                              info: currentUser.email,
+                              icon: Icons.email_outlined,
+                            ),
+                            const SizedBox(height: 20),
 
-                          _buildUserInfoItem(
-                            context,
-                            label: 'Address',
-                            info: currentUser.address,
-                            icon: Icons.location_on_outlined,
-                          ),
-                          const SizedBox(height: 20),
+                            _buildUserInfoItem(
+                              context,
+                              label: 'Address',
+                              info: currentUser.address,
+                              icon: Icons.location_on_outlined,
+                            ),
+                            const SizedBox(height: 20),
 
-                          _buildUserInfoItem(
-                            context,
-                            label: 'Phone Number',
-                            info: currentUser.phoneNumber,
-                            icon: Icons.phone,
-                          ),
-                          const SizedBox(height: 20),
-                        ],
+                            _buildUserInfoItem(
+                              context,
+                              label: 'Phone Number',
+                              info: currentUser.phoneNumber,
+                              icon: Icons.phone,
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
                       ),
                     ),
                   ),

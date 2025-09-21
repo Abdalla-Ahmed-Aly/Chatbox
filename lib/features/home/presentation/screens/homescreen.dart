@@ -9,7 +9,6 @@ import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override

@@ -129,12 +129,7 @@ class _MessageTabState extends State<MessageTab> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.04),
-                      child: StoryDisplay(
-                        pageController: widget.pageController,
-                      ),
-                    ),
+                    StoryDisplay(pageController: widget.pageController),
                     SizedBox(height: verticalSpacing),
                     Container(
                       padding: EdgeInsets.only(top: size.height * 0.015),
@@ -156,7 +151,7 @@ class _MessageTabState extends State<MessageTab> {
                         children: [
                           Container(
                             width: size.width * 0.1,
-                            height: size.height * 0.005,
+                            height: size.height * 0.004,
                             margin: EdgeInsets.symmetric(
                               vertical: size.height * 0.01,
                             ),
@@ -174,7 +169,7 @@ class _MessageTabState extends State<MessageTab> {
                             shrinkWrap: true,
                             itemCount: 15,
                             separatorBuilder: (context, index) =>
-                                SizedBox(height: size.height * 0.01),
+                                SizedBox(height: size.height * 0.02),
                             itemBuilder: (context, index) {
                               return CustomSlidableMessageItem(
                                 onTap: () {

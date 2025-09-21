@@ -9,32 +9,41 @@ class StoryDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final storySize = constraints.maxWidth * 0.22;
+        final storyHeight = storySize * 1.3;
 
-    return SizedBox(
-      height: size.height * 0.15,
-      width: double.infinity,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: User.storyUser.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: index != 0
-                ? StoryNewItem(
-                    storyUser: User.storyUser[index],
-                    users: User.storyUser,
-                    currentIndex: index,
-                  )
-                : MyStatus(
-                    pageController: pageController,
-                    image: 'assets/images/model1.png',
-                    username: 'My Status',
-                    hasNewStory: User.storyUser[0].stories.isNotEmpty,
-                  ),
-          );
-        },
-      ),
+        return SizedBox(
+          height: storyHeight,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: User.storyUser.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: constraints.maxWidth * 0.02,
+                ),
+                child: SizedBox(
+                  width: storySize,
+                  child: index != 0
+                      ? StoryNewItem(
+                          storyUser: User.storyUser[index],
+                          users: User.storyUser,
+                          currentIndex: index,
+                        )
+                      : MyStatus(
+                          pageController: pageController,
+                          image: 'assets/images/model1.png',
+                          username: 'My Status',
+                          hasNewStory: User.storyUser[0].stories.isNotEmpty,
+                        ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
