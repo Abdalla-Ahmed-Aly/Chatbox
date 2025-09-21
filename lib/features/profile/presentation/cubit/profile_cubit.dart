@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final UserRepository profileRepository;
 
-  ProfileCubit({required this.profileRepository}) : super(ProfileInitial()) {}
+  ProfileCubit({required this.profileRepository}) : super(ProfileInitial());
   Future<UserEntity> getUserProfile() async {
     // emit(ProfileLoading());
 

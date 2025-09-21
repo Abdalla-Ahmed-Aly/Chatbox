@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui' as ui;
-import 'dart:typed_data';
 
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:extended_image/extended_image.dart';

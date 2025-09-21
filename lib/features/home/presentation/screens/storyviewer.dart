@@ -33,7 +33,7 @@ class StoryViewer extends StatefulWidget {
 class _StoryViewerState extends State<StoryViewer>
     with TickerProviderStateMixin {
   late PageController _pageController;
-  Map<int, GlobalKey> _pageKeys = {};
+  final Map<int, GlobalKey> _pageKeys = {};
   late AnimationController _progressController;
   Timer? _storyTimer;
   VideoPlayerController? _videoController;
@@ -46,7 +46,7 @@ class _StoryViewerState extends State<StoryViewer>
 
   final Set<String> _likedStories = {};
 
-  Map<int, _UserStoryData> _userDataCache = {};
+  final Map<int, _UserStoryData> _userDataCache = {};
 
   bool _isTransitioning = false;
 

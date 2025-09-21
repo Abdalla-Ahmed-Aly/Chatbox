@@ -8,12 +8,14 @@ import 'package:chatbox/core/widget/custom_button.dart';
 import 'package:chatbox/core/widget/custom_text_form_field.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
+import 'package:chatbox/features/profile/presentation/screens/custom_image_crop.dart';
 import 'package:chatbox/features/updateProfile/data/model/photoRequest.dart';
 import 'package:chatbox/features/updateProfile/data/model/update_profile_request.dart';
 import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_cubit.dart';
 import 'package:chatbox/features/updateProfile/presentation/cubit/updateProfile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -32,20 +34,148 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   String? localImagePath;
   String? serverImageUrl;
   final ImagePicker _picker = ImagePicker();
+  File? _profileImage;
 
-  Future<void> pickImage() async {
-    try {
-      final XFile? picked = await _picker.pickImage(
-        source: ImageSource.gallery,
-      );
-      if (picked != null) {
-        setState(() {
-          localImagePath = picked.path;
-        });
-      }
-    } catch (e) {
-      print("Error picking image: $e");
+  Future<void> pickImageFromGallery(
+    BuildContext context,
+    UpdateprofileCubit updateProfileCubit,
+  ) async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1080,
+      maxHeight: 1080,
+      imageQuality: 80,
+    );
+    if (image != null) {
+      localImagePath = image.path;
+      _navigateToCropScreen(context, File(localImagePath!), updateProfileCubit);
     }
+  }
+
+  Future<void> pickImageFromCamera(
+    BuildContext context,
+    UpdateprofileCubit updateProfileCubit,
+  ) async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1080,
+      maxHeight: 1080,
+      imageQuality: 80,
+    );
+    if (image != null) {
+      localImagePath = image.path;
+      _navigateToCropScreen(context, File(localImagePath!), updateProfileCubit);
+    }
+  }
+
+  Future<void> _navigateToCropScreen(
+    BuildContext context,
+    File imageFile,
+    UpdateprofileCubit updateProfileCubit,
+  ) async {
+    final result = await Navigator.push<File?>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CustomImageCropScreen(
+          cameraImage: imageFile,
+          onCropped: (croppedFile) {
+            if (croppedFile != null) {
+              print('Image cropped successfully: ${croppedFile.path}');
+            }
+          },
+        ),
+      ),
+    );
+
+    if (result != null) {
+      Navigator.pop(context);
+      setState(() {
+        localImagePath = result.path;
+      });
+
+      if (localImagePath != null) {
+        await updateProfileCubit.updateProfilePhoto(
+          PhotoRequest(image: File(localImagePath!)),
+        );
+
+        if (mounted) {
+          serviceLocator.get<ProfileCubit>().getUserProfile();
+        }
+      }
+    }
+  }
+
+  Future<void> showPickingOptions(
+    double height,
+    BuildContext context,
+    UpdateprofileCubit updateProfileCubit,
+  ) async {
+    await showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          ),
+          color: AppTheme.primary,
+        ),
+        height: height * 0.35,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildControlButton(
+                  onTap: () => Navigator.pop(context),
+                  icon: Icons.close,
+                ),
+                Text(
+                  'Profile Photo',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                _buildControlButton(
+                  onTap: () {}, //_removeProfileImage,
+                  icon: Icons.delete_outline_rounded,
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            _buildPickingOptions(
+              onTap: () => pickImageFromCamera(context, updateProfileCubit),
+              context,
+              icon: Icons.camera_alt_outlined,
+              label: 'Camera',
+            ),
+            _buildPickingOptions(
+              onTap: () => pickImageFromGallery(context, updateProfileCubit),
+              context,
+              icon: Icons.image,
+              label: 'Gallery',
+            ),
+            _buildPickingOptions(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              context,
+              icon: Icons.emoji_emotions,
+              label: 'Avatar',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -66,6 +196,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
+    Size screendim = MediaQuery.sizeOf(context);
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -134,10 +265,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             ),
                           );
                         } else if (state is UpdateprofilePhotoFailure) {
-                          AppSnackBars.showErrorSnackBar(
-                            context: context,
-                            message: state.error.toString(),
-                          );
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            AppSnackBars.showErrorSnackBar(
+                              context: context,
+                              message: state.error.toString(),
+                            );
+                          });
                         }
                         return const SizedBox.shrink();
                       },
@@ -148,19 +281,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       right: 0,
                       child: GestureDetector(
                         onTap: () async {
-                          await pickImage();
-
-                          if (localImagePath != null) {
-                            final cubit = context.read<UpdateprofileCubit>();
-                            await cubit.updateProfilePhoto(
-                              PhotoRequest(image: File(localImagePath!)),
-                            );
-
-                            if (mounted) {
-                              serviceLocator.get<ProfileCubit>()
-                                ..getUserProfile();
-                            }
-                          }
+                          final cubit = context.read<UpdateprofileCubit>();
+                          showPickingOptions(screendim.height, context, cubit);
                         },
                         child: Container(
                           width: 40,
@@ -258,6 +380,72 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 },
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPickingOptions(
+    BuildContext context, {
+    required VoidCallback onTap,
+    required String label,
+    required IconData icon,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      shape: const BeveledRectangleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const BeveledRectangleBorder(),
+        splashColor: AppTheme.darkGreen.withOpacity(0.5),
+        highlightColor: AppTheme.darkGreen.withOpacity(0.5),
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(icon, size: 30, color: AppTheme.darkGreen),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(color: AppTheme.darkGreen),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildControlButton({
+    String? svgPath,
+    IconData? icon = Icons.hourglass_empty,
+    required VoidCallback onTap,
+    double height = 30,
+    double width = 30,
+  }) {
+    return Container(
+      height: 55,
+      width: 55,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppTheme.darkGreen,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: svgPath != null
+                ? SvgPicture.asset(svgPath, height: height, width: width)
+                : Icon(icon, size: 30, color: AppTheme.primary),
           ),
         ),
       ),

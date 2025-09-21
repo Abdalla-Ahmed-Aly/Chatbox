@@ -95,7 +95,7 @@ class _MessageTabState extends State<MessageTab> {
                   InkWell(
                     onTap: () {
                       context.push(RouteCenter.profileScreen).then((_) {
-                        _loadProfileImagePath();
+                        // _loadProfileImagePath();
                       });
                     },
                     borderRadius: BorderRadius.circular(15),

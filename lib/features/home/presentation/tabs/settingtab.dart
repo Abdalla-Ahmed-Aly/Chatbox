@@ -95,16 +95,16 @@ class _SettingTabState extends State<SettingTab> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 25),
-                  child: BlocBuilder<ProfileCubit, ProfileState>(
-                    builder: (context, state) {
-                      if (state is ProfileLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is ProfileSuccess) {
-                        final profile = state.message;
+                  child: Column(
+                    children: [
+                      BlocBuilder<ProfileCubit, ProfileState>(
+                        builder: (context, state) {
+                          if (state is ProfileLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is ProfileSuccess) {
+                            final profile = state.message;
 
-                        return Column(
-                          children: [
-                            Padding(
+                            return Padding(
                               padding: const EdgeInsets.only(right: 24),
                               child: ContactInfoWidget(
                                 image: profile.profilePicture.secureUrl,
@@ -113,28 +113,34 @@ class _SettingTabState extends State<SettingTab> {
                                 username: profile.username,
                                 isNeedToLeading: true,
                               ),
+                            );
+                          }
+                          return Center(
+                            child: Text(
+                              "No data",
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: AppTheme.black),
                             ),
-                            const SizedBox(height: 24),
-                            Divider(
-                              color: AppTheme.gray.withValues(alpha: .1),
-                              height: 1,
-                            ),
-                            const SizedBox(height: 24),
-                            Expanded(
-                              child: ListView.separated(
-                                itemBuilder: (context, index) => SettingWidget(
-                                  setting: SettingModel.setting[index],
-                                ),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 20),
-                                itemCount: SettingModel.setting.length,
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                      return const Center(child: Text("No data"));
-                    },
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      Divider(
+                        color: AppTheme.gray.withValues(alpha: .1),
+                        height: 1,
+                      ),
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (context, index) => SettingWidget(
+                            setting: SettingModel.setting[index],
+                          ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 20),
+                          itemCount: SettingModel.setting.length,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
