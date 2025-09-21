@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 abstract class FriendRepository {
   Future<Either<Failure,List<FriendEntity>>>fetchFriends();
   Future<Either<Failure,String>>addFriend (SharedRequest request);
+  Future<Either<Failure,String>>removeFriend (SharedRequest request);
 
 
 

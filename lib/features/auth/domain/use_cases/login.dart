@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/failure/failure.dart';
 import '../repositories/auth_repository.dart';
 
-@injectable
+@lazySingleton
 class Login {
   const Login(this._authRepository);
   final AuthRepository _authRepository;

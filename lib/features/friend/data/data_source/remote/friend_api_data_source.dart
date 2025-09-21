@@ -1,5 +1,6 @@
 import 'package:chatbox/core/model/shared_request.dart';
 import 'package:chatbox/core/model/shared_response.dart';
+import 'package:chatbox/features/friend/data/model/remove_friend_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -42,6 +43,23 @@ class FriendApiDataSource implements FriendRemoteDataSource {
         message=error.response?.data['message'];
       }
       throw RemoteException(message??"An error occurred while adding friend.");
+
+
+    }
+  }
+
+  @override
+  Future<RemoveFriendResponse> removeFriend(SharedRequest request) async{
+    try {
+      final response = await _dio.delete(
+          APIConstant.removeFriendEndpoint, data: request.toJson());
+      return RemoveFriendResponse.fromJson(response.data);
+    }catch (error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data['message'];
+      }
+      throw RemoteException(message??"An error occurred while removing friend.");
 
 
     }

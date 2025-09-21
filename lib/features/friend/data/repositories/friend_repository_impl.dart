@@ -39,4 +39,14 @@ class FriendRepositoryImpl implements FriendRepository{
 
     }
   }
+
+  @override
+  Future<Either<Failure, String>> removeFriend(SharedRequest request) async{
+  try{
+    final response=await _remoteDataSource.removeFriend(request);
+    return Right(response.message);
+  }on RemoteException catch(exception){
+    return Left(Failure(exception.message));
+  }
+  }
 }

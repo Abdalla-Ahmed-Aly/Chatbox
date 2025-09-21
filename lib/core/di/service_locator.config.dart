@@ -62,10 +62,14 @@ import 'package:chatbox/features/friend/domain/use_cases/add_friend_use_case.dar
     as _i550;
 import 'package:chatbox/features/friend/domain/use_cases/friend_use_case.dart'
     as _i208;
+import 'package:chatbox/features/friend/domain/use_cases/remove_friend_use_case.dart'
+    as _i105;
 import 'package:chatbox/features/friend/presentation/cubit/add_friend_cubit/add_friend_cubit.dart'
     as _i923;
 import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart'
     as _i1012;
+import 'package:chatbox/features/friend/presentation/cubit/remove_friend_cubit/remove_friend_cubit.dart'
+    as _i991;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
     as _i505;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_remote_data_source.dart'
@@ -134,11 +138,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i582.UserRemoteDataSource>(
       () => _i505.UserApiDataSource(gh<_i361.Dio>()),
     );
-    gh.factory<_i550.AddFriendUseCase>(
+    gh.lazySingleton<_i550.AddFriendUseCase>(
       () => _i550.AddFriendUseCase(gh<_i385.FriendRepository>()),
     );
-    gh.factory<_i208.FriendUseCase>(
+    gh.lazySingleton<_i208.FriendUseCase>(
       () => _i208.FriendUseCase(gh<_i385.FriendRepository>()),
+    );
+    gh.lazySingleton<_i105.RemoveFriendUseCase>(
+      () => _i105.RemoveFriendUseCase(gh<_i385.FriendRepository>()),
     );
     gh.factory<_i923.AddFriendCubit>(
       () => _i923.AddFriendCubit(gh<_i550.AddFriendUseCase>()),
@@ -150,10 +157,10 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i750.UpdateprofileImpl(gh<_i1049.UpdateprofileRemoteDataSources>()),
     );
-    gh.factory<_i438.GetUserProfile>(
+    gh.lazySingleton<_i438.GetUserProfile>(
       () => _i438.GetUserProfile(gh<_i553.UserProfileRepository>()),
     );
-    gh.factory<_i1012.FriendCubit>(
+    gh.lazySingleton<_i1012.FriendCubit>(
       () => _i1012.FriendCubit(gh<_i208.FriendUseCase>()),
     );
     gh.factory<_i802.UpdateprofileCubit>(
@@ -161,16 +168,19 @@ extension GetItInjectableX on _i174.GetIt {
         updateProfileRepository: gh<_i580.UpdateProfileRepository>(),
       ),
     );
-    gh.factory<_i71.Login>(() => _i71.Login(gh<_i493.AuthRepository>()));
-    gh.factory<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
-    gh.factory<_i239.Register>(
+    gh.lazySingleton<_i71.Login>(() => _i71.Login(gh<_i493.AuthRepository>()));
+    gh.lazySingleton<_i158.Otp>(() => _i158.Otp(gh<_i493.AuthRepository>()));
+    gh.lazySingleton<_i239.Register>(
       () => _i239.Register(gh<_i493.AuthRepository>()),
     );
-    gh.factory<_i1.ResetPassword>(
+    gh.lazySingleton<_i1.ResetPassword>(
       () => _i1.ResetPassword(gh<_i493.AuthRepository>()),
     );
-    gh.factory<_i614.SendVerification>(
+    gh.lazySingleton<_i614.SendVerification>(
       () => _i614.SendVerification(gh<_i493.AuthRepository>()),
+    );
+    gh.factory<_i991.RemoveFriendCubit>(
+      () => _i991.RemoveFriendCubit(gh<_i105.RemoveFriendUseCase>()),
     );
     gh.factory<_i62.RegisterCubit>(
       () =>
@@ -182,19 +192,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1013.SendVerificationCubit>(
       () => _i1013.SendVerificationCubit(gh<_i614.SendVerification>()),
     );
-    gh.factory<_i922.Updatephoto>(
+    gh.lazySingleton<_i922.Updatephoto>(
       () => _i922.Updatephoto(gh<_i580.UpdateProfileRepository>()),
     );
-    gh.factory<_i208.Updateprofile>(
+    gh.lazySingleton<_i208.Updateprofile>(
       () => _i208.Updateprofile(gh<_i580.UpdateProfileRepository>()),
     );
     gh.lazySingleton<_i673.UserRepository>(
       () => _i23.Userrepositoriesimpl(gh<_i582.UserRemoteDataSource>()),
     );
-    gh.factory<_i13.Getuser>(
+    gh.lazySingleton<_i13.Getuser>(
       () => _i13.Getuser(userRepository: gh<_i673.UserRepository>()),
     );
-    gh.singleton<_i133.ProfileCubit>(
+    gh.lazySingleton<_i133.ProfileCubit>(
       () => _i133.ProfileCubit(profileRepository: gh<_i673.UserRepository>()),
     );
     gh.factory<_i393.ConfirmOtpCubit>(

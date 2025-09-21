@@ -2,7 +2,7 @@ import 'package:chatbox/features/friend/domain/use_cases/friend_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'friend_stats.dart';
-@injectable
+@lazySingleton
 class FriendCubit extends Cubit<FriendStats> {
   FriendCubit(this.friends) : super(FriendStatsInitial());
   final FriendUseCase friends;

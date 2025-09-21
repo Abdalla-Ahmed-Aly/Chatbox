@@ -5,6 +5,7 @@ import 'core/di/service_locator.dart';
 import 'core/route/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/cubit/send_verification_cubit/send_verification_cubit.dart';
+import 'features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
 
 class ChatBox extends StatelessWidget {
   const ChatBox({super.key});
@@ -19,6 +20,11 @@ class ChatBox extends StatelessWidget {
         BlocProvider(
           create: (_) => serviceLocator.get<ProfileCubit>(),
         ),
+        BlocProvider(
+          create: (context) => serviceLocator.get<FriendCubit>(),
+        ),
+
+
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

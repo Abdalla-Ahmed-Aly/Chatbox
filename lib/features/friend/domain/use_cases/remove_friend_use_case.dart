@@ -6,10 +6,12 @@ import '../../../../core/model/shared_request.dart';
 import '../repositories/friend_repository.dart';
 
 @lazySingleton
-class AddFriendUseCase {
+class RemoveFriendUseCase {
   final FriendRepository _repo;
 
-  AddFriendUseCase(this._repo);
-  Future<Either<Failure,String>>call (SharedRequest request)=>_repo.addFriend(request);
+  RemoveFriendUseCase(this._repo);
+  Future<Either<Failure,String>>call (SharedRequest request)=>_repo.removeFriend(request);
+
+
 
 }

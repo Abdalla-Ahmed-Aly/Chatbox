@@ -4,7 +4,7 @@ import 'package:chatbox/features/chat/domain/repositories/user_profile_repositor
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class GetUserProfile {
   final UserProfileRepository repository;
   GetUserProfile(this.repository);

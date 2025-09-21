@@ -6,7 +6,7 @@ import '../../../../core/failure/failure.dart';
 import '../../data/model/otp_request.dart';
 
 
-@injectable
+@lazySingleton
 class Otp {
   final AuthRepository _authRepository;
   Otp(this._authRepository);

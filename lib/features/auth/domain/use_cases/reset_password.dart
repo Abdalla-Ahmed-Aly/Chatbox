@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/failure/failure.dart';
 import '../../data/model/reset_password_request.dart';
 import '../../../../core/model/shared_response.dart';
-@injectable
+@lazySingleton
 class ResetPassword {
   final AuthRepository _authRepository;
 
