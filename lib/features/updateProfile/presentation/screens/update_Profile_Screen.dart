@@ -70,6 +70,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: AppTheme.black),
           title: Text(
             "Update Profile",
             style: textStyle.titleLarge?.copyWith(

@@ -145,6 +145,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(CupertinoIcons.back),
+          color: AppTheme.black,
         ),
         titleSpacing: 0,
         title: Row(
