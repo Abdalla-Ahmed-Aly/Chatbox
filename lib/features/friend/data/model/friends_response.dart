@@ -1,10 +1,10 @@
-/// YApi QuickType插件生成，具体参考文档:https://plugins.jetbrains.com/plugin/18847-yapi-quicktype/documentation
+
 
 import 'dart:convert';
 
 FriendsResponse friendsResponseFromJson(String str) => FriendsResponse.fromJson(json.decode(str));
 
-String friendsResponseToJson(FriendsResponse data) => json.encode(data.toJson());
+
 
 class FriendsResponse {
     FriendsResponse({
@@ -20,10 +20,7 @@ class FriendsResponse {
         results: Results.fromJson(json["results"]),
     );
 
-    Map<dynamic, dynamic> toJson() => {
-        "success": success,
-        "results": results.toJson(),
-    };
+
 }
 
 class Results {
@@ -37,9 +34,7 @@ class Results {
         friends: List<Friend>.from(json["friends"].map((x) => Friend.fromJson(x))),
     );
 
-    Map<dynamic, dynamic> toJson() => {
-        "friends": List<dynamic>.from(friends.map((x) => x.toJson())),
-    };
+
 }
 
 class Friend {
@@ -68,14 +63,7 @@ class Friend {
         status: json["status"],
     );
 
-    Map<dynamic, dynamic> toJson() => {
-        "profilePic": profilePic.toJson(),
-        "bio": bio,
-        "_id": id,
-        "firstLetter": firstLetter,
-        "username": username,
-        "status": status,
-    };
+
 }
 
 class ProfilePic {
@@ -92,8 +80,5 @@ class ProfilePic {
         publicId: json["public_id"],
     );
 
-    Map<dynamic, dynamic> toJson() => {
-        "secure_url": secureUrl,
-        "public_id": publicId,
-    };
+
 }

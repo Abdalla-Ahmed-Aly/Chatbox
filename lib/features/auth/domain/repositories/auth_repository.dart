@@ -4,7 +4,7 @@ import 'package:chatbox/features/auth/data/model/login_response.dart';
 import 'package:chatbox/features/auth/data/model/otp_request.dart';
 import 'package:chatbox/features/auth/data/model/register_request.dart';
 import 'package:chatbox/features/auth/data/model/register_response.dart';
-import 'package:chatbox/features/auth/data/model/shared_response.dart';
+import 'package:chatbox/core/model/shared_response.dart';
 import 'package:chatbox/features/auth/data/model/send_verification_request.dart';
 import 'package:dartz/dartz.dart';
 

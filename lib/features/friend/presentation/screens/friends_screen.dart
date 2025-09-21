@@ -2,7 +2,7 @@ import 'package:chatbox/core/widget/error_indicator.dart';
 import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
 import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_stats.dart';
-import 'package:flutter/material.dart' ;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -10,15 +10,15 @@ import '../widgets/contact_list.dart';
 import '../widgets/friend_request_button.dart';
 import '../widgets/friend_search_item.dart';
 import '../widgets/search_item.dart';
+
 class FriendsScreen extends StatelessWidget {
   const FriendsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppTheme.black,
-      floatingActionButton:const FriendRequestButton(),
+      floatingActionButton: const FriendRequestButton(),
       body: SafeArea(
         child: Column(
           children: [
@@ -29,7 +29,7 @@ class FriendsScreen extends StatelessWidget {
                 children: [
                   InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () async{
+                    onTap: () async {
                       await showSearch(
                           context: context,
                           delegate: SearchItem()
@@ -43,13 +43,17 @@ class FriendsScreen extends StatelessWidget {
                   ),
                   Text(
                     'Friends',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () async{
+                    onTap: () async {
                       await showSearch(
                           context: context,
                           delegate: FriendSearchItem()
@@ -84,21 +88,20 @@ class FriendsScreen extends StatelessWidget {
                     ],
 
                   ),
-                  child:BlocBuilder<FriendCubit, FriendStats>(
-  builder: (context, state) {
-    if(state is FriendStatsLoading){
-      return const LoadingIndicator();
-    }else if(state is FriendStatsError){
-      return ErrorIndicator(error: state.message);
-    }else if(state is FriendStatsSuccess ) {
-
-      return ContactList(header: "My Friend", friends: state.friends,);
-
-    }else{
-      return const SizedBox();
-    }
-    },
-)
+                  child: BlocBuilder<FriendCubit, FriendStats>(
+                    builder: (context, state) {
+                      if (state is FriendStatsLoading) {
+                        return const LoadingIndicator();
+                      } else if (state is FriendStatsError) {
+                        return ErrorIndicator(error: state.message);
+                      } else if (state is FriendStatsSuccess) {
+                        return ContactList(
+                          header: "My Friend", friends: state.friends,);
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  )
 
               ),
             )
