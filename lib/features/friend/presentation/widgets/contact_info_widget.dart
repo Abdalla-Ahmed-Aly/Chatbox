@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/friend/presentation/widgets/remove_friend_icon.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting/qr_button.dart';
@@ -14,7 +13,7 @@ class ContactInfoWidget extends StatelessWidget {
     required this.username,
     required this.bio,
     required this.image,
-    this.forFriend=false
+    this.forFriend = false,
   });
 
   final bool isNeedToLeading;
@@ -23,7 +22,6 @@ class ContactInfoWidget extends StatelessWidget {
   final String bio;
   final String image;
   final bool forFriend;
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +42,15 @@ class ContactInfoWidget extends StatelessWidget {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 decoration: BoxDecoration(shape: BoxShape.circle),
-                child:
-                ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(31),
                   child: Container(
                     height: 52,
                     width: 52,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: image,
-                      fit: BoxFit.fill,
-                    ),
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.network(image, fit: BoxFit.fill),
                   ),
                 ),
-
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +76,9 @@ class ContactInfoWidget extends StatelessWidget {
               ),
               Spacer(),
               isNeedToLeading
-                  ?forFriend?const RemoveFriendIcon():const QrButton()
+                  ? forFriend
+                        ? const RemoveFriendIcon()
+                        : const QrButton()
                   : const SizedBox(),
             ],
           ),

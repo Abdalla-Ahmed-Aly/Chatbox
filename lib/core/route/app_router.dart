@@ -13,7 +13,6 @@ import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupSc
 import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
 import 'package:chatbox/features/friend/presentation/screens/friend_request_screen.dart';
 import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
-import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/onboarding_screen.dart';
 import 'package:chatbox/features/splash/presentation/screens/splash_screen.dart';
@@ -82,7 +81,8 @@ class AppRouter {
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             child: BlocProvider(
-              create: (context) => serviceLocator.get<FriendCubit>()..fetchFriends(),
+              create: (context) =>
+                  serviceLocator.get<FriendCubit>()..fetchFriends(),
               child: const HomeScreen(),
             ),
             transitionsBuilder:
@@ -193,13 +193,10 @@ class AppRouter {
       GoRoute(
         path: RouteCenter.profileScreen,
         pageBuilder: (context, state) {
-          final cubit = serviceLocator<ProfileCubit>();
-          cubit.getUserProfile();
+          // final cubit = serviceLocator<ProfileCubit>();
+          // cubit.getUserProfile();
           return CustomTransitionPage(
-            child: BlocProvider.value(
-              value: cubit,
-              child: const ProfileScreen(),
-            ),
+            child: const ProfileScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),
@@ -231,7 +228,7 @@ class AppRouter {
             child: const FriendRequestScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
-                FadeTransition(opacity: animation, child: child),
+                    FadeTransition(opacity: animation, child: child),
           );
         },
       ),

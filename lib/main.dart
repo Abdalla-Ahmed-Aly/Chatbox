@@ -13,5 +13,3 @@ Future<void> main() async {
 
   WidgetsBinding.instance.allowFirstFrame();
 }
-
-

@@ -1,20 +1,44 @@
+import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/auth/data/storage/token_storage.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_theme.dart';
 import '../../../friend/presentation/widgets/contact_info_widget.dart';
 
-
-class SettingTab extends StatelessWidget {
+class SettingTab extends StatefulWidget {
   const SettingTab({super.key});
 
   @override
+  State<SettingTab> createState() => _SettingTabState();
+}
+
+class _SettingTabState extends State<SettingTab> {
+  TextEditingController biController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  String? serverImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // serviceLocator.get<ProfileCubit>().getUserProfile();
-    // context.read<ProfileCubit>().getUserProfile();
+    // serviceLocator.get<ProfileCubit>()..getUserProfile();
+    // final profileCubit = serviceLocator<ProfileCubit>();
+    // final state = profileCubit.state;
+
+    // if (state is ProfileSuccess) {
+    //   serverImageUrl = state.message.profilePicture.secureUrl;
+    //   nameController.text = state.message.username;
+    //   biController.text = state.message.bio;
+    // }
     return Scaffold(
       backgroundColor: AppTheme.black,
       floatingActionButton: Container(
@@ -34,8 +58,6 @@ class SettingTab extends StatelessWidget {
           onPressed: () async {
             await TokenStorage().clearAll();
             context.push(RouteCenter.onboarding);
-
-
           },
         ),
       ),
@@ -73,35 +95,46 @@ class SettingTab extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 25),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 24),
-                        child: ContactInfoWidget(
-                          image: "https://static.vecteezy.com/system/resources/previews/048/926/084/non_2x/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-illustration-vector.jpg",
-                          verticalPadding: 20,
-                          bio: "Hi i use ChatBox",
-                          username: "marwan",
-                          isNeedToLeading: true,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Divider(
-                        color: AppTheme.gray.withValues(alpha: .1),
-                        height: 1,
-                      ),
-                      const SizedBox(height: 24),
-                      Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (context, index) => SettingWidget(
-                            setting: SettingModel.setting[index],
-                          ),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 20),
-                          itemCount: SettingModel.setting.length,
-                        ),
-                      ),
-                    ],
+                  child: BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      if (state is ProfileLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is ProfileSuccess) {
+                        final profile = state.message;
+
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 24),
+                              child: ContactInfoWidget(
+                                image: profile.profilePicture.secureUrl,
+                                verticalPadding: 20,
+                                bio: profile.bio,
+                                username: profile.username,
+                                isNeedToLeading: true,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Divider(
+                              color: AppTheme.gray.withValues(alpha: .1),
+                              height: 1,
+                            ),
+                            const SizedBox(height: 24),
+                            Expanded(
+                              child: ListView.separated(
+                                itemBuilder: (context, index) => SettingWidget(
+                                  setting: SettingModel.setting[index],
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 20),
+                                itemCount: SettingModel.setting.length,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return const Center(child: Text("No data"));
+                    },
                   ),
                 ),
               ),
