@@ -24,6 +24,8 @@ import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/auth/presentation/screens/verification_code_screen.dart';
 import '../../features/callForChat/presentation/screens/call_screen.dart';
 import '../../features/callForChat/presentation/screens/ring_screen.dart';
+import '../../features/friend/presentation/cubit/friend_request_cubit/friend_request_cubit.dart';
+import '../../features/friend/presentation/cubit/handel_friend_request_cubit/handel_friend_request_cubit.dart';
 import '../../features/home/presentation/widgets/qr_code_screen.dart';
 import '../../features/updateProfile/presentation/screens/update_Profile_Screen.dart';
 
@@ -220,7 +222,14 @@ class AppRouter {
         path: RouteCenter.friendRequestScreen,
         pageBuilder: (context, state) {
           return CustomTransitionPage(
-            child: const FriendRequestScreen(),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => serviceLocator.get<FriendRequestCubit>()),
+                BlocProvider(create: (context) => serviceLocator.get<HandelFriendRequestCubit>()),
+
+              ],
+              child: const FriendRequestScreen(),
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),

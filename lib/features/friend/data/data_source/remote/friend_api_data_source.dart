@@ -1,5 +1,7 @@
 import 'package:chatbox/core/model/shared_request.dart';
 import 'package:chatbox/core/model/shared_response.dart';
+import 'package:chatbox/features/friend/data/model/friend_request_list_response.dart';
+import 'package:chatbox/features/friend/data/model/handel_friend_request_model.dart';
 import 'package:chatbox/features/friend/data/model/remove_friend_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -64,6 +66,38 @@ class FriendApiDataSource implements FriendRemoteDataSource {
 
     }
   }
+
+  @override
+  Future<FriendRequestListResponse> getFriendRequestList()async {
+    try {
+      final response = await _dio.get(APIConstant.getFriendRequestListEndpoint);
+      return FriendRequestListResponse.fromJson(response.data);
+    }catch(error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data['message'];
+      }
+      throw RemoteException(message??"An error occurred while getting friend request list.");
+
+
+    }
+    }
+
+  @override
+  Future<SharedResponse> handelFriendRequest(HandelFriendRequestModel request) async {
+    try {
+      final response = await _dio.post(APIConstant.handelFriendRequestEndpoint,data: request.toJson());
+      return SharedResponse.fromJson(response.data);
+    }catch (error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data["message"];
+      }
+      throw RemoteException(message??"An error occurred while handling friend request.");
+    }
+
+  }
+
 
   // @override
   // Future<SearchUserResponse> searchUser(String username)async {

@@ -54,33 +54,36 @@ class ContactInfoWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                children: [
-                  const SizedBox(height: 15),
-                  Text(
-                    username,
-                    style: textTheme.titleLarge!.copyWith(
-                      color: AppTheme.black,
-                      fontSize: 18,
+                  children: [
+                    const SizedBox(height: 15),
+                    Text(
+                      username,
+                      style: textTheme.titleLarge!.copyWith(
+                        color: AppTheme.black,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    bio,
-                    style: textTheme.bodySmall!.copyWith(
-                      color: AppTheme.gray,
-                      fontWeight: FontWeight.w500,
+                    const SizedBox(height: 4),
+                    Text(
+                      bio,
+                      style: textTheme.bodySmall!.copyWith(
+                        color: AppTheme.gray,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Spacer(),
               isNeedToLeading
                   ? forFriend
-                        ?  RemoveFriendIcon(userName: username,)
-                        : const QrButton()
+                        ?  Expanded(child: RemoveFriendIcon(userName: username,))
+                        : Expanded(child: const QrButton())
                   : const SizedBox(),
             ],
           ),
