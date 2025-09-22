@@ -1,4 +1,6 @@
-
+import 'package:chatbox/core/model/shared_request.dart';
+import 'package:chatbox/core/model/shared_response.dart';
+import 'package:chatbox/features/friend/data/model/remove_friend_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -29,5 +31,56 @@ class FriendApiDataSource implements FriendRemoteDataSource {
     }
 
   }
+
+  @override
+  Future<SharedResponse> addFriend(SharedRequest request) async{
+    try{
+      final response = await _dio.post(APIConstant.addFriendEndpoint,data: request.toJson());
+      return SharedResponse.fromJson(response.data);
+    }catch(error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data['message'];
+      }
+      throw RemoteException(message??"An error occurred while adding friend.");
+
+
+    }
+  }
+
+  @override
+  Future<RemoveFriendResponse> removeFriend(SharedRequest request) async{
+    try {
+      final response = await _dio.delete(
+          APIConstant.removeFriendEndpoint, data: request.toJson());
+      return RemoveFriendResponse.fromJson(response.data);
+    }catch (error){
+      String? message;
+      if(error is DioException){
+        message=error.response?.data['message'];
+      }
+      throw RemoteException(message??"An error occurred while removing friend.");
+
+
+    }
+  }
+
+  // @override
+  // Future<SearchUserResponse> searchUser(String username)async {
+  //  try{
+  //    final response = await _dio.get(APIConstant.searchUserEndpoint,queryParameters: {'username':username});
+  //    return SearchUserResponse.fromJson(response.data);
+  //  }
+  //  catch(error){
+  //    String? message;
+  //    if(error is DioException){
+  //      message=error.response?.data['message'];
+  //    }
+  //    throw RemoteException(message??"An error occurred while searching user.");
+  //
+  //
+  //
+  //  }
+  // }
 
 }

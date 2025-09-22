@@ -5,7 +5,7 @@ import 'package:chatbox/features/updateProfile/domain/repositories/updateProfile
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class Updateprofile {
   UpdateProfileRepository repository;
   Updateprofile(this.repository);

@@ -1,5 +1,6 @@
 import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
 import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
 import 'package:chatbox/features/friend/presentation/screens/friends_screen.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     serviceLocator.get<ProfileCubit>().getUserProfile();
+    serviceLocator.get<FriendCubit>().fetchFriends();
     super.initState();
   }
 
@@ -56,11 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     return PageView(
       controller: _pageController,
-      onPageChanged: (index) => setState(() {
-        setState(() {
-          _currentPageIndex = index;
-        });
-      }),
+      onPageChanged: (index) =>
+          setState(() {
+            setState(() {
+              _currentPageIndex = index;
+            });
+          }),
       physics: _currentPageIndex == 1
           ? const NeverScrollableScrollPhysics()
           : _selectedIndex != 0

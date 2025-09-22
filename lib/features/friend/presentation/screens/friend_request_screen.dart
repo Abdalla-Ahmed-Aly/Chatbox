@@ -1,4 +1,4 @@
-import 'package:chatbox/features/friend/presentation/widgets/contact_list.dart';
+import 'package:chatbox/features/friend/presentation/widgets/friend_request/request_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -32,7 +32,7 @@ class FriendRequestScreen extends StatelessWidget {
                     ],
 
                   ),
-                  child:ContactList(header: "Requests",isAlph: false, friends: [],)
+                  child:RequestList()
 
               ),
             )

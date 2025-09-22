@@ -4,8 +4,7 @@ import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
-@injectable
+@lazySingleton
 class ProfileCubit extends Cubit<ProfileState> {
   final UserRepository profileRepository;
 

@@ -10,7 +10,6 @@ import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.
 import 'package:chatbox/features/chat/presentation/screens/chat_screen.dart';
 import 'package:chatbox/features/chat/presentation/screens/profile_screen_user.dart';
 import 'package:chatbox/features/createGroup/presentation/screens/Create_GroupScreen.dart';
-import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart';
 import 'package:chatbox/features/friend/presentation/screens/friend_request_screen.dart';
 import 'package:chatbox/features/home/presentation/screens/homescreen.dart';
 import 'package:chatbox/features/profile/presentation/screens/profile_screen.dart';
@@ -80,11 +79,7 @@ class AppRouter {
         path: RouteCenter.home,
         pageBuilder: (context, state) {
           return CustomTransitionPage(
-            child: BlocProvider(
-              create: (context) =>
-                  serviceLocator.get<FriendCubit>()..fetchFriends(),
-              child: const HomeScreen(),
-            ),
+            child: const HomeScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),

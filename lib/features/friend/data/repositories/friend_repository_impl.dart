@@ -1,4 +1,5 @@
 
+import 'package:chatbox/core/model/shared_request.dart';
 import 'package:chatbox/features/friend/data/mappers/friends_mapper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -25,5 +26,27 @@ class FriendRepositoryImpl implements FriendRepository{
       return Left(Failure(exception.message));
 
     }
+  }
+
+  @override
+  Future<Either<Failure, String>> addFriend(SharedRequest request) async{
+    try{
+      final response=await _remoteDataSource.addFriend(request);
+      return Right(response.message);
+    }
+    on RemoteException catch(exception){
+      return Left(Failure(exception.message));
+
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> removeFriend(SharedRequest request) async{
+  try{
+    final response=await _remoteDataSource.removeFriend(request);
+    return Right(response.message);
+  }on RemoteException catch(exception){
+    return Left(Failure(exception.message));
+  }
   }
 }

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/failure/failure.dart';
 import '../entity/friend_entity.dart';
-@injectable
+@lazySingleton
 class FriendUseCase {
   final FriendRepository _repo;
  const FriendUseCase(this._repo);
