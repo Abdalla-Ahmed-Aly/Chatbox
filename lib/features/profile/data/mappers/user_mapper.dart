@@ -15,10 +15,9 @@ extension UserResponseMapper on UserResponse {
       profilePicture: user?.profilePicture != null
           ? ProfilePictureEntity(
               secureUrl: user!.profilePicture.secureUrl ?? '',
-              publicId: user!.profilePicture.publicId ?? '',
+              publicId: user.profilePicture.publicId ?? '',
             )
           : const ProfilePictureEntity(secureUrl: '', publicId: ''),
     );
   }
 }
-

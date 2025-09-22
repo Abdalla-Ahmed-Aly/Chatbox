@@ -12,7 +12,7 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UpdateProfileRepository)
 class UpdateprofileImpl extends UpdateProfileRepository {
-  UpdateprofileRemoteDataSources _remoteDataSources;
+  final UpdateprofileRemoteDataSources _remoteDataSources;
   UpdateprofileImpl(this._remoteDataSources);
   @override
   Future<Either<Failure, UpdateProfileEntity>> updateProfile(

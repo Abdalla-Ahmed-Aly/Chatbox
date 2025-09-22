@@ -1,10 +1,7 @@
 import 'package:chatbox/features/profile/domain/entity/sup_entity/photo.dart';
 
 class ProfilePicture extends ProfilePictureEntity {
-  ProfilePicture({
-    required String secureUrl,
-    required String publicId,
-  }) : super(secureUrl: secureUrl, publicId: publicId);
+  ProfilePicture({required super.secureUrl, required super.publicId});
 
   factory ProfilePicture.fromJson(Map<String, dynamic> json) {
     return ProfilePicture(

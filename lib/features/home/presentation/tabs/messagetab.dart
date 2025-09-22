@@ -1,11 +1,12 @@
-import 'dart:io';
-
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 import 'package:chatbox/features/home/presentation/widgets/scrollablefrienditem.dart';
 import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,33 +93,53 @@ class _MessageTabState extends State<MessageTab> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      context.push(RouteCenter.profileScreen).then((_) {
-                        // _loadProfileImagePath();
-                      });
-                    },
-                    borderRadius: BorderRadius.circular(15),
-                    child:
-                        _profileImagePath != null &&
-                            File(_profileImagePath!).existsSync()
-                        ? CircleAvatar(
-                            radius: size.width * 0.055,
-                            backgroundImage: FileImage(
-                              File(_profileImagePath!),
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[300],
-                            ),
-                            child: const Icon(
-                              Icons.person,
-                              size: 45,
-                              color: Colors.grey,
+                  BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      if (state is ProfileLoading) {
+                        return SizedBox(
+                          height: size.height * 0.068,
+                          width: size.width * 0.15,
+                          child: Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: AppTheme.primary,
+                                strokeWidth: 4,
+                              ),
                             ),
                           ),
+                        );
+                      } else if (state is ProfileSuccess) {
+                        final profile = state.message;
+                        return InkWell(
+                          onTap: () {
+                            context.push(RouteCenter.profileScreen).then((_) {
+                              // _loadProfileImagePath();
+                            });
+                          },
+                          borderRadius: BorderRadius.circular(15),
+                          child: CircleAvatar(
+                            radius: size.width * 0.055,
+                            backgroundImage: NetworkImage(
+                              profile.profilePicture.secureUrl,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[300],
+                          ),
+                          child: const Icon(
+                            Icons.person,
+                            size: 45,
+                            color: Colors.grey,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

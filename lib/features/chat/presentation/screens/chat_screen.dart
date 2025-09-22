@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    serviceLocator.get<GetUserProfileCubit>()..getUserProfile(Params('Abdoo'));
+    serviceLocator.get<GetUserProfileCubit>().getUserProfile(Params('Abdoo'));
 
     textEditingController.addListener(() {
       setState(() {});

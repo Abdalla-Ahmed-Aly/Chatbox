@@ -76,6 +76,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (!mounted) return;
 
     final token = await TokenStorage().getToken();
+    print('token: $token');
 
     if (token != null && token.isNotEmpty) {
       context.pushReplacement(RouteCenter.home);

@@ -318,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 const SizedBox(height: 2),
                                 Text(
-                                  '${currentUser.bio}',
+                                  currentUser.bio,
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(color: AppTheme.gray),
                                 ),
@@ -417,7 +417,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           } else if (state is ProfileFailure) {
             return Center(child: Text("Error: ${state.error}"));
           } else {
-            return Center(child: Text("Error: ${state}"));
+            return Center(child: Text("Error: $state"));
           }
         },
       ),

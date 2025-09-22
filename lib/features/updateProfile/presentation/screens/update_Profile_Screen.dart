@@ -368,7 +368,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             ),
                           );
 
-                          serviceLocator.get<ProfileCubit>()..getUserProfile();
+                          serviceLocator.get<ProfileCubit>().getUserProfile();
                         }
                       },
                       isLoading: state is UpdateprofileLoading,

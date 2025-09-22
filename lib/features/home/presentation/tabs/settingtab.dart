@@ -1,4 +1,3 @@
-import 'package:chatbox/core/di/service_locator.dart';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/auth/data/storage/token_storage.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';

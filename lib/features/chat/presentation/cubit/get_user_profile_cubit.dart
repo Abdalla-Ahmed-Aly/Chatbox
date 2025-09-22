@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 @singleton
 @injectable
 class GetUserProfileCubit extends Cubit<GetUserProfileState> {
-  UserProfileRepository _profileRepository;
+  final UserProfileRepository _profileRepository;
   // GetUserProfileCubit(super.initialState);
   GetUserProfileCubit(this._profileRepository) : super(GetUserProfileInitial());
   Future<UserProfileEntity> getUserProfile(Params params) async {

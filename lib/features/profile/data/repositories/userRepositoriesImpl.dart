@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UserRepository)
 class Userrepositoriesimpl extends UserRepository {
-  UserRemoteDataSource _remoteDataSource;
+  final UserRemoteDataSource _remoteDataSource;
   Userrepositoriesimpl(this._remoteDataSource);
   @override
   Future<Either<Failure, UserEntity>> getUserProfile() async {

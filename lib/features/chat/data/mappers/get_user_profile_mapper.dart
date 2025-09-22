@@ -16,7 +16,7 @@ extension GetUserProfileMapper on UserProfileResponse {
       profilePicture: user?.profilePic != null
           ? ProfilePicture(
               secureUrl: user!.profilePic!.secureUrl ?? '',
-              publicId: user!.profilePic!.publicId ?? '',
+              publicId: user.profilePic!.publicId ?? '',
             )
           : ProfilePicture(secureUrl: '', publicId: ''),
     );

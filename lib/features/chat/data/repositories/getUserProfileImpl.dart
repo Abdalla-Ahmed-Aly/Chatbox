@@ -10,10 +10,12 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UserProfileRepository)
 class Getuserprofileimpl extends UserProfileRepository {
-  UserprofileRemoteDataSource _remoteDataSource;
+  final UserprofileRemoteDataSource _remoteDataSource;
   Getuserprofileimpl(this._remoteDataSource);
   @override
-  Future<Either<Failure, UserProfileEntity>> getUserProfile(Params params)async {
+  Future<Either<Failure, UserProfileEntity>> getUserProfile(
+    Params params,
+  ) async {
     try {
       final response = await _remoteDataSource.getUserProfile(params);
       return Right(response.toEntity());

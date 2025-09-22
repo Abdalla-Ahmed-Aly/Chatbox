@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UserprofileRemoteDataSource)
 class UserprofileApiDataSource implements UserprofileRemoteDataSource {
-  Dio _dio;
+  final Dio _dio;
   UserprofileApiDataSource(this._dio);
   @override
   Future<UserProfileResponse> getUserProfile(Params params) async {
