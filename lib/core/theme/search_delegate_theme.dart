@@ -30,10 +30,16 @@ class SearchDelegateTheme {
    ),
    textTheme: TextTheme(
      titleLarge: TextStyle(color: AppTheme.black, fontSize: 16, fontWeight: FontWeight.w500,fontFamily: "myFonts"),
+
    ),
 
- );
 
+
+
+
+
+
+ );
 
 
 

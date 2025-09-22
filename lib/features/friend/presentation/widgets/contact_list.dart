@@ -20,7 +20,7 @@ final List<FriendEntity>friends;
         child: Text(header,style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppTheme.black),),
       ),
     Expanded(
-      child:isAlph? AlphContactList(friends: friends,):NotAlphContactList()
+      child:isAlph? AlphContactList(friends: friends,):NotAlphContactList(friends: friends,)
     )
 
     ],);

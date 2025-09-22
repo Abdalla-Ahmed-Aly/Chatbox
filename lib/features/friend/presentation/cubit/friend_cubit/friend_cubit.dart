@@ -1,15 +1,20 @@
 import 'package:chatbox/features/friend/domain/use_cases/friend_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import '../../../domain/entity/friend_entity.dart';
 import 'friend_stats.dart';
 @lazySingleton
 class FriendCubit extends Cubit<FriendStats> {
   FriendCubit(this.friends) : super(FriendStatsInitial());
   final FriendUseCase friends;
+  late List<FriendEntity>friendsList;
   Future<void>fetchFriends()async{
     emit(FriendStatsLoading());
     final result=await friends();
-    result.fold((error) =>emit(FriendStatsError(message: error.message)) , (friends) =>emit(FriendStatsSuccess( friends:friends)) ,);
+    result.fold((error) =>emit(FriendStatsError(message: error.message)) , (friends) {
+      friendsList=friends;
+      emit(FriendStatsSuccess( friends:friends));
+    } ,);
 
   }
 

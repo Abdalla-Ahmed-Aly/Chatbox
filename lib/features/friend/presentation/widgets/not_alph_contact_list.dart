@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import '../../domain/entity/friend_entity.dart';
 import 'contact_info_widget.dart';
 
 class NotAlphContactList extends StatelessWidget {
-  const NotAlphContactList({super.key});
+  const NotAlphContactList({super.key,required this.friends});
+  final List<FriendEntity>friends;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
-      itemBuilder: (context, index) => ContactInfoWidget(username: "Marwan",bio: "Hi i use ChatBox", image: 'https://static.vecteezy.com/system/resources/previews/048/926/084/non_2x/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-illustration-vector.jpg',isNeedToLeading: true,forFriend: true,),
-      itemCount:4,
+      itemBuilder: (context, index) => ContactInfoWidget(username: friends[index].username,bio:friends[index].bio , image: friends[index].profilePic,isNeedToLeading: false,),
+      itemCount:friends.length,
       separatorBuilder: (context, index) => SizedBox(height: 5,),
 
     );

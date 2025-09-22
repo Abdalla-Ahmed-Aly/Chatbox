@@ -24,7 +24,7 @@ class CustomAlertDialog extends StatelessWidget {
         LoadingIndicator()
 
       ]:[
-        CustomButton(onPressed: onActionPressed, text: actionButtonText,buttonColor: AppTheme.red,),
+        CustomButton(onPressed: onActionPressed ,text: actionButtonText,buttonColor: AppTheme.red,),
         const SizedBox(height: 20,),
         CustomButton(onPressed: (){
           context.pop();
