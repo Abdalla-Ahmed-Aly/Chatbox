@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyStatus extends StatelessWidget {
@@ -37,6 +40,7 @@ class MyStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
         isViewed == true;
@@ -96,32 +100,53 @@ class MyStatus extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: AppTheme.black, width: 3),
                   ),
-                  child: FutureBuilder(
-                    future: _loadProfileImagePath(),
-                    builder: (context, snapshot) {
-                      final imageProvider =
-                          snapshot.data != null &&
-                              File(snapshot.data!).existsSync()
-                          ? snapshot.data!
-                          : 'assets/images/Ellipse 307.png';
-                      return ClipOval(
-                        child: Image.file(
-                          File(imageProvider),
-                          fit: BoxFit.cover,
-                          width: 66,
-                          height: 66,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: Colors.grey[300],
-                              child: const Icon(
-                                Icons.person,
-                                size: 66,
-                                color: Colors.grey,
+                  child: BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      if (state is ProfileLoading) {
+                        return SizedBox(
+                          height: size.height * 0.068,
+                          width: size.width * 0.15,
+                          child: Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: AppTheme.primary,
+                                strokeWidth: 4,
                               ),
-                            );
-                          },
-                        ),
-                      );
+                            ),
+                          ),
+                        );
+                      } else if (state is ProfileSuccess) {
+                        final profile = state.message;
+                        return ClipOval(
+                          child: Image.network(
+                            profile.profilePicture.secureUrl,
+                            fit: BoxFit.cover,
+                            width: 66,
+                            height: 66,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[300],
+                                child: const Icon(
+                                  Icons.person,
+                                  size: 66,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(
+                            Icons.person,
+                            size: 66,
+                            color: Colors.grey,
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),

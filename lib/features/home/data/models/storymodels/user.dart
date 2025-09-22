@@ -58,7 +58,6 @@ class User {
       lastSeen: DateTime.now(),
       onlineStatus: true,
     ),
-    // Add more unique users with unique IDs and usernames
     User(
       id: '2',
       username: 'jane_smith',

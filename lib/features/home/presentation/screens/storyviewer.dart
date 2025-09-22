@@ -403,7 +403,7 @@ class _StoryViewerState extends State<StoryViewer>
     final user = userData?.user ?? widget.users[userIndex];
     final storyIndex = userData?.currentStoryIndex ?? 0;
     final stories = user.stories;
-    final story = stories[stories.length - 1 - storyIndex];
+    final story = stories[storyIndex];
 
     return GestureDetector(
       onTapDown: (details) {
