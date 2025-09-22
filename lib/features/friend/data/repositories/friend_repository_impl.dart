@@ -1,6 +1,9 @@
 
 import 'package:chatbox/core/model/shared_request.dart';
+import 'package:chatbox/features/friend/data/mappers/friend_request_mapper.dart';
 import 'package:chatbox/features/friend/data/mappers/friends_mapper.dart';
+import 'package:chatbox/features/friend/data/model/handel_friend_request_model.dart';
+import 'package:chatbox/features/friend/domain/entity/friend_request_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
@@ -48,5 +51,26 @@ class FriendRepositoryImpl implements FriendRepository{
   }on RemoteException catch(exception){
     return Left(Failure(exception.message));
   }
+  }
+
+  @override
+  Future<Either<Failure, List<FriendRequestEntity>>> getFriendsRequestList() async{
+    try {
+      final response = await _remoteDataSource.getFriendRequestList();
+      final List<FriendRequestEntity> friendRequests = response.results.friendRequests.map((friendRequest) => friendRequest.toEntity).toList();
+      return Right(friendRequests);
+    } on RemoteException catch (exception) {
+      return Left(Failure(exception.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> handelFriendRequest(HandelFriendRequestModel request)async {
+    try {
+      final response = await _remoteDataSource.handelFriendRequest(request);
+      return Right(response.message);
+    } on RemoteException catch (exception) {
+      return Left(Failure(exception.message));
+    }
   }
 }

@@ -60,14 +60,22 @@ import 'package:chatbox/features/friend/domain/repositories/friend_repository.da
     as _i385;
 import 'package:chatbox/features/friend/domain/use_cases/add_friend_use_case.dart'
     as _i550;
+import 'package:chatbox/features/friend/domain/use_cases/friend_request_list_use_case.dart'
+    as _i479;
 import 'package:chatbox/features/friend/domain/use_cases/friend_use_case.dart'
     as _i208;
+import 'package:chatbox/features/friend/domain/use_cases/handel_friend_request_use_case.dart'
+    as _i886;
 import 'package:chatbox/features/friend/domain/use_cases/remove_friend_use_case.dart'
     as _i105;
 import 'package:chatbox/features/friend/presentation/cubit/add_friend_cubit/add_friend_cubit.dart'
     as _i923;
 import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_cubit.dart'
     as _i1012;
+import 'package:chatbox/features/friend/presentation/cubit/friend_request_cubit/friend_request_cubit.dart'
+    as _i882;
+import 'package:chatbox/features/friend/presentation/cubit/handel_friend_request_cubit/handel_friend_request_cubit.dart'
+    as _i102;
 import 'package:chatbox/features/friend/presentation/cubit/remove_friend_cubit/remove_friend_cubit.dart'
     as _i991;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
@@ -138,14 +146,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i582.UserRemoteDataSource>(
       () => _i505.UserApiDataSource(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i550.AddFriendUseCase>(
-      () => _i550.AddFriendUseCase(gh<_i385.FriendRepository>()),
-    );
     gh.lazySingleton<_i208.FriendUseCase>(
       () => _i208.FriendUseCase(gh<_i385.FriendRepository>()),
     );
+    gh.lazySingleton<_i550.AddFriendUseCase>(
+      () => _i550.AddFriendUseCase(gh<_i385.FriendRepository>()),
+    );
     gh.lazySingleton<_i105.RemoveFriendUseCase>(
       () => _i105.RemoveFriendUseCase(gh<_i385.FriendRepository>()),
+    );
+    gh.lazySingleton<_i479.FriendRequestListUseCase>(
+      () => _i479.FriendRequestListUseCase(gh<_i385.FriendRepository>()),
+    );
+    gh.lazySingleton<_i886.HandelFriendRequestUseCase>(
+      () => _i886.HandelFriendRequestUseCase(gh<_i385.FriendRepository>()),
     );
     gh.factory<_i923.AddFriendCubit>(
       () => _i923.AddFriendCubit(gh<_i550.AddFriendUseCase>()),
@@ -160,8 +174,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i438.GetUserProfile>(
       () => _i438.GetUserProfile(gh<_i553.UserProfileRepository>()),
     );
+    gh.factory<_i882.FriendRequestCubit>(
+      () => _i882.FriendRequestCubit(gh<_i479.FriendRequestListUseCase>()),
+    );
     gh.lazySingleton<_i1012.FriendCubit>(
       () => _i1012.FriendCubit(gh<_i208.FriendUseCase>()),
+    );
+    gh.factory<_i102.HandelFriendRequestCubit>(
+      () => _i102.HandelFriendRequestCubit(
+        gh<_i886.HandelFriendRequestUseCase>(),
+      ),
     );
     gh.factory<_i802.UpdateprofileCubit>(
       () => _i802.UpdateprofileCubit(
