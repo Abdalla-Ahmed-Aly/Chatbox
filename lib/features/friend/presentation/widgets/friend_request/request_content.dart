@@ -107,11 +107,11 @@ Expanded(
       },iconPath:"rejectFriend" ,)),
       const SizedBox(width: 10,),
       Expanded(child: RequestIcon(userName: username,onTap: ()async{
-        if (context.mounted) {
+
           await context.read<HandelFriendRequestCubit>()
               .handelFriendRequest(HandelFriendRequestModel(action:HandelFriendConstant.acceptFriend ,username:username));
           serviceLocator.get<FriendCubit>().fetchFriends();
-        }
+
 
 
       },iconPath: "acceptFriend",)),
