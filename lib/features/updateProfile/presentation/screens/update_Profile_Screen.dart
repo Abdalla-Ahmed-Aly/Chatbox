@@ -357,9 +357,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   return AbsorbPointer(
                     absorbing: state is UpdateprofileLoading,
                     child: CustomButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          context.read<UpdateprofileCubit>().updateProfile(
+                        await  context.read<UpdateprofileCubit>().updateProfile(
                             UpdateProfileRequest(
                               address: addressController.text,
                               bio: biController.text,
