@@ -6,6 +6,7 @@ import 'package:chatbox/features/friend/presentation/cubit/handel_friend_request
 import 'package:chatbox/features/friend/presentation/widgets/friend_request/request_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/di/service_locator.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../../../../../core/utils/app_snack_bars.dart';
 import '../../../../../core/widget/loading_indicator.dart';
@@ -105,9 +106,12 @@ Expanded(
 
       },iconPath:"rejectFriend" ,)),
       const SizedBox(width: 10,),
-      Expanded(child: RequestIcon(userName: username,onTap: (){
-        context.read<HandelFriendRequestCubit>().handelFriendRequest(HandelFriendRequestModel(action:HandelFriendConstant.acceptFriend ,username:username));
-        context.read<FriendCubit>().fetchFriends();
+      Expanded(child: RequestIcon(userName: username,onTap: ()async{
+        if (context.mounted) {
+         await context.read<HandelFriendRequestCubit>()
+              .handelFriendRequest(HandelFriendRequestModel(action:HandelFriendConstant.acceptFriend ,username:username));
+          serviceLocator.get<FriendCubit>().fetchFriends();
+        }
 
       },iconPath: "acceptFriend",)),
 
