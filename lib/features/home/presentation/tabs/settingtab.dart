@@ -1,4 +1,5 @@
 import 'package:chatbox/core/route/route_center.dart';
+import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:chatbox/features/auth/data/storage/token_storage.dart';
 import 'package:chatbox/features/home/data/models/setting_model.dart';
 import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
@@ -18,9 +19,7 @@ class SettingTab extends StatefulWidget {
 }
 
 class _SettingTabState extends State<SettingTab> {
-  TextEditingController biController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  String? serverImageUrl;
+
 
   @override
   void initState() {
@@ -99,13 +98,14 @@ class _SettingTabState extends State<SettingTab> {
                       BlocBuilder<ProfileCubit, ProfileState>(
                         builder: (context, state) {
                           if (state is ProfileLoading) {
-                            return Center(child: CircularProgressIndicator());
+                            return const LoadingIndicator();
                           } else if (state is ProfileSuccess) {
                             final profile = state.message;
 
                             return Padding(
                               padding: const EdgeInsets.only(right: 24),
                               child: ContactInfoWidget(
+                                isMe: true,
                                 image: profile.profilePicture.secureUrl,
                                 verticalPadding: 20,
                                 bio: profile.bio,

@@ -12,7 +12,7 @@ class GetUserProfileCubit extends Cubit<GetUserProfileState> {
   // GetUserProfileCubit(super.initialState);
   GetUserProfileCubit(this._profileRepository) : super(GetUserProfileInitial());
   Future<UserProfileEntity> getUserProfile(Params params) async {
-    // emit(GetUserProfileLoading());
+     emit(GetUserProfileLoading());
     final result = await _profileRepository.getUserProfile(params);
     return result.fold(
       (error) {

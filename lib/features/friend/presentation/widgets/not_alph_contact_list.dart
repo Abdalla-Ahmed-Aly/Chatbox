@@ -10,7 +10,7 @@ class NotAlphContactList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
-      itemBuilder: (context, index) => ContactInfoWidget(username: friends[index].username,bio:friends[index].bio , image: friends[index].profilePic,isNeedToLeading: false,),
+      itemBuilder: (context, index) => ContactInfoWidget(username: friends[index].username,bio:friends[index].bio , image: friends[index].profilePic),
       itemCount:friends.length,
       separatorBuilder: (context, index) => SizedBox(height: 5,),
 

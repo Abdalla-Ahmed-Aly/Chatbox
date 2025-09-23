@@ -16,6 +16,7 @@ class ContactInfoWidget extends StatelessWidget {
     required this.bio,
     required this.image,
     this.forFriend = false,
+    this.isMe=false,
   });
 
   final bool isNeedToLeading;
@@ -24,6 +25,7 @@ class ContactInfoWidget extends StatelessWidget {
   final String bio;
   final String image;
   final bool forFriend;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,9 @@ class ContactInfoWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => isNeedToLeading
+        onTap: () => isMe
             ? context.push(RouteCenter.profileScreen)
-            : context.push(RouteCenter.chatScreen),
+            : context.push(RouteCenter.profileScreenUser,extra: username),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: verticalPadding),
           child: Row(

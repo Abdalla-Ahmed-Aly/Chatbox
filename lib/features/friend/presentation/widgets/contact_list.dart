@@ -5,9 +5,10 @@ import 'alph_contact_list.dart';
 import 'not_alph_contact_list.dart';
 
 class ContactList extends StatelessWidget {
-  const ContactList({super.key,required this.header,this.isAlph=true,required this.friends,});
+  const ContactList({super.key,required this.header,this.isAlph=true,required this.friends});
 final String header;
 final bool isAlph;
+
 final List<FriendEntity>friends;
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
+import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:chatbox/core/widget/photo_open_screen.dart';
 import 'package:chatbox/features/chat/presentation/cubit/get_user_Profile_state.dart';
 import 'package:chatbox/features/chat/presentation/cubit/get_user_profile_cubit.dart';
@@ -235,13 +236,11 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
       backgroundColor: AppTheme.black,
       body: BlocBuilder<GetUserProfileCubit, GetUserProfileState>(
         builder: (context, state) {
-          // if (state is ProfileLoading) {
-          //   return const Center(child: CircularProgressIndicator());
-          // } else
+          if (state is GetUserProfileLoading) {
+            return Container(color: AppTheme.primary,child: LoadingIndicator());
+          } else
           if (state is GetUserProfileSuccess) {
             final currentUser = state.data;
-            // print(currentUser.address);
-
             return Column(
               children: [
                 const SizedBox(height: 50),
@@ -438,7 +437,7 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
           } else if (state is GetUserProfileFailure) {
             return Center(child: Text("Error: ${state.error}"));
           } else {
-            return Center(child: Text("Error: $state"));
+            return const SizedBox();
           }
         },
       ),
