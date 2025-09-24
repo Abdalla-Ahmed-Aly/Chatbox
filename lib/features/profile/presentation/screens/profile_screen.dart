@@ -51,10 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> _navigateToCropScreen(
-    BuildContext context,
-    File imageFile,
-  ) async {
+  Future<void> _navigateToCropScreen(BuildContext context, File imageFile) async {
     final result = await Navigator.push<File?>(
       context,
       MaterialPageRoute(
@@ -96,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('profile_image_path', imagePath);
     final index = User.storyUser.indexWhere(
-      (user) => user.id == currentUser.id,
+          (user) => user.id == currentUser.id,
     );
     if (index != -1) {
       User.storyUser[index] = currentUser;
@@ -146,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     currentUser = updatedUser;
 
     final index = User.storyUser.indexWhere(
-      (user) => user.id == currentUser.id,
+          (user) => user.id == currentUser.id,
     );
     if (index != -1) {
       User.storyUser[index] = currentUser;
@@ -197,22 +194,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 20),
             _buildPickingOptions(
-              onTap: () => pickImageFromCamera(context),
               context,
+              onTap: () => pickImageFromCamera(context),
               icon: Icons.camera_alt_outlined,
               label: 'Camera',
             ),
             _buildPickingOptions(
-              onTap: () => pickImageFromGallery(context),
               context,
+              onTap: () => pickImageFromGallery(context),
               icon: Icons.image,
               label: 'Gallery',
             ),
             _buildPickingOptions(
+              context,
               onTap: () {
                 Navigator.pop(context);
               },
-              context,
               icon: Icons.emoji_emotions,
               label: 'Avatar',
             ),
@@ -233,104 +230,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size screenDim = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.black,
+      appBar: AppBar(
+        // backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: true,
+        iconTheme: IconThemeData(
+          color: AppTheme.primary,
+          size: 30,
+        ),
+      ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
             return const LoadingIndicator();
           } else if (state is ProfileSuccess) {
             final currentUser = state.message;
-            // print(currentUser.address);
 
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
-                SizedBox(
-                  // height: screenDim.height * 0.30,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Icons.arrow_back,
-                                color: AppTheme.primary,
-                                size: 30,
-                              ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => PhotoOpenScreen(
-                                          imageUrl: currentUser
-                                              .profilePicture
-                                              .secureUrl,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: CircleAvatar(
-                                    radius: screenDim.height * 0.1,
-                                    backgroundImage:
-                                        currentUser
-                                            .profilePicture
-                                            .secureUrl
-                                            .isNotEmpty
-                                        ? NetworkImage(
-                                            currentUser
-                                                .profilePicture
-                                                .secureUrl,
-                                          )
-                                        : null,
-                                    child:
-                                        currentUser
-                                            .profilePicture
-                                            .secureUrl
-                                            .isEmpty
-                                        ? Icon(
-                                            Icons.person,
-                                            size: screenDim.height * 0.2,
-                                            color: Colors.grey,
-                                          )
-                                        : null,
-                                  ),
-                                ),
-
-                                Text(
-                                  currentUser.username,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-
-                                const SizedBox(height: 2),
-                                Text(
-                                  currentUser.bio,
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: AppTheme.gray),
-                                ),
-                              ],
-                            ),
-                            const Spacer(flex: 2),
-                          ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PhotoOpenScreen(
+                          imageUrl: currentUser.profilePicture.secureUrl,
                         ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: screenDim.height * 0.1,
+                    backgroundImage: currentUser.profilePicture.secureUrl.isNotEmpty
+                        ? NetworkImage(currentUser.profilePicture.secureUrl)
+                        : null,
+                    child: currentUser.profilePicture.secureUrl.isEmpty
+                        ? Icon(
+                      Icons.person,
+                      size: screenDim.height * 0.15,
+                      color: Colors.grey,
+                    )
+                        : null,
                   ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  currentUser.username,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  currentUser.bio,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppTheme.gray,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
                 Expanded(
@@ -355,7 +312,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -363,9 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Container(
                                   width: screenDim.width * 0.2,
                                   height: screenDim.height * 0.005,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
+                                  margin: const EdgeInsets.symmetric(vertical: 12),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[400],
                                     borderRadius: BorderRadius.circular(10),
@@ -373,7 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ],
                             ),
-
                             const SizedBox(height: 30),
                             _buildUserInfoItem(
                               context,
@@ -382,7 +335,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icons.person,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Email Address',
@@ -390,7 +342,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icons.email_outlined,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Address',
@@ -398,7 +349,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icons.location_on_outlined,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Phone Number',
@@ -456,11 +406,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildUserInfoItem(
-    BuildContext context, {
-    required String label,
-    required String info,
-    IconData? icon,
-  }) {
+      BuildContext context, {
+        required String label,
+        required String info,
+        IconData? icon,
+      }) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
       margin: const EdgeInsets.only(bottom: 16),
@@ -515,11 +465,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildPickingOptions(
-    BuildContext context, {
-    required VoidCallback onTap,
-    required String label,
-    required IconData icon,
-  }) {
+      BuildContext context, {
+        required VoidCallback onTap,
+        required String label,
+        required IconData icon,
+      }) {
     return Material(
       color: Colors.transparent,
       shape: const BeveledRectangleBorder(),
@@ -537,9 +487,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(width: 10),
               Text(
                 label,
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineMedium?.copyWith(color: AppTheme.darkGreen),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppTheme.darkGreen,
+                ),
               ),
               const Spacer(),
             ],

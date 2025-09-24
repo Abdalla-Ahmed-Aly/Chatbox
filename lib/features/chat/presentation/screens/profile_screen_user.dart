@@ -234,125 +234,68 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
     Size screenDim = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: true,
+        iconTheme: IconThemeData(color: AppTheme.primary, size: 30),
+      ),
       body: BlocBuilder<GetUserProfileCubit, GetUserProfileState>(
         builder: (context, state) {
           if (state is GetUserProfileLoading) {
-            return Container(color: AppTheme.primary,child: LoadingIndicator());
-          } else
-          if (state is GetUserProfileSuccess) {
+            return Container(
+              color: AppTheme.primary,
+              child: const LoadingIndicator(),
+            );
+          } else if (state is GetUserProfileSuccess) {
             final currentUser = state.data;
             return Column(
               children: [
-                const SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: AppTheme.primary,
-                              size: 30,
-                            ),
-                          ),
-                          const Spacer(),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => PhotoOpenScreen(
-                                        imageUrl: currentUser
-                                            .profilePicture
-                                            .secureUrl,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: screenDim.height * 0.1,
-                                  backgroundImage:
-                                      currentUser
-                                          .profilePicture
-                                          .secureUrl
-                                          .isNotEmpty
-                                      ? NetworkImage(
-                                          currentUser.profilePicture.secureUrl,
-                                        )
-                                      : null,
-                                  child:
-                                      currentUser
-                                          .profilePicture
-                                          .secureUrl
-                                          .isEmpty
-                                      ? Icon(
-                                          Icons.person,
-                                          size: screenDim.height * 0.2,
-                                          color: Colors.grey,
-                                        )
-                                      : null,
-                                ),
-                              ),
-
-                              Text(
-                                currentUser.username,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-
-                              Text(
-                                currentUser.bio,
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(color: AppTheme.gray),
-                              ),
-                            ],
-                          ),
-                          const Spacer(flex: 2),
-                        ],
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PhotoOpenScreen(
+                          imageUrl: currentUser.profilePicture.secureUrl,
+                        ),
                       ),
-                      const SizedBox(height: 5),
-                    ],
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: screenDim.height * 0.1,
+                    backgroundImage:
+                        currentUser.profilePicture.secureUrl.isNotEmpty
+                        ? NetworkImage(currentUser.profilePicture.secureUrl)
+                        : null,
+                    child: currentUser.profilePicture.secureUrl.isEmpty
+                        ? Icon(
+                            Icons.person,
+                            size: screenDim.height * 0.15,
+                            color: Colors.grey,
+                          )
+                        : null,
                   ),
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildControlButton(
-                      onTap: () {
-                        context.pop();
-                      },
-                      svgPath: 'assets/svg/Group (1).svg',
-                    ),
-                    _buildControlButton(
-                      onTap: () {
-                        context.push(RouteCenter.ringScreen);
-                      },
-                      svgPath: 'assets/svg/Group (2).svg',
-                      width: 25,
-                      height: 25,
-                    ),
-                    _buildControlButton(
-                      onTap: () {
-                        context.push(RouteCenter.ringScreen);
-                      },
-                      svgPath: 'assets/svg/Rectangle 77.svg',
-                    ),
-                  ],
+                const SizedBox(height: 10),
+                Text(
+                  currentUser.username,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 5),
+                Text(
+                  currentUser.bio,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppTheme.gray),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.only(top: screenDim.height * 0.015),
@@ -364,7 +307,7 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
+                          color: Colors.black.withOpacity(0.08),
                           blurRadius: 10,
                           offset: const Offset(0, -2),
                         ),
@@ -374,27 +317,8 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: screenDim.width * 0.1,
-                                  height: screenDim.height * 0.005,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[400],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 20),
                             _buildUserInfoItem(
                               context,
                               label: 'Display Name',
@@ -402,7 +326,6 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                               icon: Icons.person,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Email Address',
@@ -410,7 +333,6 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                               icon: Icons.email_outlined,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Address',
@@ -418,7 +340,6 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                               icon: Icons.location_on_outlined,
                             ),
                             const SizedBox(height: 20),
-
                             _buildUserInfoItem(
                               context,
                               label: 'Phone Number',
