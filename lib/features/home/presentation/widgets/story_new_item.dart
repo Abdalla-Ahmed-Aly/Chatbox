@@ -1,13 +1,14 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart'
+    show StoryUser;
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:flutter/material.dart';
 
 class StoryNewItem extends StatelessWidget {
-  final User storyUser;
+  final StoryUser storyUser;
   final bool hasNewStory;
   bool isViewed;
-  final List<User> users;
+  final List<StoryUser> users;
   final int currentIndex;
 
   StoryNewItem({

@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart';
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
@@ -31,9 +29,9 @@ class MyStatus extends StatelessWidget {
   Future<String> _loadProfileImagePath() async {
     final prefs = await SharedPreferences.getInstance();
     final imagePath = prefs.getString('profile_image_path');
-    final currentUser = User.storyUser.firstWhere(
-      (user) => user.id == '0',
-      orElse: () => User.storyUser.first,
+    final currentUser = StoryUser.storyUser.firstWhere(
+      (user) => user.userId == '0',
+      orElse: () => StoryUser.storyUser.first,
     );
     return imagePath ?? currentUser.profileImage;
   }
@@ -49,7 +47,7 @@ class MyStatus extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => StoryViewer(
-                    users: User.storyUser,
+                    users: StoryUser.storyUser,
                     onClose: () {
                       print('Story viewer closed');
                     },

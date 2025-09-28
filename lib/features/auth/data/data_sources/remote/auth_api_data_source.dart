@@ -35,7 +35,7 @@ class AuthApiDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<LoginResponse> Login(LoginRequest request) async {
+  Future<LoginResponse> login(LoginRequest request) async {
     try {
       final response = await _dio.post(
         APIConstant.loginEndpoint,

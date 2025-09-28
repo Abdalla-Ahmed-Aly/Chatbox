@@ -1,11 +1,9 @@
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/friend/presentation/widgets/remove_friend_icon.dart';
-import 'package:chatbox/features/home/presentation/widgets/setting/qr_button.dart';
+import 'package:chatbox/features/settings/presentation/widgets/qr_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
-
-
 
 class ContactInfoWidget extends StatelessWidget {
   const ContactInfoWidget({
@@ -79,7 +77,7 @@ class ContactInfoWidget extends StatelessWidget {
               Spacer(),
               isNeedToLeading
                   ? forFriend
-                        ?  RemoveFriendIcon(userName: username,)
+                        ? RemoveFriendIcon(userName: username)
                         : const QrButton()
                   : const SizedBox(),
             ],

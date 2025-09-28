@@ -24,7 +24,7 @@ import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/auth/presentation/screens/verification_code_screen.dart';
 import '../../features/callForChat/presentation/screens/call_screen.dart';
 import '../../features/callForChat/presentation/screens/ring_screen.dart';
-import '../../features/home/presentation/widgets/qr_code_screen.dart';
+import '../../features/settings/presentation/widgets/qr_code_screen.dart';
 import '../../features/updateProfile/presentation/screens/update_Profile_Screen.dart';
 
 class AppRouter {
@@ -224,6 +224,30 @@ class AppRouter {
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteCenter.home,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const HomeScreen(),
+            transitionDuration: Duration(microseconds: 200),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+                      position:
+                          Tween<Offset>(
+                            begin: Offset.zero,
+                            end: const Offset(1.0, 0),
+                          ).animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeInOut,
+                            ),
+                          ),
+                      child: child,
+                    ),
           );
         },
       ),

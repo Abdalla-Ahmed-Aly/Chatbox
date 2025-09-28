@@ -4,7 +4,7 @@ import 'package:chatbox/features/friend/presentation/cubit/friend_cubit/friend_c
 import 'package:chatbox/features/home/presentation/screens/storymakerscreen.dart';
 import 'package:chatbox/features/friend/presentation/screens/friends_screen.dart';
 import 'package:chatbox/features/home/presentation/tabs/messagetab.dart';
-import 'package:chatbox/features/home/presentation/tabs/settingtab.dart';
+import 'package:chatbox/features/settings/presentation/screens/settingtab.dart';
 import 'package:chatbox/features/home/presentation/widgets/custom_physics.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -59,12 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     return PageView(
       controller: _pageController,
-      onPageChanged: (index) =>
-          setState(() {
-            setState(() {
-              _currentPageIndex = index;
-            });
-          }),
+      onPageChanged: (index) => setState(() {
+        setState(() {
+          _currentPageIndex = index;
+        });
+      }),
       physics: _currentPageIndex == 1
           ? const NeverScrollableScrollPhysics()
           : _selectedIndex != 0

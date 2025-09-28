@@ -9,7 +9,7 @@ import '../../model/send_verification_request.dart';
 
 abstract class AuthRemoteDataSource {
   Future<RegisterResponse> register(RegisterRequest request);
-  Future<LoginResponse> Login(LoginRequest request);
+  Future<LoginResponse> login(LoginRequest request);
   Future<SharedResponse> sendVerification(SendVerificationRequest request);
   Future<SharedResponse> confirmOtp(OtpRequest request);
   Future<SharedResponse> resetPassword(ResetPasswordRequest request);

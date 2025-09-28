@@ -1,6 +1,6 @@
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart';
 import 'package:chatbox/features/home/presentation/widgets/scrollablefrienditem.dart';
 import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
@@ -25,9 +25,9 @@ class _MessageTabState extends State<MessageTab> {
   Future<void> _loadProfileImagePath() async {
     final prefs = await SharedPreferences.getInstance();
     final imagePath = prefs.getString('profile_image_path');
-    final currentUser = User.storyUser.firstWhere(
-      (user) => user.id == '0',
-      orElse: () => User.storyUser.first,
+    final currentUser = StoryUser.storyUser.firstWhere(
+      (user) => user.userId == '0',
+      orElse: () => StoryUser.storyUser.first,
     );
     setState(() {
       _profileImagePath = imagePath ?? currentUser.profileImage;

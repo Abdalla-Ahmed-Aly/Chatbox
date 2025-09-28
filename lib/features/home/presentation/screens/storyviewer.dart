@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:chatbox/core/constants/story_constants/storyconstants.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/story.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart';
 import 'package:chatbox/features/home/presentation/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:video_player/video_player.dart';
 
 class StoryViewer extends StatefulWidget {
-  final List<User> users;
+  final List<StoryUser> users;
   final int initialUserIndex;
   final int initialStoryIndex;
   final VoidCallback? onClose;
@@ -129,7 +129,7 @@ class _StoryViewerState extends State<StoryViewer>
     return stories[stories.length - 1 - _currentStoryIndex];
   }
 
-  User _getCurrentUser() {
+  StoryUser _getCurrentUser() {
     final cachedData = _userDataCache[_currentUserIndex];
     if (cachedData != null && !_isTransitioning) {
       return cachedData.user;
@@ -141,9 +141,9 @@ class _StoryViewerState extends State<StoryViewer>
   Future<void> _loadProfileImagePath() async {
     final prefs = await SharedPreferences.getInstance();
     final imagePath = prefs.getString('profile_image_path');
-    final currentUser = User.storyUser.firstWhere(
-      (user) => user.id == '0',
-      orElse: () => User.storyUser.first,
+    final currentUser = StoryUser.storyUser.firstWhere(
+      (user) => user.userId == '0',
+      orElse: () => StoryUser.storyUser.first,
     );
     setState(() {
       _profileImagePath = imagePath ?? currentUser.profileImage;
@@ -596,7 +596,7 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildProgressBars(User user, int storyIndex) {
+  Widget _buildProgressBars(StoryUser user, int storyIndex) {
     return Row(
       children: user.stories.asMap().entries.map((entry) {
         int index = entry.key;
@@ -631,7 +631,7 @@ class _StoryViewerState extends State<StoryViewer>
     );
   }
 
-  Widget _buildUserHeader(User user, Story story) {
+  Widget _buildUserHeader(StoryUser user, Story story) {
     return Row(
       children: [
         _profileImagePath != null &&
@@ -739,7 +739,7 @@ class _StoryViewerState extends State<StoryViewer>
 
 // ADD: Helper class to cache user story data
 class _UserStoryData {
-  final User user;
+  final StoryUser user;
   int currentStoryIndex;
 
   _UserStoryData({required this.user, this.currentStoryIndex = 0});
