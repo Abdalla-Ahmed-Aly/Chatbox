@@ -1,3 +1,4 @@
+import 'package:chatbox/features/home/presentation/cubit/get_all_stories/get_stories_cubit.dart';
 import 'package:chatbox/features/home/presentation/cubit/upload_story/upload_story_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class ChatBox extends StatelessWidget {
         BlocProvider(
           create: (context) => serviceLocator.get<UploadStoryCubit>(),
         ),
+        BlocProvider(create: (context) => serviceLocator.get<StoryCubit>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

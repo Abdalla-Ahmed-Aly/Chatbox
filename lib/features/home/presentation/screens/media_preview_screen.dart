@@ -140,7 +140,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
 
-      transitionDuration: const Duration(milliseconds: 200),
+      transitionDuration: const Duration(milliseconds: 0),
       pageBuilder:
           (
             BuildContext buildContext,

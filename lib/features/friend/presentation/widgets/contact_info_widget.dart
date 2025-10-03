@@ -26,6 +26,7 @@ class ContactInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    Size size = MediaQuery.sizeOf(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -54,7 +55,6 @@ class ContactInfoWidget extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   const SizedBox(height: 15),
                   Text(
@@ -65,11 +65,16 @@ class ContactInfoWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    bio,
-                    style: textTheme.bodySmall!.copyWith(
-                      color: AppTheme.gray,
-                      fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: size.width * 0.55,
+                    child: Text(
+                      bio,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.bodySmall!.copyWith(
+                        color: AppTheme.gray,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],

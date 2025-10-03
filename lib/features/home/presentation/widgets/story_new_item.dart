@@ -70,7 +70,7 @@ class StoryNewItem extends StatelessWidget {
                 border: Border.all(color: AppTheme.black, width: 3),
               ),
               child: ClipOval(
-                child: Image.asset(
+                child: Image.network(
                   storyUser.profileImage,
                   fit: BoxFit.cover,
                   width: 66,
@@ -80,7 +80,7 @@ class StoryNewItem extends StatelessWidget {
                       color: Colors.grey[300],
                       child: const Icon(
                         Icons.person,
-                        size: 30,
+                        size: 62,
                         color: Colors.grey,
                       ),
                     );

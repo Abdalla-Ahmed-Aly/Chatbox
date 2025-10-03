@@ -21,7 +21,6 @@ class StoryUser {
     this.isCurrentUser = false,
   });
 
-  // Factory constructor for API response
   factory StoryUser.fromJson(Map<String, dynamic> json) {
     List<Story> storiesList = [];
     if (json['stories'] != null) {
@@ -44,7 +43,6 @@ class StoryUser {
     );
   }
 
-  // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
@@ -58,13 +56,11 @@ class StoryUser {
     };
   }
 
-  // Helper getters
   bool get hasStories => stories.isNotEmpty;
 
   List<Story> get activeStories =>
       stories.where((story) => !story.isExpired).toList();
 
-  // Copy with method
   StoryUser copyWith({
     String? userId,
     String? username,

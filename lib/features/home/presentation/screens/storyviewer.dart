@@ -513,9 +513,17 @@ class _StoryViewerState extends State<StoryViewer>
         errorBuilder: (context, error, stackTrace) =>
             _buildErrorState('Failed to load image'),
       );
-    } else {
+    } else if (!story.mediaUrl.startsWith('http')) {
       return Image.file(
         File(story.mediaUrl),
+        fit: BoxFit.cover,
+        frameBuilder: _buildImageFrameBuilder,
+        errorBuilder: (context, error, stackTrace) =>
+            _buildErrorState('Failed to load image'),
+      );
+    } else {
+      return Image.network(
+        story.mediaUrl,
         fit: BoxFit.cover,
         frameBuilder: _buildImageFrameBuilder,
         errorBuilder: (context, error, stackTrace) =>
@@ -639,7 +647,7 @@ class _StoryViewerState extends State<StoryViewer>
                 widget.users.indexOf(user) == 0
             ? CircleAvatar(
                 radius: 20,
-                backgroundImage: FileImage(File(_profileImagePath!)),
+                backgroundImage: NetworkImage(user.profileImage),
               )
             : widget.users.indexOf(user) == 0
             ? Container(
@@ -651,7 +659,7 @@ class _StoryViewerState extends State<StoryViewer>
               )
             : CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage(user.profileImage),
+                backgroundImage: NetworkImage(user.profileImage),
               ),
         const SizedBox(width: 12),
         Expanded(
@@ -737,7 +745,6 @@ class _StoryViewerState extends State<StoryViewer>
   }
 }
 
-// ADD: Helper class to cache user story data
 class _UserStoryData {
   final StoryUser user;
   int currentStoryIndex;

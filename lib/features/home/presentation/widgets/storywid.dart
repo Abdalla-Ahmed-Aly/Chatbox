@@ -4,8 +4,15 @@ import 'package:chatbox/features/home/presentation/widgets/mystatuswid.dart';
 import 'package:flutter/material.dart';
 
 class StoryDisplay extends StatelessWidget {
-  const StoryDisplay({super.key, required this.pageController});
+  StoryDisplay({
+    super.key,
+    required this.pageController,
+    required this.users,
+    this.isloading = false,
+  });
   final PageController pageController;
+  final List<StoryUser> users;
+  bool isloading;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,7 @@ class StoryDisplay extends StatelessWidget {
           height: storyHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: StoryUser.storyUser.length,
+            itemCount: users.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.symmetric(
@@ -28,16 +35,17 @@ class StoryDisplay extends StatelessWidget {
                   width: storySize,
                   child: index != 0
                       ? StoryNewItem(
-                          storyUser: StoryUser.storyUser[index],
-                          users: StoryUser.storyUser,
+                          storyUser: users[index],
+                          users: users,
                           currentIndex: index,
                         )
                       : MyStatus(
                           pageController: pageController,
+                          storyUsers: users,
+                          isUploading: isloading,
                           image: 'assets/images/model1.png',
                           username: 'My Status',
-                          hasNewStory:
-                              StoryUser.storyUser[0].stories.isNotEmpty,
+                          hasNewStory: users[index].stories.isNotEmpty,
                         ),
                 ),
               );

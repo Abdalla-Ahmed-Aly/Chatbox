@@ -31,4 +31,24 @@ class StoryApiRemoteDataSource implements StoryRemoteDataSource {
       );
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> getAllStories() async {
+    try {
+      final response = await dio.get(APIConstant.getAllStories);
+
+      if (response.data['success'] == true) {
+        return response.data;
+      } else {
+        throw RemoteException('Failed to fetch stories');
+      }
+    } on DioException catch (exception) {
+      final message = exception.response?.data?["message"]?.toString();
+      throw RemoteException(
+        message ?? "An error occurred while fetching stories.",
+      );
+    } catch (e) {
+      throw RemoteException("Unexpected error: $e");
+    }
+  }
 }

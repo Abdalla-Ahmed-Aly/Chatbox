@@ -13,4 +13,5 @@ class APIConstant {
   static String addFriendEndpoint = "/user/send-friend-request";
   static String removeFriendEndpoint = "/user/remove-friend";
   static const String uploadStory = "/stories";
+  static const String getAllStories = "/stories";
 }

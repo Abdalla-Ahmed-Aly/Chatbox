@@ -4,7 +4,6 @@ import 'package:chatbox/features/profile/domain/entity/user_entity.dart';
 
 class User extends UserEntity {
   final MediaShared? mediaShared;
-  final String? id;
 
   final List<dynamic>? friends;
   final List<dynamic>? groups;
@@ -17,9 +16,8 @@ class User extends UserEntity {
   final DateTime? updatedAt;
   final String? firstLetter;
 
-   User({
+  User({
     this.mediaShared,
-    this.id,
     this.friends,
     this.groups,
     this.stories,
@@ -30,6 +28,7 @@ class User extends UserEntity {
     this.createdAt,
     this.updatedAt,
     this.firstLetter,
+    required super.id,
     required super.username,
     required super.email,
     required super.phoneNumber,
@@ -38,32 +37,32 @@ class User extends UserEntity {
     required super.profilePicture,
   });
 
-factory User.fromJson(Map<String, dynamic> json) => User(
-      mediaShared: json['mediaShared'] == null
-          ? null
-          : MediaShared.fromJson(json['mediaShared']),
-      id: json['_id'] as String?,
-      friends: json['friends'] as List<dynamic>?,
-      groups: json['groups'] as List<dynamic>?,
-      stories: json['stories'] as List<dynamic>?,
-      status: json['status'] as String?,
-      isLoggedIn: json['isLoggedIn'] as bool?,
-      isActivated: json['isActivated'] as bool?,
-      isConfirmed: json['isConfirmed'] as bool?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt']),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt']),
-      firstLetter: json['firstLetter'] as String?,
-      username: json['username'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      phoneNumber: json['phoneNumber'] as String? ?? '',
-      bio: json['bio'] as String? ?? '',
-      address: json['address'] as String? ?? '',
-      profilePicture: json['profilePic'] == null
-          ? ProfilePicture(secureUrl: '', publicId: '')
-          : ProfilePicture.fromJson(json['profilePic']),
-    );
- }
+  factory User.fromJson(Map<String, dynamic> json) => User(
+    mediaShared: json['mediaShared'] == null
+        ? null
+        : MediaShared.fromJson(json['mediaShared']),
+    id: json['_id'] as String? ?? '',
+    friends: json['friends'] as List<dynamic>?,
+    groups: json['groups'] as List<dynamic>?,
+    stories: json['stories'] as List<dynamic>?,
+    status: json['status'] as String?,
+    isLoggedIn: json['isLoggedIn'] as bool?,
+    isActivated: json['isActivated'] as bool?,
+    isConfirmed: json['isConfirmed'] as bool?,
+    createdAt: json['createdAt'] == null
+        ? null
+        : DateTime.parse(json['createdAt']),
+    updatedAt: json['updatedAt'] == null
+        ? null
+        : DateTime.parse(json['updatedAt']),
+    firstLetter: json['firstLetter'] as String?,
+    username: json['username'] as String? ?? '',
+    email: json['email'] as String? ?? '',
+    phoneNumber: json['phoneNumber'] as String? ?? '',
+    bio: json['bio'] as String? ?? '',
+    address: json['address'] as String? ?? '',
+    profilePicture: json['profilePic'] == null
+        ? ProfilePicture(secureUrl: '', publicId: '')
+        : ProfilePicture.fromJson(json['profilePic']),
+  );
+}
