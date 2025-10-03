@@ -1,8 +1,8 @@
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/widget/loading_indicator.dart';
 import 'package:chatbox/features/auth/data/storage/token_storage.dart';
-import 'package:chatbox/features/home/data/models/setting_model.dart';
-import 'package:chatbox/features/home/presentation/widgets/setting_widget.dart';
+import 'package:chatbox/features/settings/data/models/setting_model.dart';
+import 'package:chatbox/features/settings/presentation/widgets/setting_widget.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/material.dart';

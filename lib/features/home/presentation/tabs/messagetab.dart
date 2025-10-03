@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart';
+import 'package:chatbox/features/home/presentation/cubit/get_all_stories/get_stories_cubit.dart';
+import 'package:chatbox/features/home/presentation/cubit/get_all_stories/get_stories_state.dart';
+import 'package:chatbox/features/home/presentation/mapper/story_mapper.dart';
 import 'package:chatbox/features/home/presentation/widgets/scrollablefrienditem.dart';
+import 'package:chatbox/features/home/presentation/widgets/stories_widget_shimmer.dart';
 import 'package:chatbox/features/home/presentation/widgets/storywid.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:chatbox/features/profile/presentation/cubit/profile_state.dart';
@@ -21,23 +27,54 @@ class MessageTab extends StatefulWidget {
 
 class _MessageTabState extends State<MessageTab> {
   String? _profileImagePath;
+  bool isThereUsers = false;
+  List<StoryUser> users = [];
 
   Future<void> _loadProfileImagePath() async {
     final prefs = await SharedPreferences.getInstance();
     final imagePath = prefs.getString('profile_image_path');
-    final currentUser = User.storyUser.firstWhere(
-      (user) => user.id == '0',
-      orElse: () => User.storyUser.first,
+    final currentUser = StoryUser.storyUser.firstWhere(
+      (user) => user.userId == '0',
+      orElse: () => StoryUser.storyUser.first,
     );
     setState(() {
       _profileImagePath = imagePath ?? currentUser.profileImage;
     });
   }
 
+  static Future<List<StoryUser>> loadFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? cachedData = prefs.getString("story_users_cache");
+
+    if (cachedData == null) return [];
+
+    final List decodedList = jsonDecode(cachedData);
+    return decodedList.map((json) => StoryUser.fromJson(json)).toList();
+  }
+
+  static Future<void> saveToCache(List<StoryUser> users) async {
+    final prefs = await SharedPreferences.getInstance();
+    final encodedData = jsonEncode(users.map((u) => u.toJson()).toList());
+    await prefs.setString("story_users_cache", encodedData);
+  }
+
+  static Future<void> getStories(BuildContext context) async {
+    final users = await loadFromCache();
+
+    if (users.isNotEmpty) {
+      debugPrint("✅ Loaded from cache");
+    }
+
+    debugPrint("🌐 Fetching from API...");
+    context.read<StoryCubit>().fetchAllStories();
+  }
+
   @override
   void initState() {
     super.initState();
     _loadProfileImagePath();
+    getStories(context);
+    // context.read<StoryCubit>().fetchAllStories();
   }
 
   @override
@@ -150,7 +187,41 @@ class _MessageTabState extends State<MessageTab> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    StoryDisplay(pageController: widget.pageController),
+                    BlocBuilder<StoryCubit, StoryState>(
+                      builder: (context, state) {
+                        if (state is StoryLoading) {
+                          return users.isEmpty
+                              ? StoryShimmer()
+                              : StoryDisplay(
+                                  pageController: widget.pageController,
+                                  users: users,
+                                  isloading: true,
+                                );
+                        } else if (state is StoryLoaded) {
+                          final storyUsers = StoryMapper.toStoryUserModelList(
+                            state.users,
+                          );
+                          users = storyUsers;
+                          saveToCache(storyUsers);
+
+                          return StoryDisplay(
+                            pageController: widget.pageController,
+                            users: storyUsers,
+                          );
+                        } else {
+                          return SizedBox(
+                            height: size.height * 0.15,
+                            child: Center(
+                              child: Text(
+                                'No Stories',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+
                     SizedBox(height: verticalSpacing),
                     Container(
                       padding: EdgeInsets.only(top: size.height * 0.015),

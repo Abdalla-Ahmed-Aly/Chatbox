@@ -1,11 +1,9 @@
 import 'package:chatbox/core/route/route_center.dart';
 import 'package:chatbox/features/friend/presentation/widgets/remove_friend_icon.dart';
-import 'package:chatbox/features/home/presentation/widgets/setting/qr_button.dart';
+import 'package:chatbox/features/settings/presentation/widgets/qr_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
-
-
 
 class ContactInfoWidget extends StatelessWidget {
   const ContactInfoWidget({
@@ -16,7 +14,7 @@ class ContactInfoWidget extends StatelessWidget {
     required this.bio,
     required this.image,
     this.forFriend = false,
-    this.isMe=false,
+    this.isMe = false,
   });
 
   final bool isNeedToLeading;
@@ -30,12 +28,13 @@ class ContactInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    Size size = MediaQuery.sizeOf(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () => isMe
             ? context.push(RouteCenter.profileScreen)
-            : context.push(RouteCenter.profileScreenUser,extra: username),
+            : context.push(RouteCenter.profileScreenUser, extra: username),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: verticalPadding),
           child: Row(
@@ -84,7 +83,7 @@ class ContactInfoWidget extends StatelessWidget {
               Spacer(),
               isNeedToLeading
                   ? forFriend
-                        ?  Expanded(child: RemoveFriendIcon(userName: username,))
+                        ? Expanded(child: RemoveFriendIcon(userName: username))
                         : Expanded(child: const QrButton())
                   : const SizedBox(),
             ],

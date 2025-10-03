@@ -1,5 +1,5 @@
 import 'package:chatbox/core/route/route_center.dart';
-import 'package:chatbox/features/home/data/models/setting_model.dart';
+import 'package:chatbox/features/settings/data/models/setting_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';

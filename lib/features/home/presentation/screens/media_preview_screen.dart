@@ -4,6 +4,7 @@ import 'package:chatbox/features/home/data/models/storymodels/story.dart';
 import 'package:chatbox/features/home/data/models/storymodels/text.dart';
 import 'package:chatbox/features/home/presentation/screens/hero_edit.dart';
 import 'package:chatbox/features/home/presentation/screens/photoedit.dart';
+import 'package:chatbox/features/home/presentation/screens/share_screen.dart';
 import 'package:chatbox/features/home/presentation/widgets/draggable_tetx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,13 +16,13 @@ import 'package:path_provider/path_provider.dart';
 class MediaPreviewScreen extends StatefulWidget {
   final String mediaPath;
   final MediaType mediaType;
-  final Function(String) onSave;
+  final PageController pageController;
 
   const MediaPreviewScreen({
     super.key,
     required this.mediaPath,
     required this.mediaType,
-    required this.onSave,
+    required this.pageController,
   });
 
   @override
@@ -41,7 +42,6 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
 
   bool _isProcessing = false;
   bool _showControls = true;
@@ -68,11 +68,6 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
-
-    _slideAnimation = Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-        .animate(
-          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
-        );
 
     _fadeController.forward();
     _slideController.forward();
@@ -145,7 +140,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
 
-      transitionDuration: const Duration(milliseconds: 300),
+      transitionDuration: const Duration(milliseconds: 0),
       pageBuilder:
           (
             BuildContext buildContext,
@@ -180,21 +175,21 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
             Animation<double> secondaryAnimation,
             Widget child,
           ) {
-            return SlideTransition(
-              position:
-                  Tween<Offset>(
-                    begin: const Offset(0, 1),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOutCubic,
-                    ),
-                  ),
-              child: FadeTransition(opacity: animation, child: child),
-            );
+            return
+            // SlideTransition(
+            //   position:
+            //       Tween<Offset>(
+            //         begin: const Offset(0, 1),
+            //         end: Offset.zero,
+            //       ).animate(
+            //         CurvedAnimation(
+            //           parent: animation,
+            //           curve: Curves.easeOutCubic,
+            //         ),
+            //       ),
+            FadeTransition(opacity: animation, child: child);
           },
-    );
+    ).then((_) => _toggleControls());
   }
 
   void _editTextOverlay(TextOverlay overlay) {
@@ -236,19 +231,19 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
             Animation<double> secondaryAnimation,
             Widget child,
           ) {
-            return SlideTransition(
-              position:
-                  Tween<Offset>(
-                    begin: const Offset(0, 1),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOutCubic,
-                    ),
-                  ),
-              child: FadeTransition(opacity: animation, child: child),
-            );
+            return
+            //  SlideTransition(
+            //   position:
+            //       Tween<Offset>(
+            //         begin: const Offset(0, 1),
+            //         end: Offset.zero,
+            //       ).animate(
+            //         CurvedAnimation(
+            //           parent: animation,
+            //           curve: Curves.easeOutCubic,
+            //         ),
+            //       ),
+            FadeTransition(opacity: animation, child: child);
           },
     );
   }
@@ -281,28 +276,58 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
           final imageFile = File(imagePath);
           await imageFile.writeAsBytes(imageBytes);
 
-          widget.onSave(imagePath);
+          navigateToPhotoScreenSubtleFade(context, imagePath);
         } else {
-          widget.onSave(widget.mediaPath);
+          navigateToPhotoScreenSubtleFade(context, widget.mediaPath);
         }
       } else {
-        widget.onSave(widget.mediaPath);
-      }
-
-      if (mounted) {
-        Navigator.pop(context, true);
+        navigateToPhotoScreenSubtleFade(context, widget.mediaPath);
       }
     } catch (e) {
       debugPrint('Error saving media: $e');
-      widget.onSave(widget.mediaPath);
-      if (mounted) {
-        Navigator.pop(context, true);
-      }
+      navigateToPhotoScreenSubtleFade(context, widget.mediaPath);
     } finally {
       if (mounted) {
         setState(() => _isProcessing = false);
       }
     }
+  }
+
+  void navigateToPhotoScreenSubtleFade(
+    BuildContext context,
+    String imagePath, {
+    Widget? bottomSheetContent,
+  }) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 150), // Very fast
+        reverseTransitionDuration: const Duration(
+          milliseconds: 100,
+        ), // Even faster back
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return PhotoShareScreen(
+            imagePath: imagePath,
+            heroTag: '',
+            pageController: widget.pageController,
+            // bottomSheetHeight: MediaQuery.of(context).size.height * 0.3,
+            // bottomSheetContent:
+            //     bottomSheetContent ?? _buildBottomSheetContent(),
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity:
+                Tween<double>(
+                  begin: 0.95, // Start almost fully visible
+                  end: 1.0,
+                ).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                ),
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   void _discardChanges() {
@@ -397,6 +422,12 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
         child: Hero(
           tag: 'media-${widget.mediaPath}',
           child: ImagePhotoViewCombo(imagePath: widget.mediaPath),
+
+          //  ColorExtractorWidget(
+          //   imagePath: widget.mediaPath,
+          //   colorCount: 4,
+          //   child: ImagePhotoViewCombo(imagePath: widget.mediaPath),
+          // ),
         ),
       );
     } else {
@@ -461,8 +492,8 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
   }
 
   Widget _buildUIControls(Size screenSize) {
-    return SlideTransition(
-      position: _slideAnimation,
+    return FadeTransition(
+      opacity: _fadeAnimation,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -484,7 +515,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
               ),
             ),
 
-            const Spacer(),
+            const Spacer(flex: 12),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -504,6 +535,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
                 ),
               ],
             ),
+            const Spacer(),
           ],
         ),
       ),
@@ -567,13 +599,7 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
               else
                 Icon(icon, color: Colors.white, size: 20),
               const SizedBox(width: 8),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              Text(label, style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
         ),
@@ -598,6 +624,56 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen>
           textAlign: TextAlign.center,
         ),
       ),
+    );
+  }
+
+  Widget _buildBottomSheetContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.share),
+                label: const Text('Share'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+                label: const Text('Edit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        OutlinedButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.delete, color: Colors.red),
+          label: const Text(
+            'Delete Photo',
+            style: TextStyle(color: Colors.red),
+          ),
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: Colors.red),
+            padding: const EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
+      ],
     );
   }
 }

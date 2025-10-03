@@ -12,6 +12,7 @@ extension UserResponseMapper on UserResponse {
       phoneNumber: user?.phoneNumber ?? '',
       bio: user?.bio ?? '',
       address: user?.address ?? '',
+      id: user?.id ?? '',
       profilePicture: user?.profilePicture != null
           ? ProfilePictureEntity(
               secureUrl: user!.profilePicture.secureUrl ?? '',

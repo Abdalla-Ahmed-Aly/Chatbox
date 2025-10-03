@@ -1,13 +1,14 @@
 import 'package:chatbox/core/theme/app_theme.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
+import 'package:chatbox/features/home/data/models/storymodels/story_user.dart'
+    show StoryUser;
 import 'package:chatbox/features/home/presentation/screens/storyviewer.dart';
 import 'package:flutter/material.dart';
 
 class StoryNewItem extends StatelessWidget {
-  final User storyUser;
+  final StoryUser storyUser;
   final bool hasNewStory;
   bool isViewed;
-  final List<User> users;
+  final List<StoryUser> users;
   final int currentIndex;
 
   StoryNewItem({
@@ -69,7 +70,7 @@ class StoryNewItem extends StatelessWidget {
                 border: Border.all(color: AppTheme.black, width: 3),
               ),
               child: ClipOval(
-                child: Image.asset(
+                child: Image.network(
                   storyUser.profileImage,
                   fit: BoxFit.cover,
                   width: 66,
@@ -79,7 +80,7 @@ class StoryNewItem extends StatelessWidget {
                       color: Colors.grey[300],
                       child: const Icon(
                         Icons.person,
-                        size: 30,
+                        size: 62,
                         color: Colors.grey,
                       ),
                     );

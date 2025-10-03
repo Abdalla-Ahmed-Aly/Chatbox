@@ -96,7 +96,6 @@ class _ImagePhotoViewComboState extends State<ImagePhotoViewCombo> {
       child: Stack(
         children: [
           GradientContainer(imageFile: File(widget.imagePath)),
-
           _isProcessing
               ? Center(child: CircularProgressIndicator())
               : PhotoView(

@@ -7,8 +7,11 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class ProfileCubit extends Cubit<ProfileState> {
   final UserRepository profileRepository;
+  String? _cachedUserId;
 
   ProfileCubit({required this.profileRepository}) : super(ProfileInitial());
+  String? get currentUserId => _cachedUserId;
+
   Future<UserEntity> getUserProfile() async {
     // emit(ProfileLoading());
 
@@ -20,6 +23,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         throw Exception(error.message);
       },
       (response) {
+        _cachedUserId = response.id;
         emit(ProfileSuccess(response));
         return response;
       },

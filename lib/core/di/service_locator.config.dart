@@ -78,6 +78,22 @@ import 'package:chatbox/features/friend/presentation/cubit/handel_friend_request
     as _i102;
 import 'package:chatbox/features/friend/presentation/cubit/remove_friend_cubit/remove_friend_cubit.dart'
     as _i991;
+import 'package:chatbox/features/home/data/data_sources/remote/story_api_remote_data_source.dart'
+    as _i619;
+import 'package:chatbox/features/home/data/data_sources/remote/story_remote_data_source.dart'
+    as _i41;
+import 'package:chatbox/features/home/data/repository/story_repo_impl.dart'
+    as _i1068;
+import 'package:chatbox/features/home/domain/repository/story_repo.dart'
+    as _i302;
+import 'package:chatbox/features/home/domain/usecases/get_all_stories_usecases.dart'
+    as _i888;
+import 'package:chatbox/features/home/domain/usecases/upload_story.dart'
+    as _i416;
+import 'package:chatbox/features/home/presentation/cubit/get_all_stories/get_stories_cubit.dart'
+    as _i548;
+import 'package:chatbox/features/home/presentation/cubit/upload_story/upload_story_cubit.dart'
+    as _i931;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_api_data_source.dart'
     as _i505;
 import 'package:chatbox/features/profile/data/data_sources/remote/user_remote_data_source.dart'
@@ -139,6 +155,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i817.AuthRemoteDataSource>(),
         gh<_i1033.ITokenStorage>(),
       ),
+    );
+    gh.lazySingleton<_i41.StoryRemoteDataSource>(
+      () => _i619.StoryApiRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i553.UserProfileRepository>(
       () => _i377.Getuserprofileimpl(gh<_i709.UserprofileRemoteDataSource>()),
@@ -229,11 +248,29 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i133.ProfileCubit>(
       () => _i133.ProfileCubit(profileRepository: gh<_i673.UserRepository>()),
     );
+    gh.lazySingleton<_i302.StoryRepository>(
+      () => _i1068.StoryRepoImpl(
+        gh<_i41.StoryRemoteDataSource>(),
+        gh<_i133.ProfileCubit>(),
+      ),
+    );
+    gh.lazySingleton<_i416.UploadStory>(
+      () => _i416.UploadStory(gh<_i302.StoryRepository>()),
+    );
     gh.factory<_i393.ConfirmOtpCubit>(
       () => _i393.ConfirmOtpCubit(gh<_i158.Otp>()),
     );
     gh.factory<_i739.LoginCubit>(
       () => _i739.LoginCubit(gh<_i71.Login>(), gh<_i1033.ITokenStorage>()),
+    );
+    gh.lazySingleton<_i888.GetAllStoriesUseCase>(
+      () => _i888.GetAllStoriesUseCase(gh<_i302.StoryRepository>()),
+    );
+    gh.factory<_i931.UploadStoryCubit>(
+      () => _i931.UploadStoryCubit(gh<_i416.UploadStory>()),
+    );
+    gh.factory<_i548.StoryCubit>(
+      () => _i548.StoryCubit(gh<_i888.GetAllStoriesUseCase>()),
     );
     return this;
   }

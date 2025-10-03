@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:chatbox/core/theme/app_theme.dart';
 import 'package:chatbox/features/home/data/models/storymodels/story.dart';
-import 'package:chatbox/features/home/data/models/storymodels/user.dart';
 import 'package:chatbox/features/home/presentation/screens/media_preview_screen.dart';
 import 'package:chatbox/features/home/presentation/widgets/customizedcircularprogressed.dart';
 import 'package:chatbox/features/home/presentation/widgets/flashAuto.dart';
@@ -454,25 +453,25 @@ class _NewStoryMakerScreenState extends State<NewStoryMakerScreen>
             MediaPreviewScreen(
               mediaPath: mediaPath,
               mediaType: mediaType,
-              onSave: (String savedPath) =>
-                  _handleMediaSave(savedPath, mediaType),
+              pageController: widget.pageController,
             ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
-            child: SlideTransition(
-              position:
-                  Tween<Offset>(
-                    begin: const Offset(0.0, 1.0),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOutCubic,
-                    ),
-                  ),
-              child: child,
-            ),
+            child: child,
+            //  SlideTransition(
+            //   position:
+            //       Tween<Offset>(
+            //         begin: const Offset(0.0, 1.0),
+            //         end: Offset.zero,
+            //       ).animate(
+            //         CurvedAnimation(
+            //           parent: animation,
+            //           curve: Curves.easeOutCubic,
+            //         ),
+            //       ),
+            //   child: child,
+            // ),
           );
         },
         transitionDuration: const Duration(milliseconds: 400),
@@ -535,27 +534,6 @@ class _NewStoryMakerScreenState extends State<NewStoryMakerScreen>
         }
       });
     }
-  }
-
-  void _handleMediaSave(String mediaPath, MediaType mediaType) {
-    final story = Story(
-      id: _generateId(),
-      mediaUrl: mediaPath,
-      mediaType: mediaType,
-      createdAt: DateTime.now(),
-      duration: mediaType == MediaType.image
-          ? Duration(seconds: 20)
-          : Duration(seconds: 5),
-    );
-
-    User.storyUser[0].stories.add(story);
-
-    widget.pageController.animateToPage(
-      1,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-    widget.onImageCaptured();
   }
 
   String _generateId() {

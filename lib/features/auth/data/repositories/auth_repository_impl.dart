@@ -20,7 +20,9 @@ class AuthRepositoryImpl implements AuthRepository {
   final ITokenStorage _localDataSource;
   const AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
   @override
-  Future<Either<Failure, RegisterResponse>> register(RegisterRequest request) async {
+  Future<Either<Failure, RegisterResponse>> register(
+    RegisterRequest request,
+  ) async {
     try {
       final response = await _remoteDataSource.register(request);
       await _localDataSource.saveToken(response.token);
@@ -34,7 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, LoginResponse>> login(LoginRequest request) async {
     try {
-      final response = await _remoteDataSource.Login(request);
+      final response = await _remoteDataSource.login(request);
 
       await _localDataSource.saveToken(response.token);
 
