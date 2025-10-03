@@ -12,4 +12,8 @@ class APIConstant {
   static String searchUserEndpoint = "/user/search";
   static String addFriendEndpoint = "/user/send-friend-request";
   static String removeFriendEndpoint = "/user/remove-friend";
+  static String getFriendRequestListEndpoint = "/user/friend-requests";
+  static String handelFriendRequestEndpoint = "/user/handle-friend-request";
+  static String uploadStory = "/stories";
+  static String getAllStories = "/stories";
 }
